@@ -1,4 +1,6 @@
-﻿namespace QueR.Domain.Entities
+﻿using System.Collections.Generic;
+
+namespace QueR.Domain.Entities
 {
     public class QueueType : BaseEntity
     {
@@ -6,5 +8,7 @@
         public bool IsEnabled { get; set; }
         public virtual Company Company { get; set; }
         public int CompanyId { get; set; }
+
+        public virtual ICollection<Queue> Queues { get; set; }
     }
 }
