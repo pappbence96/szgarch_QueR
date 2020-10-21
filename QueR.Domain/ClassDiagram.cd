@@ -1,0 +1,84 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="QueR.Domain.Entities.ApplicationUser">
+    <Position X="6.5" Y="2" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAQAAEAAAAAAAACAAAECAgQAAAAAACACAAgAAABAAAg=</HashCode>
+      <FileName>Entities\ApplicationUser.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="QueR.Domain.Entities.Company">
+    <Position X="10.75" Y="0.5" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AQAAAAAAAAAAAAQAAAAAAAQAAAEACAAAAAAgAAAAAAA=</HashCode>
+      <FileName>Entities\Company.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="Administrator" />
+    </ShowAsAssociation>
+    <ShowAsCollectionAssociation>
+      <Property Name="Sites" />
+      <Property Name="AvailableQueueTypes" />
+    </ShowAsCollectionAssociation>
+  </Class>
+  <Class Name="QueR.Domain.Entities.QueueType">
+    <Position X="14.75" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAIAAAAAAAEAAAQAQAAAAAAAAAAABAAAAAA=</HashCode>
+      <FileName>Entities\QueueType.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsCollectionAssociation>
+      <Property Name="Queues" />
+    </ShowAsCollectionAssociation>
+  </Class>
+  <Class Name="QueR.Domain.Entities.Site">
+    <Position X="11" Y="3" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAIAAAAAAAAIAAQASAAABAACAAAABAAAAAA=</HashCode>
+      <FileName>Entities\Site.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="Manager" />
+    </ShowAsAssociation>
+    <ShowAsCollectionAssociation>
+      <Property Name="Queues" />
+    </ShowAsCollectionAssociation>
+  </Class>
+  <Class Name="QueR.Domain.Entities.Queue">
+    <Position X="10.75" Y="6.25" Width="2" />
+    <AssociationLine Name="AssignedEmployees" Type="QueR.Domain.Entities.ApplicationUser" FixedFromPoint="true" FixedToPoint="true">
+      <Path>
+        <Point X="10.75" Y="7.21" />
+        <Point X="10.375" Y="7.21" />
+        <Point X="10.375" Y="5" />
+        <Point X="8.5" Y="5" />
+      </Path>
+    </AssociationLine>
+    <TypeIdentifier>
+      <HashCode>AAQAAAAAEAAAgAAAAAAAAEAAAAAAAAAgAQAAAAAAAAA=</HashCode>
+      <FileName>Entities\Queue.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsCollectionAssociation>
+      <Property Name="AssignedEmployees" />
+      <Property Name="Tickets" />
+    </ShowAsCollectionAssociation>
+  </Class>
+  <Class Name="QueR.Domain.Entities.Ticket">
+    <Position X="6.25" Y="6.75" Width="2.25" />
+    <AssociationLine Name="Owner" Type="QueR.Domain.Entities.ApplicationUser" FixedToPoint="true">
+      <Path>
+        <Point X="6.938" Y="6.75" />
+        <Point X="6.938" Y="5.348" />
+      </Path>
+    </AssociationLine>
+    <TypeIdentifier>
+      <HashCode>AAAAAACIAgAJAAQAAEAAAAAAQAAAAAQAAAAAAAAAAAA=</HashCode>
+      <FileName>Entities\Ticket.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="Owner" />
+      <Property Name="Handler" />
+    </ShowAsAssociation>
+  </Class>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>
