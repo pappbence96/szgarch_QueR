@@ -11,5 +11,6 @@ namespace QueR.Application.DTOs
         public string Name { get; set; }
         public string Address { get; set; }
         public string AdminName { get; set; }
+        public int NumberOfSites { get; set; }
     }
 }

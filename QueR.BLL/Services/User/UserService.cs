@@ -42,5 +42,30 @@ namespace QueR.BLL.Services.User
 
             return user.Id;
         }
+
+        public Task<int> CreateEmployeeUser(UserModel model)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<int> CreateManagerUser(UserModel model)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<IEnumerable<ApplicationUser>> GetAdministrators()
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<IEnumerable<ApplicationUser>> GetManagers()
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<IEnumerable<ApplicationUser>> GetWorkers()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

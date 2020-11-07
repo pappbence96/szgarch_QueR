@@ -44,7 +44,8 @@ namespace QueR.Application.Controllers
                 Name = c.Name,
                 Address = c.MailingAddress,
                 Id = c.Id,
-                AdminName = c.Administrator?.UserName ?? "-"
+                AdminName = c.Administrator?.UserName ?? "-",
+                NumberOfSites = c.Sites.Count
             }));
         }
     }

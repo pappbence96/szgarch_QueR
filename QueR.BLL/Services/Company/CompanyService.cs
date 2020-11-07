@@ -71,7 +71,19 @@ namespace QueR.BLL.Services.Company
 
         public IEnumerable<Domain.Entities.Company> GetCompanies()
         {
-            return context.Companies.Include(c => c.Administrator);
+            return context.Companies
+                .Include(c => c.Administrator)
+                .Include(c => c.Sites);
+        }
+
+        public Task RemoveAdminOfCompany(int companyId)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task UpdateCompany(int companyId, CompanyModel model)
+        {
+            throw new NotImplementedException();
         }
     }
 }

@@ -19,6 +19,9 @@ using QueR.Application.Middlewares.ExceptionHandling;
 using QueR.Application.Services.UserAccessor;
 using QueR.BLL.Services.Company;
 using QueR.BLL.Services.Identity;
+using QueR.BLL.Services.Queue;
+using QueR.BLL.Services.QueueType;
+using QueR.BLL.Services.Site;
 using QueR.BLL.Services.User;
 using QueR.DAL;
 using QueR.Domain.Entities;
@@ -94,6 +97,9 @@ namespace QueR.Application
             services.AddTransient<IIdentityService, IdentityService>();
             services.AddTransient<IUserService, UserService>();
             services.AddTransient<ICompanyService, CompanyService>();
+            services.AddTransient<ISiteService, SiteService>();
+            services.AddTransient<IQueueTypeService, QueueTypeService>();
+            services.AddTransient<IQueueService, QueueService>();
 
             services.AddControllers().AddNewtonsoftJson();
         }
