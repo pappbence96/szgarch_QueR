@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using QueR.DAL;
 using QueR.Domain.Entities;
 using System;
@@ -11,10 +12,12 @@ namespace QueR.BLL.Services.Company
     public class CompanyService : ICompanyService
     {
         private readonly AppDbContext context;
+        private readonly UserManager<ApplicationUser> userManager;
 
-        public CompanyService(AppDbContext context)
+        public CompanyService(AppDbContext context, UserManager<ApplicationUser> userManager)
         {
             this.context = context;
+            this.userManager = userManager;
         }
 
         public async Task<int> CreateCompany(CompanyModel model)
@@ -46,6 +49,11 @@ namespace QueR.BLL.Services.Company
                 ?? throw new KeyNotFoundException($"Admin not found with an id of {adminId}");
             var company = (await context.Companies.Include(c => c.Administrator).FirstOrDefaultAsync(u => u.Id == companyId))
                 ?? throw new KeyNotFoundException($"Company not found with an id of {companyId}");
+
+            if(!await userManager.IsInRoleAsync(admin, "administrator"))
+            {
+                throw new InvalidOperationException("User is not an administrator");
+            }
 
             if((company.Administrator != null) && (company.AdministratorId != adminId))
             {
