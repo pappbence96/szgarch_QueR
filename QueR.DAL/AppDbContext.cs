@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using QueR.DAL.Seed;
 using QueR.Domain.Entities;
 using System;
 
@@ -8,6 +9,15 @@ namespace QueR.DAL
 {
     public class AppDbContext : IdentityDbContext<ApplicationUser, IdentityRole<int>, int>
     {
+        public AppDbContext()
+        {
+        }
+
+        public AppDbContext(DbContextOptions options) : base(options)
+        {
+        }
+
+
         public DbSet<Company> Companies { get; set; }
         public DbSet<Queue> Queues { get; set; }
         public DbSet<QueueType> QueueTypes { get; set; }
@@ -17,7 +27,7 @@ namespace QueR.DAL
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             base.OnConfiguring(optionsBuilder);
-            optionsBuilder.UseSqlServer(@"Server=(localdb)\mssqllocaldb;Database=QuerDB;Trusted_Connection=True;");
+            optionsBuilder.UseSqlServer(@"Data Source=(localdb)\MsSqlLocalDb;Initial Catalog=QuerDb;Trusted_Connection=True;MultipleActiveResultSets=True;Integrated Security=true");
         }
 
         protected override void OnModelCreating(ModelBuilder builder)
@@ -36,6 +46,7 @@ namespace QueR.DAL
                 .HasMany(c => c.Sites)
                 .WithOne(s => s.Company)
                 .HasForeignKey(s => s.CompanyId);
+            builder.Entity<Company>().HasData(DbSeed.Companies);
 
             builder.Entity<Queue>()
                 .HasOne(q => q.Type)
@@ -62,6 +73,7 @@ namespace QueR.DAL
                 .HasMany(s => s.Employees)
                 .WithOne(u => u.Worksite)
                 .HasForeignKey(u => u.WorksiteId);
+            builder.Entity<Site>().HasData(DbSeed.Sites);
 
             builder.Entity<Ticket>()
                 .HasOne(t => t.Owner)
@@ -72,6 +84,8 @@ namespace QueR.DAL
                 .WithMany(u => u.HandledTickets)
                 .HasForeignKey(t => t.HandlerId)
                 .OnDelete(DeleteBehavior.SetNull);
+
+            builder.Entity<QueueType>().HasData(DbSeed.QueueTypes);
         }
     }
 }

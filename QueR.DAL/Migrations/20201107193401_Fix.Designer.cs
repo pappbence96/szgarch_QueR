@@ -10,8 +10,8 @@ using QueR.DAL;
 namespace QueR.DAL.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20201021205816_Initial")]
-    partial class Initial
+    [Migration("20201107193401_Fix")]
+    partial class Fix
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {

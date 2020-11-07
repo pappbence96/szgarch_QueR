@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace QueR.DAL.Migrations
 {
-    public partial class Initial : Migration
+    public partial class Fix : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
