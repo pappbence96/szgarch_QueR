@@ -17,6 +17,8 @@ using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
 using QueR.Application.Middlewares.ExceptionHandling;
 using QueR.Application.Services.UserAccessor;
+using QueR.BLL.Services.Identity;
+using QueR.BLL.Services.User;
 using QueR.DAL;
 using QueR.Domain.Entities;
 
@@ -75,7 +77,7 @@ namespace QueR.Application
                     ValidateAudience = false,
                     ValidateLifetime = false,
                     ValidateIssuerSigningKey = false,
-                    ValidIssuer = "http://localhost:51554",
+                    ValidIssuer = "http://localhost:5001",
                     ClockSkew = TimeSpan.Zero,
                     SignatureValidator = delegate (string token, TokenValidationParameters parameters)
                     {
@@ -88,6 +90,8 @@ namespace QueR.Application
 
             services.AddHttpContextAccessor();
             services.AddTransient<IUserAccessor, UserAccessor>();
+            services.AddTransient<IIdentityService, IdentityService>();
+            services.AddTransient<IUserService, UserService>();
 
             services.AddControllers().AddNewtonsoftJson();
         }

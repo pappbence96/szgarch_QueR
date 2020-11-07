@@ -30,6 +30,7 @@ namespace QueR.BLL.Services.Identity
             {
                 throw new ArgumentException("Login model is null.");
             }
+
             var user = (await userManager.FindByNameAsync(model.Username))
                 ?? throw new ArgumentException("This user does not exist.");
             if (await userManager.CheckPasswordAsync(user, model.Password))
