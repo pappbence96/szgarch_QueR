@@ -17,6 +17,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
 using QueR.Application.Middlewares.ExceptionHandling;
 using QueR.Application.Services.UserAccessor;
+using QueR.BLL.Services.Company;
 using QueR.BLL.Services.Identity;
 using QueR.BLL.Services.User;
 using QueR.DAL;
@@ -92,6 +93,7 @@ namespace QueR.Application
             services.AddTransient<IUserAccessor, UserAccessor>();
             services.AddTransient<IIdentityService, IdentityService>();
             services.AddTransient<IUserService, UserService>();
+            services.AddTransient<ICompanyService, CompanyService>();
 
             services.AddControllers().AddNewtonsoftJson();
         }
