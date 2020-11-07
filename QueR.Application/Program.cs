@@ -19,6 +19,7 @@ namespace QueR.Application
             JwtSecurityTokenHandler.DefaultOutboundClaimTypeMap.Clear();
 
             IHost host = CreateWebHostBuilder(args).Build();
+            await host.CreateAndUpdateDatabase();
             await host.CreateRolesAndUsers();
             await host.RunAsync();
         }
