@@ -10,6 +10,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using QueR.Application.Middlewares.ExceptionHandling;
 
 namespace QueR.Application
 {
@@ -40,6 +41,7 @@ namespace QueR.Application
 
             app.UseRouting();
 
+            app.UseCustomExceptionHandlingMiddleware();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
