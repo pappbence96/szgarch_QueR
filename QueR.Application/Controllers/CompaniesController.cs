@@ -2,14 +2,17 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using QueR.Application.DTOs;
 using QueR.BLL.Services.Company;
 
 namespace QueR.Application.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize(Roles = "operator")]
     public class CompaniesController : ControllerBase
     {
         private readonly ICompanyService companyService;
@@ -26,10 +29,23 @@ namespace QueR.Application.Controllers
         }
 
         [HttpGet("{companyId}/admin/{adminId}")]
-        public async Task<ActionResult> AssingAdminToCompany(int companyId, int adminId)
+        public async Task<ActionResult> AssignAdminToCompany(int companyId, int adminId)
         {
             await companyService.AssignAdminToCompany(companyId, adminId);
             return Ok();
+        }
+
+        [HttpGet]
+        public ActionResult<IEnumerable<CompanyDto>> GetCompanies()
+        {
+            var companies = companyService.GetCompanies();
+            return Ok(companies.Select(c => new CompanyDto
+            {
+                Name = c.Name,
+                Address = c.MailingAddress,
+                Id = c.Id,
+                AdminName = c.Administrator?.UserName ?? "-"
+            }));
         }
     }
 }

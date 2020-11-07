@@ -68,5 +68,10 @@ namespace QueR.BLL.Services.Company
 
             await context.SaveChangesAsync();
         }
+
+        public IEnumerable<Domain.Entities.Company> GetCompanies()
+        {
+            return context.Companies.Include(c => c.Administrator);
+        }
     }
 }

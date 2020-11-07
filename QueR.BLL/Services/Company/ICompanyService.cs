@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace QueR.BLL.Services.Company
 {
@@ -6,5 +7,6 @@ namespace QueR.BLL.Services.Company
     {
         Task AssignAdminToCompany(int adminId, int companyId);
         Task<int> CreateCompany(CompanyModel model);
+        IEnumerable<Domain.Entities.Company> GetCompanies();
     }
 }
