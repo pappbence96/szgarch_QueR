@@ -102,6 +102,15 @@ namespace QueR.Application
             services.AddTransient<IQueueService, QueueService>();
 
             services.AddControllers().AddNewtonsoftJson();
+
+            services.AddOpenApiDocument(config =>
+            {
+                config.Title = "QueR API";
+                config.Description = "QueR API documentation";
+                config.DocumentName = "Backoffice";
+                config.ApiGroupNames = new[] { "backoffice" };
+                config.UseRouteNameAsOperationId = true;
+            });
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -111,17 +120,20 @@ namespace QueR.Application
                 app.UseDeveloperExceptionPage();
             }
 
+            app.UseCustomExceptionHandlingMiddleware();
             app.UseCors("EnableCORS");
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();
+
+            app.UseOpenApi();
+            app.UseSwaggerUi3();
 
             app.UseRouting();
 
             app.UseAuthentication();
             app.UseAuthorization();
 
-            app.UseCustomExceptionHandlingMiddleware();
 
             app.UseEndpoints(endpoints =>
             {

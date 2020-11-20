@@ -7,10 +7,11 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using QueR.BLL.Services.User;
 
-namespace QueR.Application.Controllers
+namespace QueR.Application.Controllers.Backoffice
 {
     [Route("api/[controller]")]
     [ApiController]
+    [ApiExplorerSettings(GroupName = "backoffice")]
     public class UsersController : ControllerBase
     {
         private readonly IUserService userService;

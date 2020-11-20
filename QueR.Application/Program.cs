@@ -18,14 +18,15 @@ namespace QueR.Application
             JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();
             JwtSecurityTokenHandler.DefaultOutboundClaimTypeMap.Clear();
 
-            IHost host = CreateWebHostBuilder(args).Build();
+            var host = CreateHostBuilder(args).Build();
             await host.CreateAndUpdateDatabase();
             await host.CreateRolesAndUsers();
             await host.RunAsync();
         }
         
-        public static IHostBuilder CreateWebHostBuilder(string[] args) =>
-            Host.CreateDefaultBuilder(args).ConfigureWebHostDefaults(webBuilder =>
+        public static IHostBuilder CreateHostBuilder(string[] args) =>
+            Host.CreateDefaultBuilder(args)
+            .ConfigureWebHostDefaults(webBuilder =>
             {
                 webBuilder.UseStartup<Startup>();
             });

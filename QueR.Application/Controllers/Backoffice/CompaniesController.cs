@@ -8,11 +8,12 @@ using Microsoft.AspNetCore.Mvc;
 using QueR.Application.DTOs;
 using QueR.BLL.Services.Company;
 
-namespace QueR.Application.Controllers
+namespace QueR.Application.Controllers.Backoffice
 {
     [Route("api/[controller]")]
     [ApiController]
     [Authorize(Roles = "operator")]
+    [ApiExplorerSettings(GroupName = "backoffice")]
     public class CompaniesController : ControllerBase
     {
         private readonly ICompanyService companyService;
