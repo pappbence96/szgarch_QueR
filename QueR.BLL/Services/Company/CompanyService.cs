@@ -87,7 +87,18 @@ namespace QueR.BLL.Services.Company
 
         public async Task UpdateCompany(int companyId, CompanyModel model)
         {
-            throw new NotImplementedException();
+            var company = (await context.Companies.Include(c => c.Administrator).FirstOrDefaultAsync(u => u.Id == companyId))
+                ?? throw new KeyNotFoundException($"Company not found with an id of {companyId}");
+
+            if(await context.Companies.AnyAsync(c => c.Name == model.Name && c.Id != companyId))
+            {
+                throw new InvalidOperationException($"Company with name \"{model.Name}\" already exists.");
+            }
+
+            company.Name = model.Name;
+            company.MailingAddress = model.Address;
+
+            await context.SaveChangesAsync();
         }
     }
 }

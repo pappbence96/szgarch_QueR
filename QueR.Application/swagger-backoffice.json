@@ -137,6 +137,51 @@
         }
       }
     },
+    "/api/Companies/{companyId}": {
+      "put": {
+        "tags": [
+          "Companies"
+        ],
+        "operationId": "Companies_UpdateCompany",
+        "parameters": [
+          {
+            "name": "companyId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "x-position": 1
+          }
+        ],
+        "requestBody": {
+          "x-name": "model",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CompanyModel"
+              }
+            }
+          },
+          "required": true,
+          "x-position": 2
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/octet-stream": {
+                "schema": {
+                  "type": "string",
+                  "format": "binary"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/Identity/login": {
       "post": {
         "tags": [
@@ -266,9 +311,6 @@
           "password": {
             "type": "string",
             "nullable": true
-          },
-          "valid": {
-            "type": "boolean"
           }
         }
       },

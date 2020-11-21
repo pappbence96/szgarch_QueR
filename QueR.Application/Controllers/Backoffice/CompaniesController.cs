@@ -56,5 +56,12 @@ namespace QueR.Application.Controllers.Backoffice
             await companyService.RemoveAdminOfCompany(companyId);
             return Ok();
         }
+
+        [HttpPut("{companyId}")]
+        public async Task<ActionResult> UpdateCompany(int companyId, [FromBody] CompanyModel model)
+        {
+            await companyService.UpdateCompany(companyId, model);
+            return Ok();
+        }
     }
 }
