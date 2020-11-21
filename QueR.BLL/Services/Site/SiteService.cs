@@ -65,7 +65,22 @@ namespace QueR.BLL.Services.Site
             throw new NotImplementedException();
         }
 
+        public Task<IEnumerable<Domain.Entities.Site>> GetSites()
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<IEnumerable<ApplicationUser>> GetWorkersOfSite(int siteId)
+        {
+            throw new NotImplementedException();
+        }
+
         public Task RemoveManagerFromSite(int siteId)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task RemoveWorkerFromSite(int siteId, int workerId)
         {
             throw new NotImplementedException();
         }

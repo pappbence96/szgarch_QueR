@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace QueR.BLL.Services.Site
 {
@@ -9,5 +10,8 @@ namespace QueR.BLL.Services.Site
         Task AssignManagerToSite(int siteId, int managerId);
         Task RemoveManagerFromSite(int siteId);
         Task AssignWorkerToSite(int siteId, int workerId);
+        Task RemoveWorkerFromSite(int siteId, int workerId);
+        Task<IEnumerable<Domain.Entities.Site>> GetSites();
+        Task<IEnumerable<Domain.Entities.ApplicationUser>> GetWorkersOfSite(int siteId);
     }
 }
