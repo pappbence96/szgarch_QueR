@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Http;
+using QueR.Domain.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -29,6 +30,26 @@ namespace QueR.Application.Services.UserAccessor
                 else
                 {
                     throw new InvalidOperationException($"Sub claim is invalid. Was {subClaim.Value}, should be an integer.");
+                }
+            }
+        }
+
+        public int? CompanyId
+        {
+            get
+            {
+                var companyClaim = httpContextAccessor.HttpContext.User.Claims.FirstOrDefault(c => c.Type == "company");
+                if(companyClaim == null)
+                {
+                    return null;
+                }
+                if (int.TryParse(companyClaim.Value, out int id))
+                {
+                    return id;
+                }
+                else
+                {
+                    throw new InvalidOperationException($"Company claim is invalid. Was {companyClaim.Value}, should be an integer.");
                 }
             }
         }

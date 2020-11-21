@@ -12,6 +12,8 @@ namespace QueR.Domain.Entities
         public Gender Gender { get; set; }
         public string Address { get; set; }
 
+        public virtual Company Company { get; set; }
+        public int? CompanyId { get; set; }
         public virtual Company AdministratedCompany { get; set; }
         public virtual Site ManagedSite { get; set; }
         public virtual Site Worksite { get; set; }

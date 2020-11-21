@@ -115,7 +115,8 @@ namespace QueR.DAL.Seed
                             UserName = "admina",
                             FirstName = "Admin",
                             LastName = "A",
-                            Gender = Gender.Male
+                            Gender = Gender.Male,
+                            CompanyId = 1
                         },
                         new ApplicationUser
                         {
@@ -123,7 +124,8 @@ namespace QueR.DAL.Seed
                             UserName = "adminb",
                             FirstName = "Admin",
                             LastName = "B",
-                            Gender = Gender.Female
+                            Gender = Gender.Female,
+                            CompanyId = 2
                         },
                     }
                 },
@@ -136,7 +138,8 @@ namespace QueR.DAL.Seed
                             UserName = "managera1",
                             FirstName = "Manager",
                             LastName = "A1",
-                            Gender = Gender.Male
+                            Gender = Gender.Male,
+                            CompanyId = 1
                         },
                         new ApplicationUser
                         {
@@ -144,7 +147,8 @@ namespace QueR.DAL.Seed
                             UserName = "managera2",
                             FirstName = "Manager",
                             LastName = "A2",
-                            Gender = Gender.Female
+                            Gender = Gender.Female,
+                            CompanyId = 1
                         },
                         new ApplicationUser
                         {
@@ -152,7 +156,8 @@ namespace QueR.DAL.Seed
                             UserName = "managerb1",
                             FirstName = "Manager",
                             LastName = "B1",
-                            Gender = Gender.Female
+                            Gender = Gender.Female,
+                            CompanyId = 2 
                         },
                         new ApplicationUser
                         {
@@ -160,7 +165,8 @@ namespace QueR.DAL.Seed
                             UserName = "managerb2",
                             FirstName = "Manager",
                             LastName = "B2",
-                            Gender = Gender.Male
+                            Gender = Gender.Male,
+                            CompanyId = 2
                         },
                     }
                 },/*

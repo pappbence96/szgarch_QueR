@@ -26,6 +26,7 @@ using QueR.BLL.Services.Site;
 using QueR.BLL.Services.User;
 using QueR.DAL;
 using QueR.Domain.Entities;
+using QueR.Domain.Services;
 
 namespace QueR.Application
 {

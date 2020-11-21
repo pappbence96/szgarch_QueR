@@ -3,7 +3,7 @@
   <Class Name="QueR.Domain.Entities.ApplicationUser">
     <Position X="6.5" Y="2" Width="2" />
     <TypeIdentifier>
-      <HashCode>AAQAAEAAAAAAAACAAAECAgQAAAAAACACAAgAAABAAAg=</HashCode>
+      <HashCode>AAQAAEAAAAIAAACAAAECAgQAAAAAACACAAgABABAAAg=</HashCode>
       <FileName>Entities\ApplicationUser.cs</FileName>
     </TypeIdentifier>
   </Class>
@@ -17,8 +17,8 @@
       <Property Name="Administrator" />
     </ShowAsAssociation>
     <ShowAsCollectionAssociation>
-      <Property Name="Sites" />
       <Property Name="AvailableQueueTypes" />
+      <Property Name="Sites" />
     </ShowAsCollectionAssociation>
   </Class>
   <Class Name="QueR.Domain.Entities.QueueType">
@@ -50,8 +50,8 @@
       <Path>
         <Point X="10.75" Y="7.21" />
         <Point X="10.375" Y="7.21" />
-        <Point X="10.375" Y="5" />
-        <Point X="8.5" Y="5" />
+        <Point X="10.375" Y="5.345" />
+        <Point X="8.5" Y="5.345" />
       </Path>
     </AssociationLine>
     <TypeIdentifier>
@@ -68,7 +68,7 @@
     <AssociationLine Name="Owner" Type="QueR.Domain.Entities.ApplicationUser" FixedToPoint="true">
       <Path>
         <Point X="6.938" Y="6.75" />
-        <Point X="6.938" Y="5.348" />
+        <Point X="6.938" Y="5.733" />
       </Path>
     </AssociationLine>
     <TypeIdentifier>

@@ -13,6 +13,7 @@ namespace QueR.Domain.Entities
 
         public virtual ICollection<QueueType> AvailableQueueTypes { get; set; }
         public virtual ICollection<Site> Sites { get; set; }
+        public virtual ICollection<ApplicationUser> Users { get; set; }
 
     }
 }

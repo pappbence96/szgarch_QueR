@@ -13,6 +13,6 @@ namespace QueR.Domain.Entities
         public DateTime Created { get; set; }
         public bool Called { get; set; }
         public virtual Queue Queue { get; set; }
-        public int QueueId { get; set; }
+        public int? QueueId { get; set; }
     }
 }

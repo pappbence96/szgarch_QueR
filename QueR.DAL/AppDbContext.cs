@@ -46,6 +46,10 @@ namespace QueR.DAL
                 .HasMany(c => c.Sites)
                 .WithOne(s => s.Company)
                 .HasForeignKey(s => s.CompanyId);
+            builder.Entity<Company>()
+                .HasMany(c => c.Users)
+                .WithOne(u => u.Company)
+                .HasForeignKey(u => u.CompanyId);
             builder.Entity<Company>().HasData(DbSeed.Companies);
 
             builder.Entity<Queue>()
