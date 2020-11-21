@@ -113,7 +113,7 @@
       "enumNameGeneratorType": null,
       "serviceHost": null,
       "serviceSchemes": null,
-      "output": "../frontend/backoffice/src/app/clients/index.ts",
+      "output": "../frontend/backoffice/src/app/shared/clients/index.ts",
       "newLineBehavior": "Auto"
     }
   }
