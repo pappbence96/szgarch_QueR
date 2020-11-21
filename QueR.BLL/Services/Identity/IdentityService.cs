@@ -41,7 +41,7 @@ namespace QueR.BLL.Services.Identity
                 {
                     new Claim(ClaimTypes.Name, model.Username),
                     new Claim("sub", user.Id.ToString())
-            };
+                };
                 foreach (var role in roleManager.Roles)
                 {
                     if (await userManager.IsInRoleAsync(user, role.Name))
@@ -52,6 +52,10 @@ namespace QueR.BLL.Services.Identity
                 if(user.CompanyId != null)
                 {
                     claims.Add(new Claim("company", user.CompanyId.Value.ToString()));
+                }
+                if(user.WorksiteId != null)
+                {
+                    claims.Add(new Claim("worksite", user.WorksiteId.Value.ToString()));
                 }
 
                 var tokeOptions = new JwtSecurityToken(

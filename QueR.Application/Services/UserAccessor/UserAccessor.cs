@@ -53,5 +53,25 @@ namespace QueR.Application.Services.UserAccessor
                 }
             }
         }
+
+        public int? WorksiteId
+        {
+            get
+            {
+                var worksiteClaim = httpContextAccessor.HttpContext.User.Claims.FirstOrDefault(c => c.Type == "worksite");
+                if (worksiteClaim == null)
+                {
+                    return null;
+                }
+                if (int.TryParse(worksiteClaim.Value, out int id))
+                {
+                    return id;
+                }
+                else
+                {
+                    throw new InvalidOperationException($"Worksite claim is invalid. Was {worksiteClaim.Value}, should be an integer.");
+                }
+            }
+        }
     }
 }

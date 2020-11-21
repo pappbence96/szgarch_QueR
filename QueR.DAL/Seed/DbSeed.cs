@@ -169,7 +169,7 @@ namespace QueR.DAL.Seed
                             CompanyId = 2
                         },
                     }
-                },/*
+                },
                 {
                     "employee", new List<ApplicationUser>
                     {
@@ -180,6 +180,7 @@ namespace QueR.DAL.Seed
                             FirstName = "Worker",
                             LastName = "A1 1",
                             Gender = Gender.Female,
+                            CompanyId = 1,
                         },
                         new ApplicationUser
                         {
@@ -188,6 +189,7 @@ namespace QueR.DAL.Seed
                             FirstName = "Worker",
                             LastName = "A1 2",
                             Gender = Gender.Female,
+                            CompanyId = 1
                         },
                         new ApplicationUser
                         {
@@ -196,6 +198,7 @@ namespace QueR.DAL.Seed
                             FirstName = "Worker",
                             LastName = "A2 1",
                             Gender = Gender.Male,
+                            CompanyId = 1
                         },
                         new ApplicationUser
                         {
@@ -204,6 +207,7 @@ namespace QueR.DAL.Seed
                             FirstName = "Worker",
                             LastName = "A2 2",
                             Gender = Gender.Male,
+                            CompanyId = 1
                         },
                         new ApplicationUser
                         {
@@ -212,6 +216,7 @@ namespace QueR.DAL.Seed
                             FirstName = "Worker",
                             LastName = "B1 1",
                             Gender = Gender.Female,
+                            CompanyId = 2
                         },
                         new ApplicationUser
                         {
@@ -220,6 +225,7 @@ namespace QueR.DAL.Seed
                             FirstName = "Worker",
                             LastName = "B1 2",
                             Gender = Gender.Female,
+                            CompanyId = 2
                         },
                         new ApplicationUser
                         {
@@ -228,6 +234,7 @@ namespace QueR.DAL.Seed
                             FirstName = "Worker",
                             LastName = "B2 1",
                             Gender = Gender.Male,
+                            CompanyId = 2
                         },
                         new ApplicationUser
                         {
@@ -236,9 +243,10 @@ namespace QueR.DAL.Seed
                             FirstName = "Worker",
                             LastName = "B2 2",
                             Gender = Gender.Male,
+                            CompanyId = 2
                         },
                     }
-                },
+                }/*,
                 {
                     "user", new List<ApplicationUser>
                     {
