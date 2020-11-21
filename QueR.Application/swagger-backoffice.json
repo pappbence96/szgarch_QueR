@@ -104,6 +104,39 @@
         }
       }
     },
+    "/api/Companies/{companyId}/admin": {
+      "delete": {
+        "tags": [
+          "Companies"
+        ],
+        "operationId": "Companies_RemoveAdminOfCompany",
+        "parameters": [
+          {
+            "name": "companyId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "x-position": 1
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/octet-stream": {
+                "schema": {
+                  "type": "string",
+                  "format": "binary"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/Identity/login": {
       "post": {
         "tags": [
@@ -183,9 +216,6 @@
           "address": {
             "type": "string",
             "nullable": true
-          },
-          "isValid": {
-            "type": "boolean"
           }
         }
       },
@@ -229,11 +259,11 @@
         "type": "object",
         "additionalProperties": false,
         "properties": {
-          "password": {
+          "username": {
             "type": "string",
             "nullable": true
           },
-          "username": {
+          "password": {
             "type": "string",
             "nullable": true
           },
@@ -275,6 +305,19 @@
           }
         }
       }
+    },
+    "securitySchemes": {
+      "JWT": {
+        "type": "apiKey",
+        "description": "Type into the textbox: Bearer {your JWT token}.",
+        "name": "Authorization",
+        "in": "header"
+      }
     }
-  }
+  },
+  "security": [
+    {
+      "JWT": []
+    }
+  ]
 }

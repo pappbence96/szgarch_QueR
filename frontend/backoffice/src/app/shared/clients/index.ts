@@ -180,6 +180,55 @@ export class CompaniesClient {
         }
         return _observableOf<FileResponse>(<any>null);
     }
+
+    removeAdminOfCompany(companyId: number): Observable<FileResponse> {
+        let url_ = this.baseUrl + "/api/Companies/{companyId}/admin";
+        if (companyId === undefined || companyId === null)
+            throw new Error("The parameter 'companyId' must be defined.");
+        url_ = url_.replace("{companyId}", encodeURIComponent("" + companyId));
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/octet-stream"
+            })
+        };
+
+        return this.http.request("delete", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processRemoveAdminOfCompany(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processRemoveAdminOfCompany(<any>response_);
+                } catch (e) {
+                    return <Observable<FileResponse>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<FileResponse>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processRemoveAdminOfCompany(response: HttpResponseBase): Observable<FileResponse> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200 || status === 206) {
+            const contentDisposition = response.headers ? response.headers.get("content-disposition") : undefined;
+            const fileNameMatch = contentDisposition ? /filename="?([^"]*?)"?(;|$)/g.exec(contentDisposition) : undefined;
+            const fileName = fileNameMatch && fileNameMatch.length > 1 ? fileNameMatch[1] : undefined;
+            return _observableOf({ fileName: fileName, data: <any>responseBlob, status: status, headers: _headers });
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<FileResponse>(<any>null);
+    }
 }
 
 @Injectable({
@@ -317,7 +366,6 @@ export class UsersClient {
 export class CompanyModel implements ICompanyModel {
     name?: string | undefined;
     address?: string | undefined;
-    isValid?: boolean;
 
     constructor(data?: ICompanyModel) {
         if (data) {
@@ -332,7 +380,6 @@ export class CompanyModel implements ICompanyModel {
         if (_data) {
             this.name = _data["name"];
             this.address = _data["address"];
-            this.isValid = _data["isValid"];
         }
     }
 
@@ -347,7 +394,6 @@ export class CompanyModel implements ICompanyModel {
         data = typeof data === 'object' ? data : {};
         data["name"] = this.name;
         data["address"] = this.address;
-        data["isValid"] = this.isValid;
         return data; 
     }
 }
@@ -355,7 +401,6 @@ export class CompanyModel implements ICompanyModel {
 export interface ICompanyModel {
     name?: string | undefined;
     address?: string | undefined;
-    isValid?: boolean;
 }
 
 export class CompanyDto implements ICompanyDto {
@@ -447,8 +492,8 @@ export interface ILoginResponse {
 }
 
 export class LoginModel implements ILoginModel {
-    password?: string | undefined;
     username?: string | undefined;
+    password?: string | undefined;
     valid?: boolean;
 
     constructor(data?: ILoginModel) {
@@ -462,8 +507,8 @@ export class LoginModel implements ILoginModel {
 
     init(_data?: any) {
         if (_data) {
-            this.password = _data["password"];
             this.username = _data["username"];
+            this.password = _data["password"];
             this.valid = _data["valid"];
         }
     }
@@ -477,16 +522,16 @@ export class LoginModel implements ILoginModel {
 
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
-        data["password"] = this.password;
         data["username"] = this.username;
+        data["password"] = this.password;
         data["valid"] = this.valid;
         return data; 
     }
 }
 
 export interface ILoginModel {
-    password?: string | undefined;
     username?: string | undefined;
+    password?: string | undefined;
     valid?: boolean;
 }
 

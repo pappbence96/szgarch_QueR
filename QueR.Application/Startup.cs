@@ -15,6 +15,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
+using NSwag;
 using QueR.Application.Middlewares.ExceptionHandling;
 using QueR.Application.Services.UserAccessor;
 using QueR.BLL.Services.Company;
@@ -101,8 +102,6 @@ namespace QueR.Application
             services.AddTransient<IQueueTypeService, QueueTypeService>();
             services.AddTransient<IQueueService, QueueService>();
 
-            services.AddControllers().AddNewtonsoftJson();
-
             services.AddOpenApiDocument(config =>
             {
                 config.Title = "QueR API";
@@ -110,7 +109,17 @@ namespace QueR.Application
                 config.DocumentName = "Backoffice";
                 config.ApiGroupNames = new[] { "backoffice" };
                 config.UseRouteNameAsOperationId = true;
+
+                config.AddSecurity("JWT", Enumerable.Empty<string>(), new OpenApiSecurityScheme
+                {
+                    Type = OpenApiSecuritySchemeType.ApiKey,
+                    Name = "Authorization",
+                    In = OpenApiSecurityApiKeyLocation.Header,
+                    Description = "Type into the textbox: Bearer {your JWT token}."
+                });
             });
+
+            services.AddControllers().AddNewtonsoftJson();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -126,10 +135,10 @@ namespace QueR.Application
             app.UseHttpsRedirection();
             app.UseStaticFiles();
 
+            app.UseRouting();
+
             app.UseOpenApi();
             app.UseSwaggerUi3();
-
-            app.UseRouting();
 
             app.UseAuthentication();
             app.UseAuthorization();

@@ -49,5 +49,12 @@ namespace QueR.Application.Controllers.Backoffice
                 NumberOfSites = c.Sites.Count
             }));
         }
+
+        [HttpDelete("{companyId}/admin")]
+        public async Task<ActionResult> RemoveAdminOfCompany(int companyId)
+        {
+            await companyService.RemoveAdminOfCompany(companyId);
+            return Ok();
+        }
     }
 }

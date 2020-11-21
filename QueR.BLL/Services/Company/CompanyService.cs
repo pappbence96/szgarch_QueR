@@ -76,12 +76,16 @@ namespace QueR.BLL.Services.Company
                 .Include(c => c.Sites);
         }
 
-        public Task RemoveAdminOfCompany(int companyId)
+        public async Task RemoveAdminOfCompany(int companyId)
         {
-            throw new NotImplementedException();
+            var company = (await context.Companies.Include(c => c.Administrator).FirstOrDefaultAsync(u => u.Id == companyId))
+                ?? throw new KeyNotFoundException($"Company not found with an id of {companyId}");
+
+            company.AdministratorId = null;
+            await context.SaveChangesAsync();
         }
 
-        public Task UpdateCompany(int companyId, CompanyModel model)
+        public async Task UpdateCompany(int companyId, CompanyModel model)
         {
             throw new NotImplementedException();
         }
