@@ -1,4 +1,7 @@
-﻿namespace QueR.BLL.Services.User
+﻿using Newtonsoft.Json;
+using QueR.Domain;
+
+namespace QueR.BLL.Services.User
 {
     public class UserModel
     {
@@ -8,7 +11,10 @@
         public string LastName { get; set; }
         public string Address { get; set; }
         public string Password { get; set; }
-
+        public int? CompanyId { get; set; }
+        public Gender Gender { get; set; }
+        
+        [JsonIgnore]
         public bool IsValid {
             get =>
                 !string.IsNullOrWhiteSpace(UserName) &&
