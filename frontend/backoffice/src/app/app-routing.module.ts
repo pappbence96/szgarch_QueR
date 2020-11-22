@@ -8,21 +8,24 @@ const routes: Routes = [
   {
     path: 'operator',
     loadChildren: () => import('./features/operator/operator.module').then(m => m.OperatorModule),
-    canActivate: [AuthGuard], data: {role: 'operator'}
+    canActivate: [AuthGuard],
+    data: {role: 'operator', title: 'Operator'}
   },
   {
     path: 'administrator',
     loadChildren: () => import('./features/administrator/administrator.module').then(m => m.AdministratorModule),
-    canActivate: [AuthGuard], data: {role: 'administrator'}
+    canActivate: [AuthGuard],
+    data: {role: 'administrator', title: 'Administrator'}
   },
   {
     path: 'manager',
     loadChildren: () => import('./features/manager/manager.module').then(m => m.ManagerModule),
-    canActivate: [AuthGuard], data: {role: 'manager'}
+    canActivate: [AuthGuard],
+    data: {role: 'manager', title: 'Manager'}
   },
   {
     path: 'login',
-    component: LoginComponent
+    component: LoginComponent,
   },
   {
     path: '',

@@ -1,3 +1,8 @@
-
-<p *ngIf="isLoggedIn">Hi</p>
-<button *ngIf="isLoggedIn" (click)="logOut()">Log out</button>
+<mat-toolbar color="primary">
+    <span>QueR Backoffice {{siteTitle}}</span>
+    <span class="example-spacer"></span>
+    <span *ngIf="isLoggedIn">Hi, {{username}}</span>
+    <button color="warn" mat-raised-button *ngIf="isLoggedIn" (click)="logOut()" class="logoutButton">
+        Log out
+    </button>
+</mat-toolbar>

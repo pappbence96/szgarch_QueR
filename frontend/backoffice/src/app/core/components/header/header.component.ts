@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, NavigationEnd, Router, RouterEvent, RoutesRecognized } from '@angular/router';
 import { AuthService } from 'src/app/shared/utilities/AuthService';
 
 @Component({
@@ -9,13 +9,13 @@ import { AuthService } from 'src/app/shared/utilities/AuthService';
 })
 export class HeaderComponent implements OnInit {
   isLoggedIn = false;
-  username: string;
+  username = '';
+  private title = '';
 
-  constructor(private authService: AuthService, private router: Router) { }
+  constructor(private authService: AuthService, private router: Router, private route: ActivatedRoute) { }
 
   ngOnInit(): void {
     this.authService.currentLogin.subscribe(() => {
-      console.log('Auth state change detected in header');
       if (this.authService.isLoggedIn) {
         this.isLoggedIn = true;
         this.username = this.authService.userName;
@@ -24,10 +24,22 @@ export class HeaderComponent implements OnInit {
         this.username = '';
       }
     });
+    this.router.events.subscribe((data) => {
+      if (data instanceof RoutesRecognized) {
+        this.title = data.state.root.firstChild.data.title as string;
+      }
+    });
   }
 
   logOut(): void {
     this.authService.logout();
     this.router.navigate( [ '' ]);
+  }
+
+  public get siteTitle(): string {
+    if (this.title) {
+      return `- ${this.title} page`;
+    }
+    return '';
   }
 }
