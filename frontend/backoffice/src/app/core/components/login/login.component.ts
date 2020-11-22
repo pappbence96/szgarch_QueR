@@ -24,6 +24,10 @@ export class LoginComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    if (this.authService.isLoggedIn) {
+      this.navigatePostLogin();
+    }
+
     this.loginForm = this.formBuilder.group({
       username: ['', Validators.required],
       password: ['', Validators.required]
@@ -51,11 +55,25 @@ export class LoginComponent implements OnInit {
       .subscribe(
         data => {
           console.log(data);
+          this.navigatePostLogin();
         },
         error => {
           this.loading = false;
           this.error = error;
         }
       );
+  }
+
+  navigatePostLogin(): void {
+    const role = this.authService.role;
+    if (role === 'operator'){
+      this.router.navigate( ['/operator'] );
+    } else if (role === 'administrator') {
+      this.router.navigate( ['/administrator'] );
+    } else if (role === 'manager') {
+      this.router.navigate( ['/manager'] );
+    } else if (role === 'employee') {
+
+    }
   }
 }
