@@ -15,6 +15,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
+using Newtonsoft.Json.Converters;
 using NSwag;
 using QueR.Application.Middlewares.ExceptionHandling;
 using QueR.Application.Services.UserAccessor;
@@ -120,7 +121,10 @@ namespace QueR.Application
                 });
             });
 
-            services.AddControllers().AddNewtonsoftJson();
+            services.AddControllers().AddNewtonsoftJson(opts =>
+            {
+                opts.SerializerSettings.Converters.Add(new StringEnumConverter());
+            });
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

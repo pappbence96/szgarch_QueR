@@ -9,9 +9,9 @@ namespace QueR.BLL.Services.Site
         Task UpdateSite(int siteId, SiteModel model);
         Task AssignManagerToSite(int siteId, int managerId);
         Task RemoveManagerFromSite(int siteId);
-        Task AssignWorkerToSite(int siteId, int workerId);
-        Task RemoveWorkerFromSite(int siteId, int workerId);
+        Task AssignEmployeeToSite(int siteId, int employeeId);
+        Task RemoveEmployeeFromSite(int siteId, int employeeId);
         Task<IEnumerable<Domain.Entities.Site>> GetSites();
-        Task<IEnumerable<Domain.Entities.ApplicationUser>> GetWorkersOfSite(int siteId);
+        Task<IEnumerable<Domain.Entities.ApplicationUser>> GetEmployeesOfSite(int siteId);
     }
 }
