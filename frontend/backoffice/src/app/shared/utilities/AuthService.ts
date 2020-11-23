@@ -32,4 +32,28 @@ export class AuthService {
         localStorage.removeItem('currentLogin');
         this.currentLoginSubject.next(null);
     }
+
+    public get isLoggedIn(): boolean {
+        return this.currentLoginSubject.value != null;
+    }
+
+    public get role(): string {
+        if (!this.isLoggedIn) {
+            return null;
+        }
+        const jwtData = this.currentLoginValue.token.split('.')[1];
+        const decodedJwtJsonData = window.atob(jwtData);
+        const decodedJwtData = JSON.parse(decodedJwtJsonData);
+        return decodedJwtData.role;
+    }
+
+    public get userName(): string {
+        if (!this.isLoggedIn) {
+            return null;
+        }
+        const jwtData = this.currentLoginValue.token.split('.')[1];
+        const decodedJwtJsonData = window.atob(jwtData);
+        const decodedJwtData = JSON.parse(decodedJwtJsonData);
+        return decodedJwtData.userName;
+    }
 }

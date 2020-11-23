@@ -39,13 +39,17 @@ namespace QueR.BLL.Services.Identity
                 var signinCredentials = new SigningCredentials(secretKey, SecurityAlgorithms.HmacSha256);
                 var claims = new List<Claim>
                 {
-                    new Claim(ClaimTypes.Name, model.Username),
+                    new Claim("userName", user.UserName),
+                    new Claim("email", user.Email),
+                    new Claim("firstName", user.FirstName),
+                    new Claim("lastName", user.LastName),
                     new Claim("sub", user.Id.ToString())
                 };
                 foreach (var role in roleManager.Roles)
                 {
                     if (await userManager.IsInRoleAsync(user, role.Name))
                     {
+                        claims.Add(new Claim("role", role.Name));
                         claims.Add(new Claim(ClaimTypes.Role, role.Name));
                     }
                 }
