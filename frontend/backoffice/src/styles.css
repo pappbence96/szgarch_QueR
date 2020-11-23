@@ -2,5 +2,41 @@
 
 @import '~bootstrap/dist/css/bootstrap.min.css';
 
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+html, body { 
+    height: 100%; 
+}
+body {
+    margin: 0; 
+    font-family: Roboto, "Helvetica Neue", sans-serif; 
+}
+
+.menu-tile {
+    max-width: 400px;
+    max-height: 400px;
+    min-height: 100px;
+}
+
+.page-header {
+    text-align: center;
+}
+
+.screen-column {
+    flex-basis: 50%;
+    margin: 0px 10px;
+}
+
+table {
+    width: 100%;
+}
+
+.page-content {
+    margin: 20px
+}
+
+.search-box {
+    margin: 10px 0px 0px 0px;
+}
+
+.save-button {
+    background-color: lightgreen;
+}

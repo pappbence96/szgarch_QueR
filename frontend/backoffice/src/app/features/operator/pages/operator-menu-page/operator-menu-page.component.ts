@@ -9,7 +9,11 @@ export class OperatorMenuPageComponent implements OnInit {
 
   constructor() { }
 
-  ngOnInit() {
+  ngOnInit(): void {
+  }
+
+  onMenuItemSelected(item: number): void {
+
   }
 
 }

@@ -50,6 +50,7 @@ namespace QueR.BLL.Services.Identity
                     if (await userManager.IsInRoleAsync(user, role.Name))
                     {
                         claims.Add(new Claim("role", role.Name));
+                        claims.Add(new Claim(ClaimTypes.Role, role.Name));
                     }
                 }
                 if(user.CompanyId != null)

@@ -87,6 +87,11 @@ namespace QueR.BLL.Services.Company
 
         public async Task UpdateCompany(int companyId, CompanyModel model)
         {
+            if (!model.IsValid)
+            {
+                throw new ArgumentException("Model is invalid");
+            }
+
             var company = (await context.Companies.Include(c => c.Administrator).FirstOrDefaultAsync(u => u.Id == companyId))
                 ?? throw new KeyNotFoundException($"Company not found with an id of {companyId}");
 
