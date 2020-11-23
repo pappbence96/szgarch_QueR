@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatTableDataSource } from '@angular/material/table';
 import { CompaniesClient, CompanyDto, CompanyModel, ErrorDetails } from 'src/app/shared/clients';
@@ -14,9 +15,14 @@ export class CompaniesPageComponent implements OnInit {
   selected: CompanyDto;
   columnsToDisplay = [ 'name', 'address', 'adminName', 'numberOfSites', 'numberOfEmployees' ];
   isNew = false;
+  companyForm: FormGroup;
 
 
-  constructor(private companiesClient: CompaniesClient, private snackBarRef: MatSnackBar) {
+  constructor(
+    private companiesClient: CompaniesClient,
+    private snackBarRef: MatSnackBar,
+    private formBuilder: FormBuilder
+  ) {
     companiesClient.getCompanies().subscribe(data => {
       this.companies = data;
       this.dataSource = new MatTableDataSource<CompanyDto>(this.companies);
@@ -33,11 +39,20 @@ export class CompaniesPageComponent implements OnInit {
   selectRow(row: CompanyDto): void {
     this.selected = new CompanyDto(row);
     this.isNew = false;
+
+    this.companyForm = this.formBuilder.group({
+      name: [this.selected.name, Validators.required],
+      address: [this.selected.address, Validators.required]
+    });
   }
 
-  onSave(): void {
-    console.log('onSave()');
-    const model = new CompanyModel({name: this.selected.name, address: this.selected.address});
+  onSubmit(): void {
+    if (!this.companyForm.valid) {
+      return;
+    }
+
+    console.log('onSubmit()');
+    const model = new CompanyModel({name: this.companyForm.value.name, address: this.companyForm.value.address});
     if (this.isNew){
       this.companiesClient.createCompany(model)
         .subscribe(created => {
@@ -56,8 +71,8 @@ export class CompaniesPageComponent implements OnInit {
         .subscribe(() => {
           console.log('Company saved');
           const updated = this.companies.find((item: CompanyDto) => item.id === this.selected.id);
-          updated.name = this.selected.name;
-          updated.address = this.selected.address;
+          updated.name = this.companyForm.value.name;
+          updated.address = this.companyForm.value.address;
         },
         (error: ErrorDetails) => {
           this.snackBarRef.open(error.message, 'Close');
@@ -68,6 +83,10 @@ export class CompaniesPageComponent implements OnInit {
   onNew(): void {
     this.isNew = true;
     this.selected = new CompanyDto();
+    this.companyForm = this.formBuilder.group({
+      name: ['', Validators.required],
+      address: ['', Validators.required]
+    });
   }
 
   onSearchChange(searchValue: string): void {
