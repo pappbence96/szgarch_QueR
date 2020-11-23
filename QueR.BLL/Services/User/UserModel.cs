@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using FluentValidation;
+using Newtonsoft.Json;
 using QueR.Domain;
 
 namespace QueR.BLL.Services.User
@@ -37,6 +38,34 @@ namespace QueR.BLL.Services.User
         {
             get =>
                 !string.IsNullOrWhiteSpace(Password);
+        }
+    }
+
+    public class UserValidator: AbstractValidator<UserModel>
+    {
+        public UserValidator()
+        {
+            RuleFor(u => u.UserName).NotEmpty().WithMessage("Username must not be empty.");
+            RuleFor(u => u.Email).NotEmpty().WithMessage("Email must not be empty.");
+        }
+    }
+
+    public class WorkerValidator: AbstractValidator<UserModel>
+    {
+        public WorkerValidator()
+        {
+            Include(new UserValidator());
+            RuleFor(u => u.FirstName).NotEmpty().WithMessage("First name must not be empty.");
+            RuleFor(u => u.LastName).NotEmpty().WithMessage("Last name must not be empty.");
+            RuleFor(u => u.Address).NotEmpty().WithMessage("Address must not be empty.");
+        }
+    }
+
+    public class PasswordValidator: AbstractValidator<UserModel>
+    {
+        public PasswordValidator()
+        {
+            RuleFor(u => u.Password).NotEmpty().WithMessage("Password name must not be empty.");
         }
     }
 }
