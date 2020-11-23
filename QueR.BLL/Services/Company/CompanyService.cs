@@ -2,13 +2,11 @@
 using FluentValidation;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using QueR.Application.DTOs;
+using QueR.BLL.Services.Company.DTOs;
 using QueR.DAL;
 using QueR.Domain.Entities;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace QueR.BLL.Services.Company

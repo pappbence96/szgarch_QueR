@@ -26,46 +26,6 @@
           "x-position": 1
         },
         "responses": {
-          "400": {
-            "description": "",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorDetails"
-                }
-              }
-            }
-          },
-          "401": {
-            "description": "",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorDetails"
-                }
-              }
-            }
-          },
-          "403": {
-            "description": "",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorDetails"
-                }
-              }
-            }
-          },
-          "404": {
-            "description": "",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorDetails"
-                }
-              }
-            }
-          },
           "default": {
             "description": "",
             "content": {
@@ -84,46 +44,6 @@
         ],
         "operationId": "Companies_GetCompanies",
         "responses": {
-          "400": {
-            "description": "",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorDetails"
-                }
-              }
-            }
-          },
-          "401": {
-            "description": "",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorDetails"
-                }
-              }
-            }
-          },
-          "403": {
-            "description": "",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorDetails"
-                }
-              }
-            }
-          },
-          "404": {
-            "description": "",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorDetails"
-                }
-              }
-            }
-          },
           "default": {
             "description": "",
             "content": {
@@ -169,42 +89,13 @@
           }
         ],
         "responses": {
-          "400": {
+          "200": {
             "description": "",
             "content": {
-              "application/json": {
+              "application/octet-stream": {
                 "schema": {
-                  "$ref": "#/components/schemas/ErrorDetails"
-                }
-              }
-            }
-          },
-          "401": {
-            "description": "",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorDetails"
-                }
-              }
-            }
-          },
-          "403": {
-            "description": "",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorDetails"
-                }
-              }
-            }
-          },
-          "404": {
-            "description": "",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorDetails"
+                  "type": "string",
+                  "format": "binary"
                 }
               }
             }
@@ -231,42 +122,13 @@
           }
         ],
         "responses": {
-          "400": {
+          "200": {
             "description": "",
             "content": {
-              "application/json": {
+              "application/octet-stream": {
                 "schema": {
-                  "$ref": "#/components/schemas/ErrorDetails"
-                }
-              }
-            }
-          },
-          "401": {
-            "description": "",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorDetails"
-                }
-              }
-            }
-          },
-          "403": {
-            "description": "",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorDetails"
-                }
-              }
-            }
-          },
-          "404": {
-            "description": "",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorDetails"
+                  "type": "string",
+                  "format": "binary"
                 }
               }
             }
@@ -305,42 +167,13 @@
           "x-position": 2
         },
         "responses": {
-          "400": {
+          "200": {
             "description": "",
             "content": {
-              "application/json": {
+              "application/octet-stream": {
                 "schema": {
-                  "$ref": "#/components/schemas/ErrorDetails"
-                }
-              }
-            }
-          },
-          "401": {
-            "description": "",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorDetails"
-                }
-              }
-            }
-          },
-          "403": {
-            "description": "",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorDetails"
-                }
-              }
-            }
-          },
-          "404": {
-            "description": "",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorDetails"
+                  "type": "string",
+                  "format": "binary"
                 }
               }
             }
@@ -438,7 +271,7 @@
         "tags": [
           "Sites"
         ],
-        "operationId": "Sites_CreateCompany",
+        "operationId": "Sites_CreateSite",
         "requestBody": {
           "x-name": "model",
           "content": {
@@ -452,13 +285,12 @@
           "x-position": 1
         },
         "responses": {
-          "200": {
+          "default": {
             "description": "",
             "content": {
-              "application/octet-stream": {
+              "application/json": {
                 "schema": {
-                  "type": "string",
-                  "format": "binary"
+                  "$ref": "#/components/schemas/SiteDto"
                 }
               }
             }
@@ -471,7 +303,7 @@
         ],
         "operationId": "Sites_GetSites",
         "responses": {
-          "200": {
+          "default": {
             "description": "",
             "content": {
               "application/json": {
@@ -533,7 +365,7 @@
         "tags": [
           "Sites"
         ],
-        "operationId": "Sites_RemoveEmployeeOfCompany",
+        "operationId": "Sites_RemoveEmployeeOfSite",
         "parameters": [
           {
             "name": "siteId",
@@ -590,7 +422,7 @@
           }
         ],
         "responses": {
-          "200": {
+          "default": {
             "description": "",
             "content": {
               "application/json": {
@@ -609,7 +441,7 @@
         "tags": [
           "Sites"
         ],
-        "operationId": "Sites_UpdateCompany",
+        "operationId": "Sites_UpdateSite",
         "parameters": [
           {
             "name": "siteId",
@@ -693,7 +525,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/UserModel"
+                "$ref": "#/components/schemas/CreateUserModel"
               }
             }
           },
@@ -701,53 +533,12 @@
           "x-position": 1
         },
         "responses": {
-          "400": {
-            "description": "",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorDetails"
-                }
-              }
-            }
-          },
-          "401": {
-            "description": "",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorDetails"
-                }
-              }
-            }
-          },
-          "403": {
-            "description": "",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorDetails"
-                }
-              }
-            }
-          },
-          "404": {
-            "description": "",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorDetails"
-                }
-              }
-            }
-          },
           "default": {
             "description": "",
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "integer",
-                  "format": "int32"
+                  "$ref": "#/components/schemas/ApplicationUserDto"
                 }
               }
             }
@@ -760,52 +551,15 @@
         ],
         "operationId": "Users_GetAdmins",
         "responses": {
-          "400": {
-            "description": "",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorDetails"
-                }
-              }
-            }
-          },
-          "401": {
-            "description": "",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorDetails"
-                }
-              }
-            }
-          },
-          "403": {
-            "description": "",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorDetails"
-                }
-              }
-            }
-          },
-          "404": {
-            "description": "",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorDetails"
-                }
-              }
-            }
-          },
           "default": {
             "description": "",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ApplicationUserDto"
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ApplicationUserDto"
+                  }
                 }
               }
             }
@@ -824,7 +578,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/UserModel"
+                "$ref": "#/components/schemas/CreateUserModel"
               }
             }
           },
@@ -832,53 +586,12 @@
           "x-position": 1
         },
         "responses": {
-          "400": {
-            "description": "",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorDetails"
-                }
-              }
-            }
-          },
-          "401": {
-            "description": "",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorDetails"
-                }
-              }
-            }
-          },
-          "403": {
-            "description": "",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorDetails"
-                }
-              }
-            }
-          },
-          "404": {
-            "description": "",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorDetails"
-                }
-              }
-            }
-          },
           "default": {
             "description": "",
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "integer",
-                  "format": "int32"
+                  "$ref": "#/components/schemas/ApplicationUserDto"
                 }
               }
             }
@@ -891,52 +604,15 @@
         ],
         "operationId": "Users_GetEmployees",
         "responses": {
-          "400": {
-            "description": "",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorDetails"
-                }
-              }
-            }
-          },
-          "401": {
-            "description": "",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorDetails"
-                }
-              }
-            }
-          },
-          "403": {
-            "description": "",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorDetails"
-                }
-              }
-            }
-          },
-          "404": {
-            "description": "",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorDetails"
-                }
-              }
-            }
-          },
           "default": {
             "description": "",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ApplicationUserDto"
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ApplicationUserDto"
+                  }
                 }
               }
             }
@@ -955,7 +631,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/UserModel"
+                "$ref": "#/components/schemas/CreateUserModel"
               }
             }
           },
@@ -963,53 +639,12 @@
           "x-position": 1
         },
         "responses": {
-          "400": {
-            "description": "",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorDetails"
-                }
-              }
-            }
-          },
-          "401": {
-            "description": "",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorDetails"
-                }
-              }
-            }
-          },
-          "403": {
-            "description": "",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorDetails"
-                }
-              }
-            }
-          },
-          "404": {
-            "description": "",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorDetails"
-                }
-              }
-            }
-          },
           "default": {
             "description": "",
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "integer",
-                  "format": "int32"
+                  "$ref": "#/components/schemas/ApplicationUserDto"
                 }
               }
             }
@@ -1022,52 +657,15 @@
         ],
         "operationId": "Users_GetManagers",
         "responses": {
-          "400": {
-            "description": "",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorDetails"
-                }
-              }
-            }
-          },
-          "401": {
-            "description": "",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorDetails"
-                }
-              }
-            }
-          },
-          "403": {
-            "description": "",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorDetails"
-                }
-              }
-            }
-          },
-          "404": {
-            "description": "",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorDetails"
-                }
-              }
-            }
-          },
           "default": {
             "description": "",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ApplicationUserDto"
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ApplicationUserDto"
+                  }
                 }
               }
             }
@@ -1086,7 +684,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/UserModel"
+                "$ref": "#/components/schemas/CreateUserModel"
               }
             }
           },
@@ -1094,53 +692,12 @@
           "x-position": 1
         },
         "responses": {
-          "400": {
-            "description": "",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorDetails"
-                }
-              }
-            }
-          },
-          "401": {
-            "description": "",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorDetails"
-                }
-              }
-            }
-          },
-          "403": {
-            "description": "",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorDetails"
-                }
-              }
-            }
-          },
-          "404": {
-            "description": "",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorDetails"
-                }
-              }
-            }
-          },
           "default": {
             "description": "",
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "integer",
-                  "format": "int32"
+                  "$ref": "#/components/schemas/ApplicationUserDto"
                 }
               }
             }
@@ -1153,52 +710,15 @@
         ],
         "operationId": "Users_GetSimpleUsers",
         "responses": {
-          "400": {
-            "description": "",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorDetails"
-                }
-              }
-            }
-          },
-          "401": {
-            "description": "",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorDetails"
-                }
-              }
-            }
-          },
-          "403": {
-            "description": "",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorDetails"
-                }
-              }
-            }
-          },
-          "404": {
-            "description": "",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorDetails"
-                }
-              }
-            }
-          },
           "default": {
             "description": "",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ApplicationUserDto"
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ApplicationUserDto"
+                  }
                 }
               }
             }
@@ -1229,7 +749,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/UserModel"
+                "$ref": "#/components/schemas/UpdateUserModel"
               }
             }
           },
@@ -1237,42 +757,13 @@
           "x-position": 2
         },
         "responses": {
-          "400": {
+          "200": {
             "description": "",
             "content": {
-              "application/json": {
+              "application/octet-stream": {
                 "schema": {
-                  "$ref": "#/components/schemas/ErrorDetails"
-                }
-              }
-            }
-          },
-          "401": {
-            "description": "",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorDetails"
-                }
-              }
-            }
-          },
-          "403": {
-            "description": "",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorDetails"
-                }
-              }
-            }
-          },
-          "404": {
-            "description": "",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorDetails"
+                  "type": "string",
+                  "format": "binary"
                 }
               }
             }
@@ -1303,7 +794,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/UserModel"
+                "$ref": "#/components/schemas/UpdateUserModel"
               }
             }
           },
@@ -1311,42 +802,13 @@
           "x-position": 2
         },
         "responses": {
-          "400": {
+          "200": {
             "description": "",
             "content": {
-              "application/json": {
+              "application/octet-stream": {
                 "schema": {
-                  "$ref": "#/components/schemas/ErrorDetails"
-                }
-              }
-            }
-          },
-          "401": {
-            "description": "",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorDetails"
-                }
-              }
-            }
-          },
-          "403": {
-            "description": "",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorDetails"
-                }
-              }
-            }
-          },
-          "404": {
-            "description": "",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorDetails"
+                  "type": "string",
+                  "format": "binary"
                 }
               }
             }
@@ -1377,7 +839,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/UserModel"
+                "$ref": "#/components/schemas/UpdateUserModel"
               }
             }
           },
@@ -1385,42 +847,13 @@
           "x-position": 2
         },
         "responses": {
-          "400": {
+          "200": {
             "description": "",
             "content": {
-              "application/json": {
+              "application/octet-stream": {
                 "schema": {
-                  "$ref": "#/components/schemas/ErrorDetails"
-                }
-              }
-            }
-          },
-          "401": {
-            "description": "",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorDetails"
-                }
-              }
-            }
-          },
-          "403": {
-            "description": "",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorDetails"
-                }
-              }
-            }
-          },
-          "404": {
-            "description": "",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorDetails"
+                  "type": "string",
+                  "format": "binary"
                 }
               }
             }
@@ -1451,7 +884,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/UserModel"
+                "$ref": "#/components/schemas/UpdateUserModel"
               }
             }
           },
@@ -1459,42 +892,13 @@
           "x-position": 2
         },
         "responses": {
-          "400": {
+          "200": {
             "description": "",
             "content": {
-              "application/json": {
+              "application/octet-stream": {
                 "schema": {
-                  "$ref": "#/components/schemas/ErrorDetails"
-                }
-              }
-            }
-          },
-          "401": {
-            "description": "",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorDetails"
-                }
-              }
-            }
-          },
-          "403": {
-            "description": "",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorDetails"
-                }
-              }
-            }
-          },
-          "404": {
-            "description": "",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorDetails"
+                  "type": "string",
+                  "format": "binary"
                 }
               }
             }
@@ -1505,20 +909,6 @@
   },
   "components": {
     "schemas": {
-      "ErrorDetails": {
-        "type": "object",
-        "additionalProperties": false,
-        "properties": {
-          "statusCode": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "message": {
-            "type": "string",
-            "nullable": true
-          }
-        }
-      },
       "CompanyDto": {
         "type": "object",
         "additionalProperties": false,
@@ -1563,6 +953,20 @@
           }
         }
       },
+      "ErrorDetails": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "statusCode": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "message": {
+            "type": "string",
+            "nullable": true
+          }
+        }
+      },
       "LoginResponse": {
         "type": "object",
         "additionalProperties": false,
@@ -1582,20 +986,6 @@
             "nullable": true
           },
           "password": {
-            "type": "string",
-            "nullable": true
-          }
-        }
-      },
-      "SiteModel": {
-        "type": "object",
-        "additionalProperties": false,
-        "properties": {
-          "name": {
-            "type": "string",
-            "nullable": true
-          },
-          "address": {
             "type": "string",
             "nullable": true
           }
@@ -1624,6 +1014,20 @@
           "numberOfEmployees": {
             "type": "integer",
             "format": "int32"
+          }
+        }
+      },
+      "SiteModel": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "name": {
+            "type": "string",
+            "nullable": true
+          },
+          "address": {
+            "type": "string",
+            "nullable": true
           }
         }
       },
@@ -1686,7 +1090,7 @@
           "Other"
         ]
       },
-      "UserModel": {
+      "CreateUserModel": {
         "type": "object",
         "additionalProperties": false,
         "properties": {
@@ -1717,6 +1121,31 @@
           "companyId": {
             "type": "integer",
             "format": "int32",
+            "nullable": true
+          },
+          "gender": {
+            "$ref": "#/components/schemas/Gender"
+          }
+        }
+      },
+      "UpdateUserModel": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "email": {
+            "type": "string",
+            "nullable": true
+          },
+          "firstName": {
+            "type": "string",
+            "nullable": true
+          },
+          "lastName": {
+            "type": "string",
+            "nullable": true
+          },
+          "address": {
+            "type": "string",
             "nullable": true
           },
           "gender": {

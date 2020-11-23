@@ -1,12 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using QueR.Application.DTOs;
+using QueR.Application.Middlewares.ExceptionHandling;
 using QueR.BLL.Services.Site;
+using QueR.BLL.Services.Site.DTOs;
+using QueR.BLL.Services.User.DTOs;
 
 namespace QueR.Application.Controllers.Backoffice
 {
@@ -14,6 +13,7 @@ namespace QueR.Application.Controllers.Backoffice
     [ApiController]
     [Authorize(Roles = "administrator")]
     [ApiExplorerSettings(GroupName = "backoffice")]
+    [ProducesErrorResponseType(typeof(ErrorDetails))]
     public class SitesController : ControllerBase
     {
         private readonly ISiteService siteService;
@@ -31,10 +31,12 @@ namespace QueR.Application.Controllers.Backoffice
         }
 
         [HttpPost]
-        public async Task<ActionResult> CreateCompany([FromBody] SiteModel model)
+        [ProducesDefaultResponseType(typeof(SiteDto))]
+        public async Task<ActionResult> CreateSite([FromBody] SiteModel model)
         {
             return Ok(await siteService.CreateSite(model));
         }
+
         [HttpGet("{siteId}/workers/{employeeId}")]
         public async Task<ActionResult> AssignWorkerToSite(int siteId, int employeeId)
         {
@@ -43,33 +45,17 @@ namespace QueR.Application.Controllers.Backoffice
         }
 
         [HttpGet]
+        [ProducesDefaultResponseType(typeof(IEnumerable<SiteDto>))]
         public async Task<ActionResult<IEnumerable<SiteDto>>> GetSites()
         {
-            var sites = await siteService.GetSites();
-            return Ok(sites.Select(c => new SiteDto
-            {
-                Name = c.Name,
-                Address = c.Address,
-                Id = c.Id,
-                ManagerName = c.Manager?.UserName ?? "-",
-                NumberOfEmployees = c.Employees.Count
-            }));
+            return Ok(await siteService.GetSites());
         }
 
         [HttpGet("{siteId}")]
+        [ProducesDefaultResponseType(typeof(IEnumerable<ApplicationUserDto>))]
         public async Task<ActionResult<IEnumerable<ApplicationUserDto>>> GetEmployeesOfSite(int siteId)
         {
-            var employees = await siteService.GetEmployeesOfSite(siteId);
-            return Ok(employees.Select(c => new ApplicationUserDto
-            {
-                Id = c.Id,
-                FirstName = c.FirstName,
-                LastName = c.LastName,
-                Email = c.Email,
-                Gender = c.Gender,
-                Address = c.Address,
-                AssignedQueue = c.AssignedQueue?.Type?.Name ?? "-"
-            }));
+            return Ok(await siteService.GetEmployeesOfSite(siteId));
         }
 
         [HttpDelete("{siteId}/manager")]
@@ -80,14 +66,14 @@ namespace QueR.Application.Controllers.Backoffice
         }
 
         [HttpDelete("{siteId}/workers/{employeeId}")]
-        public async Task<ActionResult> RemoveEmployeeOfCompany(int siteId, int employeeId)
+        public async Task<ActionResult> RemoveEmployeeOfSite(int siteId, int employeeId)
         {
             await siteService.RemoveEmployeeFromSite(siteId, employeeId);
             return Ok();
         }
 
         [HttpPut("{siteId}")]
-        public async Task<ActionResult> UpdateCompany(int siteId, [FromBody] SiteModel model)
+        public async Task<ActionResult> UpdateSite(int siteId, [FromBody] SiteModel model)
         {
             await siteService.UpdateSite(siteId, model);
             return Ok();

@@ -5,9 +5,9 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using QueR.Application.DTOs;
 using QueR.Application.Middlewares.ExceptionHandling;
 using QueR.BLL.Services.Company;
+using QueR.BLL.Services.Company.DTOs;
 
 namespace QueR.Application.Controllers.Backoffice
 {
@@ -15,10 +15,7 @@ namespace QueR.Application.Controllers.Backoffice
     [ApiController]
     [Authorize(Roles = "operator")]
     [ApiExplorerSettings(GroupName = "backoffice")]
-    [ProducesResponseType(typeof(ErrorDetails), StatusCodes.Status400BadRequest)]
-    [ProducesResponseType(typeof(ErrorDetails), StatusCodes.Status401Unauthorized)]
-    [ProducesResponseType(typeof(ErrorDetails), StatusCodes.Status403Forbidden)]
-    [ProducesResponseType(typeof(ErrorDetails), StatusCodes.Status404NotFound)]
+    [ProducesErrorResponseType(typeof(ErrorDetails))]
     public class CompaniesController : ControllerBase
     {
         private readonly ICompanyService companyService;

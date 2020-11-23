@@ -1,24 +1,19 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using QueR.Application.DTOs;
 using QueR.Application.Middlewares.ExceptionHandling;
 using QueR.BLL.Services.User;
-using QueR.Domain.Entities;
+using QueR.BLL.Services.User.DTOs;
 
 namespace QueR.Application.Controllers.Backoffice
 {
     [Route("api/[controller]")]
     [ApiController]
     [ApiExplorerSettings(GroupName = "backoffice")]
-    [ProducesResponseType(typeof(ErrorDetails), StatusCodes.Status400BadRequest)]
-    [ProducesResponseType(typeof(ErrorDetails), StatusCodes.Status401Unauthorized)]
-    [ProducesResponseType(typeof(ErrorDetails), StatusCodes.Status403Forbidden)]
-    [ProducesResponseType(typeof(ErrorDetails), StatusCodes.Status404NotFound)]
+    [ProducesErrorResponseType(typeof(ErrorDetails))]
     public class UsersController : ControllerBase
     {
         private readonly IUserService userService;
@@ -30,105 +25,70 @@ namespace QueR.Application.Controllers.Backoffice
 
         [HttpPost("admins")]
         [Authorize(Roles = "operator")]
-        [ProducesDefaultResponseType(typeof(int))]
-        public async Task<ActionResult<int>> CreateAdmin([FromBody] UserModel model)
+        [ProducesDefaultResponseType(typeof(ApplicationUserDto))]
+        public async Task<ActionResult<ApplicationUserDto>> CreateAdmin([FromBody] CreateUserModel model)
         {
             return Ok(await userService.CreateAdmin(model));
         }
 
         [HttpPost("employees")]
         [Authorize(Roles = "administrator")]
-        [ProducesDefaultResponseType(typeof(int))]
-        public async Task<ActionResult<int>> CreateEmployee([FromBody] UserModel model)
+        [ProducesDefaultResponseType(typeof(ApplicationUserDto))]
+        public async Task<ActionResult<ApplicationUserDto>> CreateEmployee([FromBody] CreateUserModel model)
         {
             return Ok(await userService.CreateEmployee(model));
         }
 
         [HttpPost("managers")]
         [Authorize(Roles = "administrator")]
-        [ProducesDefaultResponseType(typeof(int))]
-        public async Task<ActionResult<int>> CreateManager([FromBody] UserModel model)
+        [ProducesDefaultResponseType(typeof(ApplicationUserDto))]
+        public async Task<ActionResult<ApplicationUserDto>> CreateManager([FromBody] CreateUserModel model)
         {
             return Ok(await userService.CreateManager(model));
         }
 
         [HttpPost("users")]
-        [ProducesDefaultResponseType(typeof(int))]
-        public async Task<ActionResult<int>> CreateUser([FromBody] UserModel model)
+        [ProducesDefaultResponseType(typeof(ApplicationUserDto))]
+        public async Task<ActionResult<ApplicationUserDto>> CreateUser([FromBody] CreateUserModel model)
         {
             return Ok(await userService.CreateSimpleUser(model));
         }
 
         [HttpGet("admins")]
         [Authorize(Roles = "operator")]
-        [ProducesDefaultResponseType(typeof(ApplicationUserDto))]
+        [ProducesDefaultResponseType(typeof(IEnumerable<ApplicationUserDto>))]
         public async Task<ActionResult<IEnumerable<ApplicationUserDto>>> GetAdmins()
         {
-            var admins = await userService.GetAdministrators();
-            return Ok(admins.Select(c => new ApplicationUserDto
-            {
-                Id = c.Id,
-                FirstName = c.FirstName,
-                LastName = c.LastName,
-                Email = c.Email,
-                Gender = c.Gender,
-                Address = c.Address ?? "-",
-                AdministratedCompany = c.AdministratedCompany?.Name ?? "-"
-            }));
+            return Ok(await userService.GetAdministrators());
         }
 
         [HttpGet("employees")]
         [Authorize(Roles = "operator")]
-        [ProducesDefaultResponseType(typeof(ApplicationUserDto))]
+        [ProducesDefaultResponseType(typeof(IEnumerable<ApplicationUserDto>))]
         public async Task<ActionResult<IEnumerable<ApplicationUserDto>>> GetEmployees()
         {
-            var employees = await userService.GetEmployees();
-            return Ok(employees.Select(c => new ApplicationUserDto
-            {
-                Id = c.Id,
-                FirstName = c.FirstName,
-                LastName = c.LastName,
-                Email = c.Email,
-                Gender = c.Gender,
-                Address = c.Address ?? "-",
-                Company = c.Company?.Name ?? "-"
-            }));
+            return Ok(await userService.GetEmployees());
         }
 
         [HttpGet("managers")]
         [Authorize(Roles = "operator")]
-        [ProducesDefaultResponseType(typeof(ApplicationUserDto))]
+        [ProducesDefaultResponseType(typeof(IEnumerable<ApplicationUserDto>))]
         public async Task<ActionResult<IEnumerable<ApplicationUserDto>>> GetManagers()
         {
-            var managers = await userService.GetManagers();
-            return Ok(managers.Select(c => new ApplicationUserDto
-            {
-                Id = c.Id,
-                FirstName = c.FirstName,
-                LastName = c.LastName,
-                Email = c.Email,
-                Gender = c.Gender,
-                Address = c.Address ?? "-",
-                ManagedWorksite = c.ManagedSite?.Name ?? "-"
-            }));
+            return Ok(await userService.GetManagers());
         }
 
         [HttpGet("users")]
         [Authorize(Roles = "operator")]
-        [ProducesDefaultResponseType(typeof(ApplicationUserDto))]
+        [ProducesDefaultResponseType(typeof(IEnumerable<ApplicationUserDto>))]
         public async Task<ActionResult<IEnumerable<ApplicationUserDto>>> GetSimpleUsers()
         {
-            var users = await userService.GetSimpleUsers();
-            return Ok(users.Select(c => new ApplicationUserDto
-            {
-                Id = c.Id,
-                Email = c.Email
-            }));
+            return Ok(await userService.GetSimpleUsers());
         }
 
         [HttpPut("admins/{adminId}")]
         [Authorize(Roles = "operator")]
-        public async Task<ActionResult> UpdateAdmin(int adminId, [FromBody] UserModel model)
+        public async Task<ActionResult> UpdateAdmin(int adminId, [FromBody] UpdateUserModel model)
         {
             await userService.UpdateAdmin(adminId, model);
             return Ok();
@@ -136,7 +96,7 @@ namespace QueR.Application.Controllers.Backoffice
 
         [HttpPut("managers/{managerId}")]
         [Authorize(Roles = "administrator")]
-        public async Task<ActionResult> UpdateManager(int managerId, [FromBody] UserModel model)
+        public async Task<ActionResult> UpdateManager(int managerId, [FromBody] UpdateUserModel model)
         {
             await userService.UpdateManager(managerId, model);
             return Ok();
@@ -144,7 +104,7 @@ namespace QueR.Application.Controllers.Backoffice
 
         [HttpPut("employees/{employeeId}")]
         [Authorize(Roles = "administrator")]
-        public async Task<ActionResult> UpdateEmployee(int employeeId, [FromBody] UserModel model)
+        public async Task<ActionResult> UpdateEmployee(int employeeId, [FromBody] UpdateUserModel model)
         {
             await userService.UpdateEmployee(employeeId, model);
             return Ok();
@@ -152,7 +112,7 @@ namespace QueR.Application.Controllers.Backoffice
 
         [HttpPut("users/{userId}")]
         [Authorize(Roles = "user")]
-        public async Task<ActionResult> UpdateSimpleUser(int userId, [FromBody] UserModel model)
+        public async Task<ActionResult> UpdateSimpleUser(int userId, [FromBody] UpdateUserModel model)
         {
             await userService.UpdateSimpleUser(userId, model);
             return Ok();

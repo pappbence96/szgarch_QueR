@@ -1,5 +1,8 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using AutoMapper;
+using FluentValidation;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using QueR.BLL.Services.User.DTOs;
 using QueR.DAL;
 using QueR.Domain.Entities;
 using QueR.Domain.Services;
@@ -16,12 +19,14 @@ namespace QueR.BLL.Services.User
         private readonly UserManager<ApplicationUser> userManager;
         private readonly IUserAccessor userAccessor;
         private readonly AppDbContext context;
+        private readonly IMapper mapper;
 
-        public UserService(UserManager<ApplicationUser> userManager, IUserAccessor userAccessor, AppDbContext context)
+        public UserService(UserManager<ApplicationUser> userManager, IUserAccessor userAccessor, AppDbContext context, IMapper mapper)
         {
             this.userManager = userManager;
             this.userAccessor = userAccessor;
             this.context = context;
+            this.mapper = mapper;
         }
 
         private async Task<bool> IsCallerCurrentAdministrator()
@@ -39,12 +44,10 @@ namespace QueR.BLL.Services.User
             }
         }
 
-        private async Task<ApplicationUser> CreateWorker(UserModel model)
+        private async Task<ApplicationUser> CreateWorker(CreateUserModel model)
         {
-            if (!model.IsValidWorker || !model.IsValidPassword)
-            {
-                throw new ArgumentException("Model is invalid");
-            }
+            new WorkerValidator().ValidateAndThrow(model);
+            new PasswordValidator().ValidateAndThrow(model);
 
             var callerCompanyId = userAccessor.CompanyId;
             
@@ -60,7 +63,7 @@ namespace QueR.BLL.Services.User
                 LastName = model.LastName,
                 Email = model.Email,
                 Address = model.Address,
-                CompanyId = model.CompanyId ?? callerCompanyId,
+                CompanyId = callerCompanyId,
                 Gender = model.Gender
             };
 
@@ -80,12 +83,10 @@ namespace QueR.BLL.Services.User
         }
 
 
-        public async Task<int> CreateAdmin(UserModel model)
+        public async Task<ApplicationUserDto> CreateAdmin(CreateUserModel model)
         {
-            if (!model.IsValidWorker || !model.IsValidPassword)
-            {
-                throw new ArgumentException("Model is invalid");
-            }
+            new WorkerValidator().ValidateAndThrow(model);
+            new PasswordValidator().ValidateAndThrow(model);
 
             var user = new ApplicationUser
             {
@@ -106,33 +107,31 @@ namespace QueR.BLL.Services.User
 
             await userManager.AddToRoleAsync(user, "administrator");
 
-            return user.Id;
+            return mapper.Map<ApplicationUserDto>(user);
         }
 
-        public async Task<int> CreateEmployee(UserModel model)
+        public async Task<ApplicationUserDto> CreateEmployee(CreateUserModel model)
         {
             var user = await CreateWorker(model);
 
             await userManager.AddToRoleAsync(user, "employee");
 
-            return user.Id;
+            return mapper.Map<ApplicationUserDto>(user);
         }
 
-        public async Task<int> CreateManager(UserModel model)
+        public async Task<ApplicationUserDto> CreateManager(CreateUserModel model)
         {
             var user = await CreateWorker(model);
 
             await userManager.AddToRolesAsync(user, new List<string> { "employee", "manager" });
 
-            return user.Id;
+            return mapper.Map<ApplicationUserDto>(user);
         }
 
-        public async Task<int> CreateSimpleUser(UserModel model)
+        public async Task<ApplicationUserDto> CreateSimpleUser(CreateUserModel model)
         {
-            if (!model.IsValidUser || !model.IsValidPassword)
-            {
-                throw new ArgumentException("Model is invalid");
-            }
+            new UserValidator().ValidateAndThrow(model);
+            new PasswordValidator().ValidateAndThrow(model);
 
             var user = new ApplicationUser
             {
@@ -149,30 +148,34 @@ namespace QueR.BLL.Services.User
 
             await userManager.AddToRoleAsync(user, "user");
 
-            return user.Id;
+            return mapper.Map<ApplicationUserDto>(user);
         }
 
-        public async Task<IEnumerable<ApplicationUser>> GetAdministrators()
+        public async Task<IEnumerable<ApplicationUserDto>> GetAdministrators()
         {
-            return await userManager.GetUsersInRoleAsync("administrator");
+            var administrators = await userManager.GetUsersInRoleAsync("administrator");
+            return mapper.Map<IEnumerable<ApplicationUserDto>>(administrators);
         }
 
-        public async Task<IEnumerable<ApplicationUser>> GetManagers()
+        public async Task<IEnumerable<ApplicationUserDto>> GetManagers()
         {
-            return await userManager.GetUsersInRoleAsync("manager");
+            var managers = await userManager.GetUsersInRoleAsync("manager");
+            return mapper.Map<IEnumerable<ApplicationUserDto>>(managers);
         }
 
-        public async Task<IEnumerable<ApplicationUser>> GetEmployees()
+        public async Task<IEnumerable<ApplicationUserDto>> GetEmployees()
         {
-            return await userManager.GetUsersInRoleAsync("employees");
+            var employees = await userManager.GetUsersInRoleAsync("employee");
+            return mapper.Map<IEnumerable<ApplicationUserDto>>(employees);
         }
 
-        public async Task<IEnumerable<ApplicationUser>> GetSimpleUsers()
+        public async Task<IEnumerable<ApplicationUserDto>> GetSimpleUsers()
         {
-            return await userManager.GetUsersInRoleAsync("user");
+            var users = await userManager.GetUsersInRoleAsync("user");
+            return mapper.Map<IEnumerable<ApplicationUserDto>>(users);
         }
 
-        public async Task UpdateAdmin(int adminId, UserModel model)
+        public async Task UpdateAdmin(int adminId, UpdateUserModel model)
         {
             var admin = (await userManager.FindByIdAsync(adminId.ToString()))
                 ?? throw new KeyNotFoundException($"Administrator not found with an id of { adminId }");
@@ -182,15 +185,7 @@ namespace QueR.BLL.Services.User
                 throw new InvalidOperationException("User is not an administrator");
             }
 
-            if (!model.IsValidWorker)
-            {
-                throw new ArgumentException("Model is invalid");
-            }
-
-            if (admin.UserName != model.UserName)
-            {
-                throw new InvalidOperationException("The username of the user to update does not match with given models username");
-            }
+            new UpdateWorkerValidator().ValidateAndThrow(model);
 
             admin.Address = model.Address;
             admin.Email = model.Email;
@@ -207,7 +202,7 @@ namespace QueR.BLL.Services.User
             }
         }
 
-        public async Task UpdateManager(int managerId, UserModel model)
+        public async Task UpdateManager(int managerId, UpdateUserModel model)
         {
             var manager = (await userManager.FindByIdAsync(managerId.ToString()))
                 ?? throw new KeyNotFoundException($"Manager not found with an id of { managerId }");
@@ -229,15 +224,7 @@ namespace QueR.BLL.Services.User
                 throw new InvalidOperationException("User is not a manager");
             }
 
-            if (!model.IsValidWorker)
-            {
-                throw new ArgumentException("Model is invalid");
-            }
-
-            if (manager.UserName != model.UserName)
-            {
-                throw new InvalidOperationException("The username of the user to update does not match with given models username");
-            }
+            new UpdateWorkerValidator().ValidateAndThrow(model);
 
             manager.Address = model.Address;
             manager.Email = model.Email;
@@ -254,7 +241,7 @@ namespace QueR.BLL.Services.User
             }
         }
 
-        public async Task UpdateEmployee(int employeeId, UserModel model)
+        public async Task UpdateEmployee(int employeeId, UpdateUserModel model)
         {
             var employee = (await userManager.FindByIdAsync(employeeId.ToString()))
                 ?? throw new KeyNotFoundException($"Employee not found with an id of { employeeId }");
@@ -276,15 +263,7 @@ namespace QueR.BLL.Services.User
                 throw new InvalidOperationException("User is not an employee");
             }
 
-            if (!model.IsValidWorker)
-            {
-                throw new ArgumentException("Model is invalid");
-            }
-
-            if (employee.UserName != model.UserName)
-            {
-                throw new InvalidOperationException("The username of the user to update does not match with given models username");
-            }
+            new UpdateWorkerValidator().ValidateAndThrow(model);
 
             employee.Address = model.Address;
             employee.Email = model.Email;
@@ -301,7 +280,7 @@ namespace QueR.BLL.Services.User
             }
         }
 
-        public async Task UpdateSimpleUser(int userId, UserModel model)
+        public async Task UpdateSimpleUser(int userId, UpdateUserModel model)
         {
             var user = (await userManager.FindByIdAsync(userId.ToString()))
                 ?? throw new KeyNotFoundException($"User not found with an id of { userId }");
@@ -313,10 +292,7 @@ namespace QueR.BLL.Services.User
                 throw new InvalidOperationException("A simple user cannot update other users");
             }
 
-            if (!model.IsValidUser)
-            {
-                throw new ArgumentException("Model is invalid");
-            }
+            new UpdateUserValidator().ValidateAndThrow(model);
 
             user.Email = model.Email;
 

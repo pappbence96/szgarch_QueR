@@ -1,5 +1,4 @@
-﻿using QueR.Application.DTOs;
-using QueR.Domain.Entities;
+﻿using QueR.BLL.Services.Company.DTOs;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
