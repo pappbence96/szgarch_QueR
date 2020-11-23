@@ -1,4 +1,5 @@
-﻿using FluentValidation;
+﻿using AutoMapper;
+using FluentValidation;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using QueR.Application.DTOs;
@@ -16,11 +17,13 @@ namespace QueR.BLL.Services.Company
     {
         private readonly AppDbContext context;
         private readonly UserManager<ApplicationUser> userManager;
+        private readonly IMapper mapper;
 
-        public CompanyService(AppDbContext context, UserManager<ApplicationUser> userManager)
+        public CompanyService(AppDbContext context, UserManager<ApplicationUser> userManager, IMapper mapper)
         {
             this.context = context;
             this.userManager = userManager;
+            this.mapper = mapper;
         }
 
         public async Task<CompanyDto> CreateCompany(CompanyModel model)
@@ -40,15 +43,7 @@ namespace QueR.BLL.Services.Company
             context.Companies.Add(company);
             await context.SaveChangesAsync();
 
-            return new CompanyDto
-            {
-                Name = company.Name,
-                Address = company.MailingAddress,
-                Id = company.Id,
-                AdminName = "-",
-                NumberOfSites = 0,
-                NumberOfEmployees = 0
-            };
+            return mapper.Map<CompanyDto>(company);
         }
 
         public async Task AssignAdminToCompany(int companyId, int adminId)
@@ -85,16 +80,7 @@ namespace QueR.BLL.Services.Company
                 .Include(c => c.Sites)
                 .Include(c => c.Users)
                 .ToListAsync();
-            return companies
-                .Select(c => new CompanyDto
-                {
-                    Name = c.Name,
-                    Address = c.MailingAddress,
-                    Id = c.Id,
-                    AdminName = c.Administrator != null ? c.Administrator.UserName : "-",
-                    NumberOfSites = c.Sites.Count,
-                    NumberOfEmployees = c.Users.Count
-                });
+            return mapper.Map<IEnumerable<CompanyDto>>(companies);
         }
 
         public async Task RemoveAdminOfCompany(int companyId)

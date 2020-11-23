@@ -1,4 +1,6 @@
-﻿using System;
+﻿using AutoMapper;
+using QueR.Domain.Entities;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -13,5 +15,17 @@ namespace QueR.Application.DTOs
         public string AdminName { get; set; }
         public int NumberOfSites { get; set; }
         public int NumberOfEmployees { get; internal set; }
+    }
+
+    public class CompanyDtoProfile: Profile
+    {
+        public CompanyDtoProfile()
+        {
+            CreateMap<Company, CompanyDto>()
+                .ForMember(dest => dest.Address, opt => opt.MapFrom(src => src.MailingAddress))
+                .ForMember(dest => dest.AdminName, opt => opt.MapFrom(src => src.Administrator != null ? src.Administrator.UserName : "-"))
+                .ForMember(dest => dest.NumberOfSites, opt => opt.MapFrom(src => src.Sites.Count))
+                .ForMember(dest => dest.NumberOfEmployees, opt => opt.MapFrom(src => src.Users.Count));
+        }
     }
 }

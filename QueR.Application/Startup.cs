@@ -4,6 +4,7 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
+using AutoMapper;
 using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
@@ -19,6 +20,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
 using Newtonsoft.Json.Converters;
 using NSwag;
+using QueR.Application.DTOs;
 using QueR.Application.Middlewares.ExceptionHandling;
 using QueR.Application.Services.UserAccessor;
 using QueR.BLL.Services.Company;
@@ -122,6 +124,8 @@ namespace QueR.Application
                     Description = "Type into the textbox: Bearer {your JWT token}."
                 });
             });
+
+            services.AddAutoMapper(Assembly.Load("QueR.BLL"));
 
             services.AddControllers()
                 .AddNewtonsoftJson(opts => {
