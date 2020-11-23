@@ -113,5 +113,36 @@ namespace QueR.Application.Controllers.Backoffice
             }));
         }
 
+        [HttpPut("admins/{adminId}")]
+        [Authorize(Roles = "operator")]
+        public async Task<ActionResult> UpdateAdmin(int adminId, [FromBody] UserModel model)
+        {
+            await userService.UpdateAdmin(adminId, model);
+            return Ok();
+        }
+
+        [HttpPut("managers/{managerId}")]
+        [Authorize(Roles = "administrator")]
+        public async Task<ActionResult> UpdateManager(int managerId, [FromBody] UserModel model)
+        {
+            await userService.UpdateManager(managerId, model);
+            return Ok();
+        }
+
+        [HttpPut("employees/{employeeId}")]
+        [Authorize(Roles = "administrator")]
+        public async Task<ActionResult> UpdateEmployee(int employeeId, [FromBody] UserModel model)
+        {
+            await userService.UpdateEmployee(employeeId, model);
+            return Ok();
+        }
+
+        [HttpPut("users/{userId}")]
+        [Authorize(Roles = "user")]
+        public async Task<ActionResult> UpdateSimpleUser(int userId, [FromBody] UserModel model)
+        {
+            await userService.UpdateSimpleUser(userId, model);
+            return Ok();
+        }
     }
 }

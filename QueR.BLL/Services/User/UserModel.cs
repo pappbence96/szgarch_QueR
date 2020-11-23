@@ -15,13 +15,27 @@ namespace QueR.BLL.Services.User
         public Gender Gender { get; set; }
         
         [JsonIgnore]
-        public bool IsValid {
+        public bool IsValidWorker {
             get =>
-                !string.IsNullOrWhiteSpace(UserName) &&
-                !string.IsNullOrWhiteSpace(Email) &&
+                IsValidUser &&
                 !string.IsNullOrWhiteSpace(FirstName) &&
                 !string.IsNullOrWhiteSpace(LastName) &&
                 !string.IsNullOrWhiteSpace(Address) &&
+                !string.IsNullOrWhiteSpace(Gender.ToString());
+        }
+
+        [JsonIgnore]
+        public bool IsValidUser
+        {
+            get =>
+                !string.IsNullOrWhiteSpace(UserName) &&
+                !string.IsNullOrWhiteSpace(Email);
+        }
+
+        [JsonIgnore]
+        public bool IsValidPassword
+        {
+            get =>
                 !string.IsNullOrWhiteSpace(Password);
         }
     }

@@ -208,5 +208,10 @@ namespace QueR.BLL.Services.Site
 
             await context.SaveChangesAsync();
         }
+
+        public Task DeleteSite(int siteId)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

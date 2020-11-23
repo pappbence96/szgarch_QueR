@@ -13,5 +13,6 @@ namespace QueR.BLL.Services.Site
         Task RemoveEmployeeFromSite(int siteId, int employeeId);
         Task<IEnumerable<Domain.Entities.Site>> GetSites();
         Task<IEnumerable<Domain.Entities.ApplicationUser>> GetEmployeesOfSite(int siteId);
+        Task DeleteSite(int siteId);
     }
 }
