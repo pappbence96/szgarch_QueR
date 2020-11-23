@@ -65,6 +65,7 @@ namespace QueR.Application.Controllers.Backoffice
                 Id = c.Id,
                 FirstName = c.FirstName,
                 LastName = c.LastName,
+                Email = c.Email,
                 Gender = c.Gender,
                 Address = c.Address,
                 AssignedQueue = c.AssignedQueue?.Type?.Name ?? "-"

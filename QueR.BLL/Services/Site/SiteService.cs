@@ -156,7 +156,7 @@ namespace QueR.BLL.Services.Site
             }
             var manager = site.Manager;
             site.Manager = null;
-            manager.Worksite = null;
+            await userManager.RemoveFromRoleAsync(manager, "manager");
             await context.SaveChangesAsync();
         }
 
@@ -207,6 +207,11 @@ namespace QueR.BLL.Services.Site
             site.Address = model.Address;
 
             await context.SaveChangesAsync();
+        }
+
+        public Task DeleteSite(int siteId)
+        {
+            throw new NotImplementedException();
         }
     }
 }
