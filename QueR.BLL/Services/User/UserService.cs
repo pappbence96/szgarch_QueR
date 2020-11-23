@@ -14,13 +14,11 @@ namespace QueR.BLL.Services.User
     {
         private readonly UserManager<ApplicationUser> userManager;
         private readonly IUserAccessor userAccessor;
-        private readonly AppDbContext context;
 
-        public UserService(UserManager<ApplicationUser> userManager, IUserAccessor userAccessor, AppDbContext context)
+        public UserService(UserManager<ApplicationUser> userManager, IUserAccessor userAccessor)
         {
             this.userManager = userManager;
             this.userAccessor = userAccessor;
-            this.context = context;
         }
 
         private async Task<ApplicationUser> CreateWorker(UserModel model)
