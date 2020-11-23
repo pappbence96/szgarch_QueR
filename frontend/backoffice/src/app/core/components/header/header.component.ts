@@ -38,7 +38,7 @@ export class HeaderComponent implements OnInit {
 
   public get siteTitle(): string {
     if (this.title) {
-      return `- ${this.title} page`;
+      return `- ${this.title} mode`;
     }
     return '';
   }

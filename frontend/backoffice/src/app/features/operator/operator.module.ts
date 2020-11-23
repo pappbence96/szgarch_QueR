@@ -11,8 +11,7 @@ import {MatInputModule} from '@angular/material/input';
 import {MatTableModule} from '@angular/material/table';
 import {MatSortModule} from '@angular/material/sort';
 import { FormsModule } from '@angular/forms';
-
-
+import {MatSnackBarModule} from '@angular/material/snack-bar';
 
 @NgModule({
   imports: [
@@ -24,7 +23,8 @@ import { FormsModule } from '@angular/forms';
     MatInputModule,
     MatTableModule,
     MatSortModule,
-    FormsModule
+    FormsModule,
+    MatSnackBarModule
   ],
   declarations: [
     OperatorMenuPageComponent,
