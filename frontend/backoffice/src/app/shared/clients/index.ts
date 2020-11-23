@@ -27,7 +27,7 @@ export class CompaniesClient {
         this.baseUrl = baseUrl !== undefined && baseUrl !== null ? baseUrl : "";
     }
 
-    createCompany(model: CompanyModel): Observable<void> {
+    createCompany(model: CompanyModel): Observable<CompanyDto> {
         let url_ = this.baseUrl + "/api/Companies";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -39,6 +39,7 @@ export class CompaniesClient {
             responseType: "blob",
             headers: new HttpHeaders({
                 "Content-Type": "application/json",
+                "Accept": "application/json"
             })
         };
 
@@ -49,14 +50,14 @@ export class CompaniesClient {
                 try {
                     return this.processCreateCompany(<any>response_);
                 } catch (e) {
-                    return <Observable<void>><any>_observableThrow(e);
+                    return <Observable<CompanyDto>><any>_observableThrow(e);
                 }
             } else
-                return <Observable<void>><any>_observableThrow(response_);
+                return <Observable<CompanyDto>><any>_observableThrow(response_);
         }));
     }
 
-    protected processCreateCompany(response: HttpResponseBase): Observable<void> {
+    protected processCreateCompany(response: HttpResponseBase): Observable<CompanyDto> {
         const status = response.status;
         const responseBlob =
             response instanceof HttpResponse ? response.body :
@@ -91,12 +92,14 @@ export class CompaniesClient {
             result404 = ErrorDetails.fromJS(resultData404);
             return throwException("A server side error occurred.", status, _responseText, _headers, result404);
             }));
-        } else if (status !== 200 && status !== 204) {
+        } else {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            let resultdefault: any = null;
+            let resultDatadefault = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            resultdefault = CompanyDto.fromJS(resultDatadefault);
+            return _observableOf(resultdefault);
             }));
         }
-        return _observableOf<void>(<any>null);
     }
 
     getCompanies(): Observable<CompanyDto[]> {
@@ -1830,6 +1833,62 @@ export interface IErrorDetails {
     message?: string | undefined;
 }
 
+export class CompanyDto implements ICompanyDto {
+    id?: number;
+    name?: string | undefined;
+    address?: string | undefined;
+    adminName?: string | undefined;
+    numberOfSites?: number;
+    numberOfEmployees?: number;
+
+    constructor(data?: ICompanyDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.id = _data["id"];
+            this.name = _data["name"];
+            this.address = _data["address"];
+            this.adminName = _data["adminName"];
+            this.numberOfSites = _data["numberOfSites"];
+            this.numberOfEmployees = _data["numberOfEmployees"];
+        }
+    }
+
+    static fromJS(data: any): CompanyDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new CompanyDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
+        data["name"] = this.name;
+        data["address"] = this.address;
+        data["adminName"] = this.adminName;
+        data["numberOfSites"] = this.numberOfSites;
+        data["numberOfEmployees"] = this.numberOfEmployees;
+        return data; 
+    }
+}
+
+export interface ICompanyDto {
+    id?: number;
+    name?: string | undefined;
+    address?: string | undefined;
+    adminName?: string | undefined;
+    numberOfSites?: number;
+    numberOfEmployees?: number;
+}
+
 export class CompanyModel implements ICompanyModel {
     name?: string | undefined;
     address?: string | undefined;
@@ -1868,58 +1927,6 @@ export class CompanyModel implements ICompanyModel {
 export interface ICompanyModel {
     name?: string | undefined;
     address?: string | undefined;
-}
-
-export class CompanyDto implements ICompanyDto {
-    id?: number;
-    name?: string | undefined;
-    address?: string | undefined;
-    adminName?: string | undefined;
-    numberOfSites?: number;
-
-    constructor(data?: ICompanyDto) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-        }
-    }
-
-    init(_data?: any) {
-        if (_data) {
-            this.id = _data["id"];
-            this.name = _data["name"];
-            this.address = _data["address"];
-            this.adminName = _data["adminName"];
-            this.numberOfSites = _data["numberOfSites"];
-        }
-    }
-
-    static fromJS(data: any): CompanyDto {
-        data = typeof data === 'object' ? data : {};
-        let result = new CompanyDto();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["id"] = this.id;
-        data["name"] = this.name;
-        data["address"] = this.address;
-        data["adminName"] = this.adminName;
-        data["numberOfSites"] = this.numberOfSites;
-        return data; 
-    }
-}
-
-export interface ICompanyDto {
-    id?: number;
-    name?: string | undefined;
-    address?: string | undefined;
-    adminName?: string | undefined;
-    numberOfSites?: number;
 }
 
 export class LoginResponse implements ILoginResponse {

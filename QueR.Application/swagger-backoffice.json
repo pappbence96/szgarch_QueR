@@ -65,6 +65,16 @@
                 }
               }
             }
+          },
+          "default": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CompanyDto"
+                }
+              }
+            }
           }
         }
       },
@@ -1509,20 +1519,6 @@
           }
         }
       },
-      "CompanyModel": {
-        "type": "object",
-        "additionalProperties": false,
-        "properties": {
-          "name": {
-            "type": "string",
-            "nullable": true
-          },
-          "address": {
-            "type": "string",
-            "nullable": true
-          }
-        }
-      },
       "CompanyDto": {
         "type": "object",
         "additionalProperties": false,
@@ -1546,6 +1542,24 @@
           "numberOfSites": {
             "type": "integer",
             "format": "int32"
+          },
+          "numberOfEmployees": {
+            "type": "integer",
+            "format": "int32"
+          }
+        }
+      },
+      "CompanyModel": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "name": {
+            "type": "string",
+            "nullable": true
+          },
+          "address": {
+            "type": "string",
+            "nullable": true
           }
         }
       },

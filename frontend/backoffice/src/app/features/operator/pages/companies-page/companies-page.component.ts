@@ -1,9 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatTableDataSource } from '@angular/material/table';
-import { stringify } from 'querystring';
-import { map } from 'rxjs/operators';
-import { CompaniesClient, CompanyDto, CompanyModel } from 'src/app/shared/clients';
+import { CompaniesClient, CompanyDto, CompanyModel, ErrorDetails } from 'src/app/shared/clients';
 
 @Component({
   selector: 'app-companies-page',
@@ -14,27 +12,26 @@ export class CompaniesPageComponent implements OnInit {
   dataSource: MatTableDataSource<CompanyDto>;
   companies: CompanyDto[];
   selected: CompanyDto;
-  columnsToDisplay = [ 'name', 'address', 'adminName', 'numberOfSites' ];
+  columnsToDisplay = [ 'name', 'address', 'adminName', 'numberOfSites', 'numberOfEmployees' ];
   isNew = false;
 
 
   constructor(private companiesClient: CompaniesClient, private snackBarRef: MatSnackBar) {
-    companiesClient.getCompanies().pipe(map(data => {
+    companiesClient.getCompanies().subscribe(data => {
       this.companies = data;
       this.dataSource = new MatTableDataSource<CompanyDto>(this.companies);
       this.setFilter();
     },
-    error => {
+    (error: ErrorDetails) => {
       this.snackBarRef.open(error.message, 'Close');
-    }
-    )).subscribe();
+    });
   }
 
   ngOnInit(): void {
   }
 
   selectRow(row: CompanyDto): void {
-    this.selected = row;
+    this.selected = new CompanyDto(row);
     this.isNew = false;
   }
 
@@ -43,25 +40,26 @@ export class CompaniesPageComponent implements OnInit {
     const model = new CompanyModel({name: this.selected.name, address: this.selected.address});
     if (this.isNew){
       this.companiesClient.createCompany(model)
-        .subscribe(() => {
+        .subscribe(created => {
           console.log('Company created');
-          this.selected.adminName = '-';
-          this.selected.numberOfSites = 0;
-          this.companies.push(this.selected);
+          this.companies.push(created);
           this.dataSource = new MatTableDataSource<CompanyDto>(this.companies);
           this.isNew = false;
           this.selected = null;
           this.setFilter();
         },
-        error => {
+        (error: ErrorDetails) => {
           this.snackBarRef.open(error.message, 'Close');
         });
     } else {
       this.companiesClient.updateCompany(this.selected.id, model)
         .subscribe(() => {
           console.log('Company saved');
+          const updated = this.companies.find((item: CompanyDto) => item.id === this.selected.id);
+          updated.name = this.selected.name;
+          updated.address = this.selected.address;
         },
-        error => {
+        (error: ErrorDetails) => {
           this.snackBarRef.open(error.message, 'Close');
         });
     }

@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using FluentValidation;
+using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -39,6 +40,11 @@ namespace QueR.Application.Middlewares.ExceptionHandling
             else if (exception is KeyNotFoundException)
             {
                 context.Response.StatusCode = (int)HttpStatusCode.NotFound;
+            }
+            else if (exception is ValidationException)
+            {
+                context.Response.StatusCode = (int)HttpStatusCode.BadRequest;
+                error.Message = (exception as ValidationException).Errors.First().ErrorMessage;
             }
             else
             {

@@ -2,7 +2,9 @@ using System;
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
+using System.Reflection;
 using System.Threading.Tasks;
+using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -121,10 +123,11 @@ namespace QueR.Application
                 });
             });
 
-            services.AddControllers().AddNewtonsoftJson(opts =>
-            {
-                opts.SerializerSettings.Converters.Add(new StringEnumConverter());
-            });
+            services.AddControllers()
+                .AddNewtonsoftJson(opts => {
+                    opts.SerializerSettings.Converters.Add(new StringEnumConverter());
+                    opts.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;
+                });
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -147,7 +150,6 @@ namespace QueR.Application
 
             app.UseAuthentication();
             app.UseAuthorization();
-
 
             app.UseEndpoints(endpoints =>
             {
