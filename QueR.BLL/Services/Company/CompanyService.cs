@@ -65,6 +65,7 @@ namespace QueR.BLL.Services.Company
             }
 
             company.Administrator = admin;
+            admin.CompanyId = companyId;
 
             await context.SaveChangesAsync();
         }

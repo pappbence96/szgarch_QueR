@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using QueR.DAL;
 using QueR.Domain.Entities;
 using QueR.Domain.Services;
@@ -23,6 +24,21 @@ namespace QueR.BLL.Services.User
             this.context = context;
         }
 
+        private async Task<bool> IsCallerCurrentAdministrator()
+        {
+            var callerCompanyId = userAccessor.CompanyId;
+            var company = (await context.Companies.FirstOrDefaultAsync(u => u.Id == callerCompanyId))
+                   ?? throw new KeyNotFoundException($"Company not found with an id of {callerCompanyId}");
+            if (!company.AdministratorId.HasValue || (company.AdministratorId.HasValue && company.AdministratorId != userAccessor.UserId))
+            {
+                return false;
+            }
+            else
+            {
+                return true;
+            }
+        }
+
         private async Task<ApplicationUser> CreateWorker(UserModel model)
         {
             if (!model.IsValidWorker || !model.IsValidPassword)
@@ -31,7 +47,12 @@ namespace QueR.BLL.Services.User
             }
 
             var callerCompanyId = userAccessor.CompanyId;
-     
+            
+            if (!await IsCallerCurrentAdministrator())
+            {
+                throw new InvalidOperationException("Only the current administrator can make changes");
+            }
+
             var user = new ApplicationUser
             {
                 UserName = model.UserName,
@@ -61,7 +82,27 @@ namespace QueR.BLL.Services.User
 
         public async Task<int> CreateAdmin(UserModel model)
         {
-            var user = await CreateWorker(model);
+            if (!model.IsValidWorker || !model.IsValidPassword)
+            {
+                throw new ArgumentException("Model is invalid");
+            }
+
+            var user = new ApplicationUser
+            {
+                UserName = model.UserName,
+                FirstName = model.FirstName,
+                LastName = model.LastName,
+                Email = model.Email,
+                Address = model.Address,
+                Gender = model.Gender
+            };
+
+            var result = await userManager.CreateAsync(user, model.Password);
+
+            if (!result.Succeeded)
+            {
+                throw new InvalidOperationException(result.Errors.First().Description);
+            }
 
             await userManager.AddToRoleAsync(user, "administrator");
 
@@ -72,7 +113,7 @@ namespace QueR.BLL.Services.User
         {
             var user = await CreateWorker(model);
 
-            await userManager.AddToRoleAsync(user, "user");
+            await userManager.AddToRoleAsync(user, "employee");
 
             return user.Id;
         }
@@ -81,7 +122,7 @@ namespace QueR.BLL.Services.User
         {
             var user = await CreateWorker(model);
 
-            await userManager.AddToRolesAsync(user, new List<string> { "user", "manager" });
+            await userManager.AddToRolesAsync(user, new List<string> { "employee", "manager" });
 
             return user.Id;
         }
@@ -107,6 +148,7 @@ namespace QueR.BLL.Services.User
             }
 
             await userManager.AddToRoleAsync(user, "user");
+
             return user.Id;
         }
 
@@ -122,7 +164,7 @@ namespace QueR.BLL.Services.User
 
         public async Task<IEnumerable<ApplicationUser>> GetEmployees()
         {
-            return await userManager.GetUsersInRoleAsync("user");
+            return await userManager.GetUsersInRoleAsync("employees");
         }
 
         public async Task<IEnumerable<ApplicationUser>> GetSimpleUsers()
@@ -133,9 +175,7 @@ namespace QueR.BLL.Services.User
         public async Task UpdateAdmin(int adminId, UserModel model)
         {
             var admin = (await userManager.FindByIdAsync(adminId.ToString()))
-                ?? throw new KeyNotFoundException($"Employee not found with an id of { adminId }");
-
-            
+                ?? throw new KeyNotFoundException($"Administrator not found with an id of { adminId }");
 
             if (!await userManager.IsInRoleAsync(admin, "administrator"))
             {
@@ -170,9 +210,15 @@ namespace QueR.BLL.Services.User
         public async Task UpdateManager(int managerId, UserModel model)
         {
             var manager = (await userManager.FindByIdAsync(managerId.ToString()))
-                ?? throw new KeyNotFoundException($"Employee not found with an id of { managerId }");
+                ?? throw new KeyNotFoundException($"Manager not found with an id of { managerId }");
 
             var callerCompanyId = userAccessor.CompanyId;
+
+            if (!await IsCallerCurrentAdministrator())
+            {
+                throw new InvalidOperationException("Only the current administrator can make changes");
+            }
+
             if (manager.CompanyId != callerCompanyId)
             {
                 throw new InvalidOperationException("Manager is not part of the company");
@@ -214,6 +260,12 @@ namespace QueR.BLL.Services.User
                 ?? throw new KeyNotFoundException($"Employee not found with an id of { employeeId }");
 
             var callerCompanyId = userAccessor.CompanyId;
+
+            if (!await IsCallerCurrentAdministrator())
+            {
+                throw new InvalidOperationException("Only the current administrator can make changes");
+            }
+
             if (employee.CompanyId != callerCompanyId)
             {
                 throw new InvalidOperationException("Employee is not part of the company");
@@ -265,11 +317,6 @@ namespace QueR.BLL.Services.User
             {
                 throw new ArgumentException("Model is invalid");
             }
-
-            //if (user.UserName != model.UserName)
-            //{
-            //    throw new InvalidOperationException("The username of the user to update does not match with given models username");
-            //}
 
             user.Email = model.Email;
 
