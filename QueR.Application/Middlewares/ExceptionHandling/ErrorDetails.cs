@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
 
 namespace QueR.Application.Middlewares.ExceptionHandling
 {
@@ -13,7 +14,7 @@ namespace QueR.Application.Middlewares.ExceptionHandling
 
         public override string ToString()
         {
-            return JsonConvert.SerializeObject(this);
+            return JsonConvert.SerializeObject(this, new JsonSerializerSettings() { ContractResolver = new DefaultContractResolver { NamingStrategy = new CamelCaseNamingStrategy() } }); ;
         }
     }
 }
