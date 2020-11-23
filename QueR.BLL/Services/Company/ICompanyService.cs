@@ -1,4 +1,5 @@
-﻿using QueR.Domain.Entities;
+﻿using QueR.Application.DTOs;
+using QueR.Domain.Entities;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -7,8 +8,8 @@ namespace QueR.BLL.Services.Company
     public interface ICompanyService
     {
         Task AssignAdminToCompany(int adminId, int companyId);
-        Task<int> CreateCompany(CompanyModel model);
-        IEnumerable<Domain.Entities.Company> GetCompanies();
+        Task<CompanyDto> CreateCompany(CompanyModel model);
+        Task<IEnumerable<CompanyDto>> GetCompanies();
         Task RemoveAdminOfCompany(int companyId);
         Task UpdateCompany(int companyId, CompanyModel model);
     }

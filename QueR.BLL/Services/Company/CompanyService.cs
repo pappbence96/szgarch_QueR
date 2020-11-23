@@ -1,9 +1,12 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using FluentValidation;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using QueR.Application.DTOs;
 using QueR.DAL;
 using QueR.Domain.Entities;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -20,12 +23,9 @@ namespace QueR.BLL.Services.Company
             this.userManager = userManager;
         }
 
-        public async Task<int> CreateCompany(CompanyModel model)
+        public async Task<CompanyDto> CreateCompany(CompanyModel model)
         {
-            if (!model.IsValid)
-            {
-                throw new ArgumentException("Model is invalid");
-            }
+            new CompanyValidator().ValidateAndThrow(model);
 
             var company = await context.Companies.SingleOrDefaultAsync(c => c.Name == model.Name);
             if (company != null)
@@ -40,7 +40,15 @@ namespace QueR.BLL.Services.Company
             context.Companies.Add(company);
             await context.SaveChangesAsync();
 
-            return company.Id;
+            return new CompanyDto
+            {
+                Name = company.Name,
+                Address = company.MailingAddress,
+                Id = company.Id,
+                AdminName = "-",
+                NumberOfSites = 0,
+                NumberOfEmployees = 0
+            };
         }
 
         public async Task AssignAdminToCompany(int companyId, int adminId)
@@ -70,11 +78,23 @@ namespace QueR.BLL.Services.Company
             await context.SaveChangesAsync();
         }
 
-        public IEnumerable<Domain.Entities.Company> GetCompanies()
+        public async Task<IEnumerable<CompanyDto>> GetCompanies()
         {
-            return context.Companies
+            var companies = await context.Companies
                 .Include(c => c.Administrator)
-                .Include(c => c.Sites);
+                .Include(c => c.Sites)
+                .Include(c => c.Users)
+                .ToListAsync();
+            return companies
+                .Select(c => new CompanyDto
+                {
+                    Name = c.Name,
+                    Address = c.MailingAddress,
+                    Id = c.Id,
+                    AdminName = c.Administrator != null ? c.Administrator.UserName : "-",
+                    NumberOfSites = c.Sites.Count,
+                    NumberOfEmployees = c.Users.Count
+                });
         }
 
         public async Task RemoveAdminOfCompany(int companyId)
@@ -88,10 +108,7 @@ namespace QueR.BLL.Services.Company
 
         public async Task UpdateCompany(int companyId, CompanyModel model)
         {
-            if (!model.IsValid)
-            {
-                throw new ArgumentException("Model is invalid");
-            }
+            new CompanyValidator().ValidateAndThrow(model);
 
             var company = (await context.Companies.Include(c => c.Administrator).FirstOrDefaultAsync(u => u.Id == companyId))
                 ?? throw new KeyNotFoundException($"Company not found with an id of {companyId}");

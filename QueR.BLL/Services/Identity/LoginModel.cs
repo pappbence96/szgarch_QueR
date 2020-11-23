@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using FluentValidation;
+using Newtonsoft.Json;
 
 namespace QueR.BLL.Services.Identity
 {
@@ -6,7 +7,14 @@ namespace QueR.BLL.Services.Identity
     {
         public string Username { get; set; }
         public string Password { get; set; }
-        [JsonIgnore]
-        public bool Valid { get => !string.IsNullOrWhiteSpace(Password) && !string.IsNullOrWhiteSpace(Username); }
+    }
+
+    public class LoginModelValidator : AbstractValidator<LoginModel>
+    {
+        public LoginModelValidator()
+        {
+            RuleFor(m => m.Username).NotEmpty().WithMessage("Username must not be empty.");
+            RuleFor(m => m.Password).NotEmpty().WithMessage("Password must not be empty.");
+        }
     }
 }

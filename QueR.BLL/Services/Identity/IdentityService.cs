@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using FluentValidation;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.IdentityModel.Tokens;
 using QueR.DAL;
 using QueR.Domain.Entities;
@@ -26,10 +27,7 @@ namespace QueR.BLL.Services.Identity
 
         public async Task<LoginResponse> CreateTokenForUser(LoginModel model)
         {
-            if (model == null || !model.Valid)
-            {
-                throw new ArgumentException("Login model is null.");
-            }
+            new LoginModelValidator().ValidateAndThrow(model);
 
             var user = (await userManager.FindByNameAsync(model.Username))
                 ?? throw new ArgumentException("This user does not exist.");
