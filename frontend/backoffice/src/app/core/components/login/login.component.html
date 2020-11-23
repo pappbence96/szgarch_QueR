@@ -16,6 +16,10 @@
                 </mat-error>
             </mat-form-field>
                 
+            <div class="alert alert-warning" role="alert" #loginError *ngIf="error">
+                {{error}}
+            </div>
+
             <div class="form-group d-flex flex-column justify-content-between align-items-center">
                 <button [disabled]="loading" mat-raised-button color="primary">
                     <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>

@@ -43,7 +43,7 @@ export class CompaniesPageComponent implements OnInit {
     const model = new CompanyModel({name: this.selected.name, address: this.selected.address});
     if (this.isNew){
       this.companiesClient.createCompany(model)
-        .subscribe(_ => {
+        .subscribe(() => {
           console.log('Company created');
           this.selected.adminName = '-';
           this.selected.numberOfSites = 0;
@@ -58,7 +58,7 @@ export class CompaniesPageComponent implements OnInit {
         });
     } else {
       this.companiesClient.updateCompany(this.selected.id, model)
-        .subscribe(_ => {
+        .subscribe(() => {
           console.log('Company saved');
         },
         error => {

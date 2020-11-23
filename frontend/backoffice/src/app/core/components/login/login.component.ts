@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators, AbstractControl } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { first } from 'rxjs/operators';
+import { ErrorDetails } from 'src/app/shared/clients';
 import { AuthService } from 'src/app/shared/utilities/AuthService';
 
 @Component({
@@ -59,7 +60,8 @@ export class LoginComponent implements OnInit {
         },
         error => {
           this.loading = false;
-          this.error = error;
+          console.log(error);
+          this.error = error.message;
         }
       );
   }
