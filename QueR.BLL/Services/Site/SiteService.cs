@@ -24,6 +24,21 @@ namespace QueR.BLL.Services.Site
             this.userAccessor = userAccessor;
         }
 
+        private async Task<bool> IsCallerCurrentAdministrator()
+        {
+            var callerCompanyId = userAccessor.CompanyId;
+            var company = (await context.Companies.FirstOrDefaultAsync(u => u.Id == callerCompanyId))
+                   ?? throw new KeyNotFoundException($"Company not found with an id of {callerCompanyId}");
+            if (!company.AdministratorId.HasValue || (company.AdministratorId.HasValue && company.AdministratorId != userAccessor.UserId))
+            {
+                return false;
+            }
+            else
+            {
+                return true;
+            }
+        }
+
         public async Task AssignManagerToSite(int siteId, int managerId)
         {
             var manager = (await context.Users.Include(a => a.ManagedSite).FirstOrDefaultAsync(u => u.Id == managerId))
@@ -32,6 +47,12 @@ namespace QueR.BLL.Services.Site
                 ?? throw new KeyNotFoundException($"Site not found with an id of {siteId}");
 
             var callerCompanyId = userAccessor.CompanyId;
+
+            if (!await IsCallerCurrentAdministrator())
+            {
+                throw new InvalidOperationException("Only the current administrator can make changes");
+            }
+
             if (manager.CompanyId != callerCompanyId || site.CompanyId != callerCompanyId)
             {
                 throw new InvalidOperationException("Manager or site is not part of the company.");
@@ -65,6 +86,11 @@ namespace QueR.BLL.Services.Site
                 ?? throw new KeyNotFoundException($"Site not found with an id of {siteId}");
 
             var callerCompanyId = userAccessor.CompanyId;
+            
+            if (!await IsCallerCurrentAdministrator())
+            {
+                throw new InvalidOperationException("Only the current administrator can make changes");
+            }
 
             if (employee.CompanyId != callerCompanyId || site.CompanyId != callerCompanyId)
             {
@@ -94,6 +120,12 @@ namespace QueR.BLL.Services.Site
         public async Task<int> CreateSite(SiteModel model)
         {
             var callerCompanyId = userAccessor.CompanyId;
+            
+            if (!await IsCallerCurrentAdministrator())
+            {
+                throw new InvalidOperationException("Only the current administrator can make changes");
+            }
+
             if (!model.IsValid)
             {
                 throw new ArgumentException("Model is invalid");
@@ -120,6 +152,12 @@ namespace QueR.BLL.Services.Site
         public async Task<IEnumerable<Domain.Entities.Site>> GetSites()
         {
             var callerCompanyId = userAccessor.CompanyId;
+           
+            if (!await IsCallerCurrentAdministrator())
+            {
+                throw new InvalidOperationException("Only the current administrator can view statistics");
+            }
+
             var sites = await context.Sites
                 .Include(c => c.Manager)
                 .Include(c => c.Employees)
@@ -134,6 +172,11 @@ namespace QueR.BLL.Services.Site
                 ?? throw new KeyNotFoundException($"Site not found with an id of {siteId}");
 
             var callerCompanyId = userAccessor.CompanyId;
+
+            if(!await IsCallerCurrentAdministrator())
+            {
+                throw new InvalidOperationException("Only the current administrator can view statistics");
+            }
 
             if(site.CompanyId != callerCompanyId)
             {
@@ -150,13 +193,18 @@ namespace QueR.BLL.Services.Site
             
             var callerCompanyId = userAccessor.CompanyId;
 
+            if (!await IsCallerCurrentAdministrator())
+            {
+                throw new InvalidOperationException("Only the current administrator can make changes");
+            }
+
             if (site.CompanyId != callerCompanyId)
             {
                 throw new InvalidOperationException("Site is not part of the company");
             }
-            var manager = site.Manager;
+
             site.Manager = null;
-            await userManager.RemoveFromRoleAsync(manager, "manager");
+            
             await context.SaveChangesAsync();
         }
 
@@ -166,6 +214,10 @@ namespace QueR.BLL.Services.Site
                    ?? throw new KeyNotFoundException($"Employee not found with an id of {employeeId}");
 
             var callerCompanyId = userAccessor.CompanyId;
+            if (!await IsCallerCurrentAdministrator())
+            {
+                throw new InvalidOperationException("Only the current administrator can make changes");
+            }
 
             if (!await userManager.IsInRoleAsync(employee, "employee"))
             {
@@ -192,6 +244,10 @@ namespace QueR.BLL.Services.Site
                 ?? throw new KeyNotFoundException($"Site not found with an id of {siteId}");
             
             var callerCompanyId = userAccessor.CompanyId;
+            if (!await IsCallerCurrentAdministrator())
+            {
+                throw new InvalidOperationException("Only the current manager can make changes");
+            }
 
             if (site.CompanyId != callerCompanyId)
             {

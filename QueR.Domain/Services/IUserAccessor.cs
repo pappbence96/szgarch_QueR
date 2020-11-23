@@ -4,5 +4,6 @@
     {
         int UserId { get; }
         int? CompanyId { get; }
+        int? WorksiteId { get; }
     }
 }
