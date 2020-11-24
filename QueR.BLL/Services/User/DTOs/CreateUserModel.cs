@@ -2,9 +2,9 @@
 using Newtonsoft.Json;
 using QueR.Domain;
 
-namespace QueR.BLL.Services.User
+namespace QueR.BLL.Services.User.DTOs
 {
-    public class UserModel
+    public class CreateUserModel
     {
         public string UserName { get; set; }
         public string Email { get; set; }
@@ -14,54 +14,36 @@ namespace QueR.BLL.Services.User
         public string Password { get; set; }
         public int? CompanyId { get; set; }
         public Gender Gender { get; set; }
-        
-        [JsonIgnore]
-        public bool IsValidWorker {
-            get =>
-                IsValidUser &&
-                !string.IsNullOrWhiteSpace(FirstName) &&
-                !string.IsNullOrWhiteSpace(LastName) &&
-                !string.IsNullOrWhiteSpace(Address) &&
-                !string.IsNullOrWhiteSpace(Gender.ToString());
-        }
 
-        [JsonIgnore]
-        public bool IsValidUser
-        {
-            get =>
-                !string.IsNullOrWhiteSpace(UserName) &&
-                !string.IsNullOrWhiteSpace(Email);
-        }
 
-        [JsonIgnore]
-        public bool IsValidPassword
-        {
-            get =>
-                !string.IsNullOrWhiteSpace(Password);
-        }
     }
 
-    public class UserValidator: AbstractValidator<UserModel>
+    public class UserValidator : AbstractValidator<CreateUserModel>
     {
         public UserValidator()
         {
             RuleFor(u => u.UserName).NotEmpty().WithMessage("Username must not be empty.");
+            RuleFor(u => u.UserName).MaximumLength(30).WithMessage("Username must not be longer than 30 characters");
             RuleFor(u => u.Email).NotEmpty().WithMessage("Email must not be empty.");
+            RuleFor(u => u.Email).EmailAddress().WithMessage("Email must be a valid email address.");
         }
     }
 
-    public class WorkerValidator: AbstractValidator<UserModel>
+    public class WorkerValidator : AbstractValidator<CreateUserModel>
     {
         public WorkerValidator()
         {
             Include(new UserValidator());
             RuleFor(u => u.FirstName).NotEmpty().WithMessage("First name must not be empty.");
+            RuleFor(u => u.FirstName).MaximumLength(30).WithMessage("First name must not be longer than 30 characters");
             RuleFor(u => u.LastName).NotEmpty().WithMessage("Last name must not be empty.");
+            RuleFor(u => u.LastName).MaximumLength(30).WithMessage("Last name must not be longer than 30 characters");
             RuleFor(u => u.Address).NotEmpty().WithMessage("Address must not be empty.");
+            RuleFor(u => u.Address).MinimumLength(5).MaximumLength(75).WithMessage("Address must be between 5 and 75 characters");
         }
     }
 
-    public class PasswordValidator: AbstractValidator<UserModel>
+    public class PasswordValidator : AbstractValidator<CreateUserModel>
     {
         public PasswordValidator()
         {

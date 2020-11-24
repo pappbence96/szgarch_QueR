@@ -1,5 +1,9 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using AutoMapper;
+using FluentValidation;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using QueR.BLL.Services.Site.DTOs;
+using QueR.BLL.Services.User.DTOs;
 using QueR.DAL;
 using QueR.Domain.Entities;
 using QueR.Domain.Services;
@@ -16,12 +20,14 @@ namespace QueR.BLL.Services.Site
         private readonly AppDbContext context;
         private readonly UserManager<ApplicationUser> userManager;
         private readonly IUserAccessor userAccessor;
+        private readonly IMapper mapper;
 
-        public SiteService(AppDbContext context, UserManager<ApplicationUser> userManager, IUserAccessor userAccessor)
+        public SiteService(AppDbContext context, UserManager<ApplicationUser> userManager, IUserAccessor userAccessor, IMapper mapper)
         {
             this.context = context;
             this.userManager = userManager;
             this.userAccessor = userAccessor;
+            this.mapper = mapper;
         }
 
         private async Task<bool> IsCallerCurrentAdministrator()
@@ -117,7 +123,7 @@ namespace QueR.BLL.Services.Site
             await context.SaveChangesAsync();
         }
 
-        public async Task<int> CreateSite(SiteModel model)
+        public async Task<SiteDto> CreateSite(SiteModel model)
         {
             var callerCompanyId = userAccessor.CompanyId;
             
@@ -126,10 +132,7 @@ namespace QueR.BLL.Services.Site
                 throw new InvalidOperationException("Only the current administrator can make changes");
             }
 
-            if (!model.IsValid)
-            {
-                throw new ArgumentException("Model is invalid");
-            }
+            new SiteValidator().ValidateAndThrow(model);
 
             if (await context.Sites.AnyAsync(c => c.Name == model.Name))
             {
@@ -146,10 +149,10 @@ namespace QueR.BLL.Services.Site
             context.Sites.Add(site);
             await context.SaveChangesAsync();
 
-            return site.Id;
+            return mapper.Map<SiteDto>(site);
         }
 
-        public async Task<IEnumerable<Domain.Entities.Site>> GetSites()
+        public async Task<IEnumerable<SiteDto>> GetSites()
         {
             var callerCompanyId = userAccessor.CompanyId;
            
@@ -163,10 +166,10 @@ namespace QueR.BLL.Services.Site
                 .Include(c => c.Employees)
                 .Where(u => u.CompanyId == callerCompanyId)
                 .ToListAsync();
-            return sites;
+            return mapper.Map<IEnumerable<SiteDto>>(sites);
         }
 
-        public async Task<IEnumerable<Domain.Entities.ApplicationUser>> GetEmployeesOfSite(int siteId)
+        public async Task<IEnumerable<ApplicationUserDto>> GetEmployeesOfSite(int siteId)
         {
             var site = (await context.Sites.Include(c => c.Employees).FirstOrDefaultAsync(u => u.Id == siteId))
                 ?? throw new KeyNotFoundException($"Site not found with an id of {siteId}");
@@ -182,8 +185,8 @@ namespace QueR.BLL.Services.Site
             {
                 throw new InvalidOperationException("Site is not part of the company");
             }
-
-            return site.Employees;
+            return mapper.Map<IEnumerable<ApplicationUserDto>>(site.Employees);
+            // return site.Employees;
         }
 
         public async Task RemoveManagerFromSite(int siteId)
@@ -248,6 +251,8 @@ namespace QueR.BLL.Services.Site
             {
                 throw new InvalidOperationException("Only the current manager can make changes");
             }
+
+            new SiteValidator().ValidateAndThrow(model);
 
             if (site.CompanyId != callerCompanyId)
             {

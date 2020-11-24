@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace QueR.Application.DTOs
+namespace QueR.BLL.Services.Company.DTOs
 {
     public class CompanyDto
     {
@@ -17,11 +17,11 @@ namespace QueR.Application.DTOs
         public int NumberOfEmployees { get; internal set; }
     }
 
-    public class CompanyDtoProfile: Profile
+    public class CompanyDtoProfile : Profile
     {
         public CompanyDtoProfile()
         {
-            CreateMap<Company, CompanyDto>()
+            CreateMap<Domain.Entities.Company, CompanyDto>()
                 .ForMember(dest => dest.Address, opt => opt.MapFrom(src => src.MailingAddress))
                 .ForMember(dest => dest.AdminName, opt => opt.MapFrom(src => src.Administrator != null ? src.Administrator.UserName : "-"))
                 .ForMember(dest => dest.NumberOfSites, opt => opt.MapFrom(src => src.Sites.Count))
