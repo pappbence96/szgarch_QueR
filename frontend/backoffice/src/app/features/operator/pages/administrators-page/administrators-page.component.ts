@@ -6,6 +6,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { filter, switchMap } from 'rxjs/operators';
 import { ApplicationUserDto, CompaniesClient, CompanyDto, CreateUserModel, ErrorDetails, Gender, UpdateUserModel, UsersClient } from 'src/app/shared/clients';
 import { ConfirmDialogComponent } from 'src/app/shared/components/confirm-dialog/confirm-dialog.component';
+import { SnackbarService } from 'src/app/shared/utilities/Snackbar.service';
 
 @Component({
   selector: 'app-administrators-page',
@@ -26,9 +27,9 @@ export class AdministratorsPageComponent implements OnInit {
   constructor(
     private companiesClient: CompaniesClient,
     private userClient: UsersClient,
-    private snackBarRef: MatSnackBar,
     private formBuilder: FormBuilder,
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    private snackbar: SnackbarService
   ) {
     userClient.getAdmins().subscribe(data => {
       this.admins = data;
@@ -36,13 +37,13 @@ export class AdministratorsPageComponent implements OnInit {
       this.setFilter();
     },
     (error: ErrorDetails) => {
-      this.snackBarRef.open(error.message, 'Close');
+      snackbar.showSnackbar(error.message);
     });
     companiesClient.getCompanies().subscribe(data => {
       this.companies = data;
     },
     (error: ErrorDetails) => {
-      this.snackBarRef.open(error.message, 'Close');
+      snackbar.showSnackbar(error.message);
     });
   }
 
@@ -86,6 +87,7 @@ export class AdministratorsPageComponent implements OnInit {
       this.userClient.createAdmin(model)
         .subscribe(created => {
           console.log('Admin created');
+          this.snackbar.showSnackbar('Administrator created');
           this.admins.push(created);
           this.dataSource = new MatTableDataSource<ApplicationUserDto>(this.admins);
           this.isNew = false;
@@ -93,7 +95,7 @@ export class AdministratorsPageComponent implements OnInit {
           this.setFilter();
         },
         (error: ErrorDetails) => {
-          this.snackBarRef.open(error.message, 'Close');
+          this.snackbar.showSnackbar(error.message);
         });
     } else {
       const model = new UpdateUserModel ({
@@ -107,6 +109,7 @@ export class AdministratorsPageComponent implements OnInit {
       this.userClient.updateAdmin(this.selected.id, model)
         .subscribe(() => {
           console.log('Admin saved');
+          this.snackbar.showSnackbar('Administrator updated');
           const updated = this.admins.find((item: ApplicationUserDto) => item.id === this.selected.id);
           updated.firstName = this.adminForm.value.firstName;
           updated.lastName = this.adminForm.value.lastName;
@@ -115,7 +118,7 @@ export class AdministratorsPageComponent implements OnInit {
           updated.gender = this.adminForm.value.gender;
         },
         (error: ErrorDetails) => {
-          this.snackBarRef.open(error.message, 'Close');
+          this.snackbar.showSnackbar(error.message);
         });
     }
   }
@@ -147,11 +150,12 @@ export class AdministratorsPageComponent implements OnInit {
       switchMap(() => this.companiesClient.assignAdminToCompany(this.selectedCompanyId, this.selected.id))
       ).subscribe(() => {
         console.log('Assign successful');
+        this.snackbar.showSnackbar('Administrator successfully assigned to company');
         const updated = this.admins.find((item: ApplicationUserDto) => item.id === this.selected.id);
         updated.administratedCompany = this.companies.find((c: CompanyDto) => c.id === this.selectedCompanyId).name;
       },
       (error: ErrorDetails) => {
-        this.snackBarRef.open(error.message, 'Close');
+        this.snackbar.showSnackbar(error.message);
       });
   }
 
@@ -163,12 +167,13 @@ export class AdministratorsPageComponent implements OnInit {
       switchMap(() => this.companiesClient.removeAdminOfCompany(this.selectedCompanyId))
       ).subscribe(() => {
         console.log('Remove successful');
+        this.snackbar.showSnackbar('Administrator successfully removed from company');
         const updated = this.admins.find((item: ApplicationUserDto) => item.id === this.selected.id);
         updated.administratedCompany = '-';
         this.selectedCompanyId = null;
       },
       (error: ErrorDetails) => {
-        this.snackBarRef.open(error.message, 'Close');
+        this.snackbar.showSnackbar(error.message);
       });
   }
 

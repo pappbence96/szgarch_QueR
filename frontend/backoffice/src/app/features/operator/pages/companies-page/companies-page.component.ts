@@ -6,6 +6,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { filter, switchMap } from 'rxjs/operators';
 import { CompaniesClient, CompanyDto, CompanyModel, ErrorDetails } from 'src/app/shared/clients';
 import { ConfirmDialogComponent } from 'src/app/shared/components/confirm-dialog/confirm-dialog.component';
+import { SnackbarService } from 'src/app/shared/utilities/Snackbar.service';
 
 @Component({
   selector: 'app-companies-page',
@@ -23,9 +24,9 @@ export class CompaniesPageComponent implements OnInit {
 
   constructor(
     private companiesClient: CompaniesClient,
-    private snackBarRef: MatSnackBar,
     private formBuilder: FormBuilder,
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    private snackbar: SnackbarService
   ) {
     companiesClient.getCompanies().subscribe(data => {
       this.companies = data;
@@ -33,7 +34,7 @@ export class CompaniesPageComponent implements OnInit {
       this.setFilter();
     },
     (error: ErrorDetails) => {
-      this.snackBarRef.open(error.message, 'Close');
+      this.snackbar.showSnackbar(error.message);
     });
   }
 
@@ -62,6 +63,7 @@ export class CompaniesPageComponent implements OnInit {
       this.companiesClient.createCompany(model)
         .subscribe(created => {
           console.log('Company created');
+          this.snackbar.showSnackbar('Company created');
           this.companies.push(created);
           this.dataSource = new MatTableDataSource<CompanyDto>(this.companies);
           this.isNew = false;
@@ -69,18 +71,19 @@ export class CompaniesPageComponent implements OnInit {
           this.setFilter();
         },
         (error: ErrorDetails) => {
-          this.snackBarRef.open(error.message, 'Close');
+          this.snackbar.showSnackbar(error.message);
         });
     } else {
       this.companiesClient.updateCompany(this.selected.id, model)
         .subscribe(() => {
-          console.log('Company saved');
+          console.log('Company updated');
+          this.snackbar.showSnackbar('Company updated');
           const updated = this.companies.find((item: CompanyDto) => item.id === this.selected.id);
           updated.name = this.companyForm.value.name;
           updated.address = this.companyForm.value.address;
         },
         (error: ErrorDetails) => {
-          this.snackBarRef.open(error.message, 'Close');
+          this.snackbar.showSnackbar(error.message);
         });
     }
   }
@@ -106,11 +109,11 @@ export class CompaniesPageComponent implements OnInit {
       filter((result) => result),
       switchMap(() => this.companiesClient.removeAdminOfCompany(companyId))
       ).subscribe( () => {
-        this.snackBarRef.open('Administrator succesfully removed from company.', 'Close');
+        this.snackbar.showSnackbar('Administrator successfully removed.');
         this.companies.find((company) => company.id === companyId).adminName = '-';
       },
       (error: ErrorDetails) => {
-        this.snackBarRef.open(error.message, 'Close');
+        this.snackbar.showSnackbar(error.message);
       });
   }
 
