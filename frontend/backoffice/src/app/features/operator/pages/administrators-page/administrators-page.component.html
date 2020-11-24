@@ -1,3 +1,131 @@
-<p>
-  administrators-page works!
-</p>
+
+<h1 class="mat-display-1 page-header">
+  Administrator management page
+</h1>
+
+<div class="page-content d-flex flex-row justify-content-center">
+  <div class="d-flex flex-column align-items-stretch screen-column ">
+    <button mat-raised-button color="primary" (click)="onNew()">Add new administrator</button>
+    <mat-form-field class="search-box">
+      <mat-label>Search aministrators</mat-label>
+      <input matInput placeholder="Administrator name" (input)="onSearchChange($event.target.value)">
+    </mat-form-field>
+
+    <table mat-table [(dataSource)]="dataSource" class="mat-elevation-z8" >
+      <ng-container matColumnDef="userName">
+        <th mat-header-cell *matHeaderCellDef> Username </th>
+        <td mat-cell *matCellDef="let element"> {{element.userName}} </td>
+      </ng-container>
+      <ng-container matColumnDef="firstName">
+        <th mat-header-cell *matHeaderCellDef> First name </th>
+        <td mat-cell *matCellDef="let element"> {{element.firstName}} </td>
+      </ng-container>
+      <ng-container matColumnDef="lastName">
+        <th mat-header-cell *matHeaderCellDef> Last Name </th>
+        <td mat-cell *matCellDef="let element"> {{element.lastName}} </td>
+      </ng-container>
+      <ng-container matColumnDef="email">
+        <th mat-header-cell *matHeaderCellDef> Email </th>
+        <td mat-cell *matCellDef="let element"> {{element.email}} </td>
+      </ng-container>
+      <ng-container matColumnDef="gender">
+        <th mat-header-cell *matHeaderCellDef> Gender </th>
+        <td mat-cell *matCellDef="let element"> {{element.gender}} </td>
+      </ng-container>
+      <ng-container matColumnDef="address">
+        <th mat-header-cell *matHeaderCellDef> Address </th>
+        <td mat-cell *matCellDef="let element"> {{element.address}} </td>
+      </ng-container>
+      <ng-container matColumnDef="administratedCompany">
+        <th mat-header-cell *matHeaderCellDef> Company </th>
+        <td mat-cell *matCellDef="let element"> {{element.administratedCompany}} </td>
+      </ng-container>
+      <tr mat-header-row *matHeaderRowDef="columnsToDisplay"></tr>
+      <tr mat-row *matRowDef="let row; columns: columnsToDisplay;" (click)="selectRow(row)"></tr>
+    </table>
+  </div> 
+
+  <div class="screen-column">
+    <mat-card class="mat-elevation-z8">
+      <mat-card-header>
+        <mat-card-title>Administrator details</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <p *ngIf="!selected">Select an administrator to edit or create a new one</p>
+        <form *ngIf="selected" [formGroup]="adminForm" (ngSubmit)="onSubmit()">
+          <mat-form-field class="full-width-input">
+            <mat-label>Username</mat-label>
+            <input matInput formControlName="userName" required>
+            <mat-error>
+              Username can not be empty.
+            </mat-error>
+          </mat-form-field>
+          <mat-form-field class="full-width-input">
+            <mat-label>First name</mat-label>
+            <input matInput formControlName="firstName" required>
+            <mat-error>
+              First name can not be empty.
+            </mat-error>
+          </mat-form-field>
+          <mat-form-field class="full-width-input">
+            <mat-label>Last name</mat-label>
+            <input matInput formControlName="lastName" required>
+            <mat-error>
+              Last name can not be empty.
+            </mat-error>
+          </mat-form-field>
+          <mat-form-field class="full-width-input">
+            <mat-label>Email</mat-label>
+            <input matInput formControlName="email" required>
+            <mat-error>
+              Email address can not be empty.
+            </mat-error>
+          </mat-form-field>
+          <mat-form-field class="full-width-input">
+            <mat-label>Gender</mat-label>
+            <mat-select formControlName="gender" required>
+              <mat-option value="Male">Male</mat-option>
+              <mat-option value="Female">Female</mat-option>
+              <mat-option value="Other">Other</mat-option>
+            </mat-select>
+          </mat-form-field>
+          <mat-form-field class="full-width-input">
+            <mat-label>Address</mat-label>
+            <input matInput formControlName="address" required>
+            <mat-error>
+              Address can not be empty.
+            </mat-error>
+          </mat-form-field>
+          <mat-form-field class="full-width-input" *ngIf="isNew">
+            <mat-label>Password</mat-label>
+            <input matInput formControlName="password" required type="password">
+            <mat-error>
+              Password can not be empty.
+            </mat-error>
+          </mat-form-field>
+          <button *ngIf="selected" mat-raised-button color="primary" class="form-btn">Save</button>
+        </form>
+      </mat-card-content>
+    </mat-card>
+
+    <mat-card class="mat-elevation-z8 bottom-card">
+      <mat-card-header>
+        <mat-card-title>Company</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <p *ngIf="!selected || isNew">Select an administrator to assign to a company</p>
+        <mat-form-field appearance="fill" class="full-width-input" *ngIf="selected && !isNew">
+          <mat-label>Select</mat-label>
+          <mat-select [(ngModel)]="selectedCompanyId">
+            <mat-option *ngFor="let c of companies" 
+              [value]="c.id">
+              {{c.name}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+        <button *ngIf="selected && !isNew" mat-raised-button color="primary" class="form-btn" (click)="assingToCompany()" [disabled]="!selectedCompanyId">Assign</button>
+        <button *ngIf="selected && !isNew" mat-raised-button color="primary" class="form-btn" (click)="removeFromCompany()" [disabled]="!selectedCompanyId">Remove</button>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>

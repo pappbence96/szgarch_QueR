@@ -1039,6 +1039,10 @@
             "type": "integer",
             "format": "int32"
           },
+          "userName": {
+            "type": "string",
+            "nullable": true
+          },
           "firstName": {
             "type": "string",
             "nullable": true

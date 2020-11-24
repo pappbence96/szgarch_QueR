@@ -1668,6 +1668,7 @@ export interface ISiteModel {
 
 export class ApplicationUserDto implements IApplicationUserDto {
     id?: number;
+    userName?: string | undefined;
     firstName?: string | undefined;
     lastName?: string | undefined;
     email?: string | undefined;
@@ -1690,6 +1691,7 @@ export class ApplicationUserDto implements IApplicationUserDto {
     init(_data?: any) {
         if (_data) {
             this.id = _data["id"];
+            this.userName = _data["userName"];
             this.firstName = _data["firstName"];
             this.lastName = _data["lastName"];
             this.email = _data["email"];
@@ -1712,6 +1714,7 @@ export class ApplicationUserDto implements IApplicationUserDto {
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
         data["id"] = this.id;
+        data["userName"] = this.userName;
         data["firstName"] = this.firstName;
         data["lastName"] = this.lastName;
         data["email"] = this.email;
@@ -1727,6 +1730,7 @@ export class ApplicationUserDto implements IApplicationUserDto {
 
 export interface IApplicationUserDto {
     id?: number;
+    userName?: string | undefined;
     firstName?: string | undefined;
     lastName?: string | undefined;
     email?: string | undefined;
