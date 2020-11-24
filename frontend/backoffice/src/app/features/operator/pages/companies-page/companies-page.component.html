@@ -22,7 +22,14 @@
       </ng-container>
       <ng-container matColumnDef="adminName">
         <th mat-header-cell *matHeaderCellDef> Administrator </th>
-        <td mat-cell *matCellDef="let element"> {{element.adminName}} </td>
+        <td mat-cell *matCellDef="let element"> 
+          <div class="table-row">
+            {{element.adminName}} 
+            <button *ngIf="element.adminName !== '-'" mat-icon-button color="warn" aria-label="Delete admin button" (click)="removeAdmin(element.id)">
+              <mat-icon>delete</mat-icon>
+            </button>
+          </div>
+        </td>
       </ng-container>
       <ng-container matColumnDef="numberOfSites">
         <th mat-header-cell *matHeaderCellDef> # sites </th>
@@ -58,7 +65,11 @@
             Company address can not be empty.
           </mat-error>
         </mat-form-field>
-        <button *ngIf="selected" mat-raised-button color="primary" [disabled]="companyForm.invalid">Save</button>
+        <mat-form-field class="full-width-input" disabled>
+          <mat-label>Administrator</mat-label>
+          <input matInput formControlName="adminName">
+        </mat-form-field>
+        <button *ngIf="selected" mat-raised-button color="primary" [disabled]="companyForm.invalid" class="form-btn">Save</button>
       </form>
     </mat-card-content>
   </mat-card>

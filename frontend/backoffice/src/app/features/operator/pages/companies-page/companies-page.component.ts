@@ -1,8 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatTableDataSource } from '@angular/material/table';
+import { filter, switchMap } from 'rxjs/operators';
 import { CompaniesClient, CompanyDto, CompanyModel, ErrorDetails } from 'src/app/shared/clients';
+import { ConfirmDialogComponent } from 'src/app/shared/components/confirm-dialog/confirm-dialog.component';
 
 @Component({
   selector: 'app-companies-page',
@@ -21,7 +24,8 @@ export class CompaniesPageComponent implements OnInit {
   constructor(
     private companiesClient: CompaniesClient,
     private snackBarRef: MatSnackBar,
-    private formBuilder: FormBuilder
+    private formBuilder: FormBuilder,
+    private dialog: MatDialog
   ) {
     companiesClient.getCompanies().subscribe(data => {
       this.companies = data;
@@ -42,7 +46,8 @@ export class CompaniesPageComponent implements OnInit {
 
     this.companyForm = this.formBuilder.group({
       name: [this.selected.name, Validators.required],
-      address: [this.selected.address, Validators.required]
+      address: [this.selected.address, Validators.required],
+      adminName: [{ value: this.selected.adminName, disabled: true}]
     });
   }
 
@@ -94,9 +99,24 @@ export class CompaniesPageComponent implements OnInit {
     this.dataSource.filter = searchValue;
   }
 
+  removeAdmin(companyId: number): void {
+    const dialogRef = this.dialog.open(ConfirmDialogComponent);
+
+    dialogRef.afterClosed().pipe(
+      filter((result) => result),
+      switchMap(() => this.companiesClient.removeAdminOfCompany(companyId))
+      ).subscribe( () => {
+        this.snackBarRef.open('Administrator succesfully removed from company.', 'Close');
+        this.companies.find((company) => company.id === companyId).adminName = '-';
+      },
+      (error: ErrorDetails) => {
+        this.snackBarRef.open(error.message, 'Close');
+      });
+  }
+
   private setFilter(): void {
-    this.dataSource.filterPredicate = (company: CompanyDto, filter: string) => {
-      return company.name.toLowerCase().indexOf(filter.toLocaleLowerCase()) === 0;
+    this.dataSource.filterPredicate = (company: CompanyDto, filterText: string) => {
+      return company.name.toLowerCase().indexOf(filterText.toLocaleLowerCase()) === 0;
     };
   }
 }

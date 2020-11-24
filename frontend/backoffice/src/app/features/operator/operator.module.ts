@@ -13,6 +13,8 @@ import {MatSortModule} from '@angular/material/sort';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import {MatSnackBarModule} from '@angular/material/snack-bar';
 import {MatIconModule} from '@angular/material/icon';
+import {MatDialogModule} from '@angular/material/dialog';
+import { SharedModule } from 'src/app/shared/shared.module';
 
 @NgModule({
   imports: [
@@ -27,7 +29,9 @@ import {MatIconModule} from '@angular/material/icon';
     FormsModule,
     MatSnackBarModule,
     ReactiveFormsModule,
-    MatIconModule
+    MatIconModule,
+    MatDialogModule,
+    SharedModule
   ],
   declarations: [
     OperatorMenuPageComponent,
