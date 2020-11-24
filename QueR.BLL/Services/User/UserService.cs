@@ -153,26 +153,36 @@ namespace QueR.BLL.Services.User
 
         public async Task<IEnumerable<ApplicationUserDto>> GetAdministrators()
         {
-            var administrators = await userManager.GetUsersInRoleAsync("administrator");
-            return mapper.Map<IEnumerable<ApplicationUserDto>>(administrators);
+            return await GetUsersInRole("administrator");
         }
 
         public async Task<IEnumerable<ApplicationUserDto>> GetManagers()
         {
-            var managers = await userManager.GetUsersInRoleAsync("manager");
-            return mapper.Map<IEnumerable<ApplicationUserDto>>(managers);
+            return await GetUsersInRole("manager");
         }
 
         public async Task<IEnumerable<ApplicationUserDto>> GetEmployees()
         {
-            var employees = await userManager.GetUsersInRoleAsync("employee");
-            return mapper.Map<IEnumerable<ApplicationUserDto>>(employees);
+            return await GetUsersInRole("employee");
         }
 
         public async Task<IEnumerable<ApplicationUserDto>> GetSimpleUsers()
         {
-            var users = await userManager.GetUsersInRoleAsync("user");
+            return await GetUsersInRole("user");
+        }
+
+        private async Task<IEnumerable<ApplicationUserDto>> GetUsersInRole(string role)
+        {
+            var userIds = (await userManager.GetUsersInRoleAsync(role)).Select(u => u.Id);
+            var users = await context.Users
+                .Include(u => u.ManagedSite)
+                .Include(u => u.AdministratedCompany)
+                .Include(u => u.Company)
+                .Include(u => u.AssignedQueue)
+                .Where(u => userIds.Contains(u.Id))
+                .ToListAsync();
             return mapper.Map<IEnumerable<ApplicationUserDto>>(users);
+
         }
 
         public async Task UpdateAdmin(int adminId, UpdateUserModel model)
