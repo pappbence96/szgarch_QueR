@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using QueR.Application.Middlewares.ExceptionHandling;
 using QueR.BLL.Services.Site;
@@ -13,7 +14,10 @@ namespace QueR.Application.Controllers.Backoffice
     [ApiController]
     [Authorize(Roles = "administrator")]
     [ApiExplorerSettings(GroupName = "backoffice")]
-    [ProducesErrorResponseType(typeof(ErrorDetails))]
+    [ProducesResponseType(typeof(ErrorDetails), StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(typeof(ErrorDetails), StatusCodes.Status401Unauthorized)]
+    [ProducesResponseType(typeof(ErrorDetails), StatusCodes.Status403Forbidden)]
+    [ProducesResponseType(typeof(ErrorDetails), StatusCodes.Status404NotFound)]
     public class SitesController : ControllerBase
     {
         private readonly ISiteService siteService;

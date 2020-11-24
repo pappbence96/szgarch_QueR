@@ -13,7 +13,10 @@ namespace QueR.Application.Controllers.Backoffice
     [Route("api/[controller]")]
     [ApiController]
     [ApiExplorerSettings(GroupName = "backoffice")]
-    [ProducesErrorResponseType(typeof(ErrorDetails))]
+    [ProducesResponseType(typeof(ErrorDetails), StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(typeof(ErrorDetails), StatusCodes.Status401Unauthorized)]
+    [ProducesResponseType(typeof(ErrorDetails), StatusCodes.Status403Forbidden)]
+    [ProducesResponseType(typeof(ErrorDetails), StatusCodes.Status404NotFound)]
     public class UsersController : ControllerBase
     {
         private readonly IUserService userService;

@@ -13,6 +13,9 @@ namespace QueR.Application.Controllers.Backoffice
     [ApiController]
     [ApiExplorerSettings(GroupName = "backoffice")]
     [ProducesResponseType(typeof(ErrorDetails), StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(typeof(ErrorDetails), StatusCodes.Status401Unauthorized)]
+    [ProducesResponseType(typeof(ErrorDetails), StatusCodes.Status403Forbidden)]
+    [ProducesResponseType(typeof(ErrorDetails), StatusCodes.Status404NotFound)]
     public class IdentityController : ControllerBase
     {
         private readonly IIdentityService identityService;
