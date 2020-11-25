@@ -11,7 +11,7 @@ export class AuthService {
 
     constructor(identityClient: IdentityClient) {
         this.identityClient = identityClient;
-        this.currentLoginSubject = new BehaviorSubject<LoginResponse>(JSON.parse(localStorage.getItem('currentLogin')));
+        this.currentLoginSubject = new BehaviorSubject<LoginResponse>(JSON.parse(sessionStorage.getItem('currentLogin')));
         this.currentLogin = this.currentLoginSubject.asObservable();
     }
 
@@ -22,14 +22,14 @@ export class AuthService {
     login(username: string, password: string): Observable<LoginResponse> {
         return this.identityClient.login(new LoginModel({password, username}))
             .pipe(map(login => {
-                localStorage.setItem('currentLogin', JSON.stringify(login));
+                sessionStorage.setItem('currentLogin', JSON.stringify(login));
                 this.currentLoginSubject.next(login);
                 return login;
             }));
     }
 
     logout(): void {
-        localStorage.removeItem('currentLogin');
+        sessionStorage.removeItem('currentLogin');
         this.currentLoginSubject.next(null);
     }
 
@@ -55,5 +55,45 @@ export class AuthService {
         const decodedJwtJsonData = window.atob(jwtData);
         const decodedJwtData = JSON.parse(decodedJwtJsonData);
         return decodedJwtData.userName;
+    }
+
+    public get companyId(): number {
+        if (!this.isLoggedIn) {
+            return null;
+        }
+        const jwtData = this.currentLoginValue.token.split('.')[1];
+        const decodedJwtJsonData = window.atob(jwtData);
+        const decodedJwtData = JSON.parse(decodedJwtJsonData);
+        return decodedJwtData.userName;
+    }
+
+    public get managedSiteId(): number {
+        if (!this.isLoggedIn) {
+            return null;
+        }
+        const jwtData = this.currentLoginValue.token.split('.')[1];
+        const decodedJwtJsonData = window.atob(jwtData);
+        const decodedJwtData = JSON.parse(decodedJwtJsonData);
+        return decodedJwtData.managed_site;
+    }
+
+    public get worksiteId(): number {
+        if (!this.isLoggedIn) {
+            return null;
+        }
+        const jwtData = this.currentLoginValue.token.split('.')[1];
+        const decodedJwtJsonData = window.atob(jwtData);
+        const decodedJwtData = JSON.parse(decodedJwtJsonData);
+        return decodedJwtData.worksite;
+    }
+
+    public get administradeCompanyId(): number {
+        if (!this.isLoggedIn) {
+            return null;
+        }
+        const jwtData = this.currentLoginValue.token.split('.')[1];
+        const decodedJwtJsonData = window.atob(jwtData);
+        const decodedJwtData = JSON.parse(decodedJwtJsonData);
+        return decodedJwtData.administrated_company;
     }
 }

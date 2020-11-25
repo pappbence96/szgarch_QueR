@@ -5,13 +5,15 @@ import { ManagerRoutingModule } from './manager-routing.module';
 
 import {MatGridListModule} from '@angular/material/grid-list';
 import {MatCardModule} from '@angular/material/card';
+import { SharedModule } from 'src/app/shared/shared.module';
 
 @NgModule({
   imports: [
     CommonModule,
     ManagerRoutingModule,
     MatGridListModule,
-    MatCardModule
+    MatCardModule,
+    SharedModule
   ],
   declarations: [
     ManagerMenuPageComponent

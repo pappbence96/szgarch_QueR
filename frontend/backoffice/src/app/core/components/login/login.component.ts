@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators, AbstractControl } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { first } from 'rxjs/operators';
-import { ErrorDetails } from 'src/app/shared/clients';
 import { AuthService } from 'src/app/shared/utilities/AuthService';
 
 @Component({
@@ -55,8 +54,20 @@ export class LoginComponent implements OnInit {
       .pipe(first())
       .subscribe(
         data => {
+          this.loading = false;
           console.log(data);
-          this.navigatePostLogin();
+          if (this.authService.role === 'administrator' && !this.authService.administradeCompanyId) {
+            this.error = 'You are currently not assigned as the administrator of any companies. Please contact the system operator.';
+            this.authService.logout();
+          } else if (this.authService.role === 'manager' && !this.authService.managedSiteId) {
+            this.error = 'You are currently not assigned as the manager of any sites. Please contact the administrator of your company.';
+            this.authService.logout();
+          } else if (this.authService.role === 'worker' && !this.authService.worksiteId) {
+            this.error = 'You are currently not assigned to any worksites. Please contact the manager of your worksite.';
+            this.authService.logout();
+          } else {
+            this.navigatePostLogin();
+          }
         },
         error => {
           this.loading = false;
