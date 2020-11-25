@@ -93,7 +93,8 @@ export class CompaniesPageComponent implements OnInit {
     this.selected = new CompanyDto();
     this.companyForm = this.formBuilder.group({
       name: ['', Validators.required],
-      address: ['', Validators.required]
+      address: ['', Validators.required],
+      adminName: [{ value: '', disabled: true}]
     });
   }
 

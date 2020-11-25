@@ -2056,6 +2056,7 @@ export class CompanyDto implements ICompanyDto {
     name?: string | undefined;
     address?: string | undefined;
     adminName?: string | undefined;
+    adminId?: number | undefined;
     numberOfSites?: number;
     numberOfEmployees?: number;
 
@@ -2074,6 +2075,7 @@ export class CompanyDto implements ICompanyDto {
             this.name = _data["name"];
             this.address = _data["address"];
             this.adminName = _data["adminName"];
+            this.adminId = _data["adminId"];
             this.numberOfSites = _data["numberOfSites"];
             this.numberOfEmployees = _data["numberOfEmployees"];
         }
@@ -2092,6 +2094,7 @@ export class CompanyDto implements ICompanyDto {
         data["name"] = this.name;
         data["address"] = this.address;
         data["adminName"] = this.adminName;
+        data["adminId"] = this.adminId;
         data["numberOfSites"] = this.numberOfSites;
         data["numberOfEmployees"] = this.numberOfEmployees;
         return data; 
@@ -2103,6 +2106,7 @@ export interface ICompanyDto {
     name?: string | undefined;
     address?: string | undefined;
     adminName?: string | undefined;
+    adminId?: number | undefined;
     numberOfSites?: number;
     numberOfEmployees?: number;
 }
@@ -2228,6 +2232,7 @@ export class SiteDto implements ISiteDto {
     name?: string | undefined;
     address?: string | undefined;
     managerName?: string | undefined;
+    managerId?: number | undefined;
     numberOfEmployees?: number;
 
     constructor(data?: ISiteDto) {
@@ -2245,6 +2250,7 @@ export class SiteDto implements ISiteDto {
             this.name = _data["name"];
             this.address = _data["address"];
             this.managerName = _data["managerName"];
+            this.managerId = _data["managerId"];
             this.numberOfEmployees = _data["numberOfEmployees"];
         }
     }
@@ -2262,6 +2268,7 @@ export class SiteDto implements ISiteDto {
         data["name"] = this.name;
         data["address"] = this.address;
         data["managerName"] = this.managerName;
+        data["managerId"] = this.managerId;
         data["numberOfEmployees"] = this.numberOfEmployees;
         return data; 
     }
@@ -2272,6 +2279,7 @@ export interface ISiteDto {
     name?: string | undefined;
     address?: string | undefined;
     managerName?: string | undefined;
+    managerId?: number | undefined;
     numberOfEmployees?: number;
 }
 
@@ -2324,9 +2332,13 @@ export class ApplicationUserDto implements IApplicationUserDto {
     gender?: Gender;
     address?: string | undefined;
     assignedQueue?: string | undefined;
+    assignedQueueId?: number | undefined;
     administratedCompany?: string | undefined;
+    administratedCompanyId?: number | undefined;
     managedWorksite?: string | undefined;
+    managedWorksiteId?: number | undefined;
     company?: string | undefined;
+    companyId?: number | undefined;
 
     constructor(data?: IApplicationUserDto) {
         if (data) {
@@ -2347,9 +2359,13 @@ export class ApplicationUserDto implements IApplicationUserDto {
             this.gender = _data["gender"];
             this.address = _data["address"];
             this.assignedQueue = _data["assignedQueue"];
+            this.assignedQueueId = _data["assignedQueueId"];
             this.administratedCompany = _data["administratedCompany"];
+            this.administratedCompanyId = _data["administratedCompanyId"];
             this.managedWorksite = _data["managedWorksite"];
+            this.managedWorksiteId = _data["managedWorksiteId"];
             this.company = _data["company"];
+            this.companyId = _data["companyId"];
         }
     }
 
@@ -2370,9 +2386,13 @@ export class ApplicationUserDto implements IApplicationUserDto {
         data["gender"] = this.gender;
         data["address"] = this.address;
         data["assignedQueue"] = this.assignedQueue;
+        data["assignedQueueId"] = this.assignedQueueId;
         data["administratedCompany"] = this.administratedCompany;
+        data["administratedCompanyId"] = this.administratedCompanyId;
         data["managedWorksite"] = this.managedWorksite;
+        data["managedWorksiteId"] = this.managedWorksiteId;
         data["company"] = this.company;
+        data["companyId"] = this.companyId;
         return data; 
     }
 }
@@ -2386,9 +2406,13 @@ export interface IApplicationUserDto {
     gender?: Gender;
     address?: string | undefined;
     assignedQueue?: string | undefined;
+    assignedQueueId?: number | undefined;
     administratedCompany?: string | undefined;
+    administratedCompanyId?: number | undefined;
     managedWorksite?: string | undefined;
+    managedWorksiteId?: number | undefined;
     company?: string | undefined;
+    companyId?: number | undefined;
 }
 
 export enum Gender {

@@ -121,7 +121,7 @@
           </mat-select>
         </mat-form-field>
         <button *ngIf="selected && !isNew" mat-raised-button color="primary" class="form-btn" (click)="assingToCompany()" [disabled]="!selectedCompanyId">Assign</button>
-        <button *ngIf="selected && !isNew" mat-raised-button color="primary" class="form-btn" (click)="removeFromCompany()" [disabled]="!selectedCompanyId">Remove</button>
+        <button *ngIf="selected && !isNew" mat-raised-button color="warn" class="form-btn" (click)="removeFromCompany()" [disabled]="!selectedCompanyId">Remove</button>
       </mat-card-content>
     </mat-card>
   </div>
