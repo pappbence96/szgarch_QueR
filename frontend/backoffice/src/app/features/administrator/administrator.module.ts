@@ -9,6 +9,15 @@ import { EmployeesPageComponent } from './pages/employees-page/employees-page.co
 import { QueueTypesPageComponent } from './pages/queue-types-page/queue-types-page.component';
 import { SitesPageComponent } from './pages/sites-page/sites-page.component';
 import { SharedModule } from 'src/app/shared/shared.module';
+import { MatButtonModule } from '@angular/material/button';
+import { MatInputModule } from '@angular/material/input';
+import { MatSelectModule } from '@angular/material/select';
+import { MatTableModule } from '@angular/material/table';
+import { MatSortModule } from '@angular/material/sort';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatIconModule } from '@angular/material/icon';
+import { MatDialogModule } from '@angular/material/dialog';
 
 @NgModule({
   imports: [
@@ -16,7 +25,17 @@ import { SharedModule } from 'src/app/shared/shared.module';
     AdministratorRoutingModule,
     MatGridListModule,
     MatCardModule,
-    SharedModule
+    SharedModule,
+    MatButtonModule,
+    MatInputModule,
+    MatSelectModule,
+    MatTableModule,
+    MatSortModule,
+    FormsModule,
+    MatSnackBarModule,
+    ReactiveFormsModule,
+    MatIconModule,
+    MatDialogModule,
   ],
   declarations: [
     AdministratorMenuPageComponent,
