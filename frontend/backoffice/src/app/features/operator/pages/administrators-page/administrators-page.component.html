@@ -111,17 +111,15 @@
       </mat-card-header>
       <mat-card-content>
         <p *ngIf="!selected || isNew">Select an administrator to assign to a company</p>
-        <mat-form-field appearance="fill" class="full-width-input" *ngIf="selected && !isNew">
-          <mat-label>Select</mat-label>
-          <mat-select [(ngModel)]="selectedCompanyId">
-            <mat-option *ngFor="let c of companies" 
-              [value]="c.id">
-              {{c.name}}
-            </mat-option>
+        <p *ngIf="selected && !isNew && !!selected.administratedCompanyId">This user is currently the administrator of {{selected.administratedCompany}}</p>
+        <mat-form-field appearance="fill" class="full-width-input" *ngIf="selected && !isNew && !selected.administratedCompanyId">
+          <mat-label>Select company</mat-label>
+          <mat-select [(ngModel)]="selectedCompany">
+            <mat-option *ngFor="let c of companies" [value]="c"> {{c.name}} </mat-option>
           </mat-select>
         </mat-form-field>
-        <button *ngIf="selected && !isNew" mat-raised-button color="primary" class="form-btn" (click)="assingToCompany()" [disabled]="!selectedCompanyId">Assign</button>
-        <button *ngIf="selected && !isNew" mat-raised-button color="warn" class="form-btn" (click)="removeFromCompany()" [disabled]="!selectedCompanyId">Remove</button>
+        <button *ngIf="selected && !isNew && !selected.administratedCompanyId" mat-raised-button color="primary" class="form-btn" (click)="assingToCompany()" [disabled]="!selectedCompany">Assign to company</button>
+        <button *ngIf="selected && !isNew && !!selected.administratedCompanyId" mat-raised-button color="warn" class="form-btn" (click)="removeFromCompany()">Remove from company</button>
       </mat-card-content>
     </mat-card>
   </div>

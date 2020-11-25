@@ -15,14 +15,15 @@ import { SnackbarService } from 'src/app/shared/utilities/Snackbar.service';
 })
 export class AdministratorsPageComponent implements OnInit {
   dataSource: MatTableDataSource<ApplicationUserDto>;
-  admins: ApplicationUserDto[];
-  companies: CompanyDto[];
-  selected: ApplicationUserDto;
   columnsToDisplay = [ 'userName', 'firstName', 'lastName', 'email', 'gender', 'address', 'administratedCompany' ];
-  isNew = false;
   adminForm: FormGroup;
-  selectedCompanyId: number;
 
+  companies: CompanyDto[];
+  selectedCompany: CompanyDto;
+
+  admins: ApplicationUserDto[];
+  selected: ApplicationUserDto;
+  isNew = false;
 
   constructor(
     private companiesClient: CompaniesClient,
@@ -53,7 +54,7 @@ export class AdministratorsPageComponent implements OnInit {
   selectRow(row: ApplicationUserDto): void {
     this.selected = new ApplicationUserDto(row);
     this.isNew = false;
-    this.selectedCompanyId = this.selected.administratedCompanyId;
+    this.selectedCompany = this.companies.find((company: CompanyDto) => company.id === this.selected.administratedCompanyId);
 
     this.adminForm = this.formBuilder.group({
       userName: [{ value: this.selected.userName, disabled: true }],
@@ -70,7 +71,6 @@ export class AdministratorsPageComponent implements OnInit {
       return;
     }
 
-    console.log('onSubmit()');
     console.log(this.adminForm.value.gender);
     if (this.isNew){
       const model = new CreateUserModel ({
@@ -85,7 +85,6 @@ export class AdministratorsPageComponent implements OnInit {
 
       this.userClient.createAdmin(model)
         .subscribe(created => {
-          console.log('Admin created');
           this.snackbar.showSnackbar('Administrator created');
           this.admins.push(created);
           this.dataSource = new MatTableDataSource<ApplicationUserDto>(this.admins);
@@ -107,7 +106,6 @@ export class AdministratorsPageComponent implements OnInit {
 
       this.userClient.updateAdmin(this.selected.id, model)
         .subscribe(() => {
-          console.log('Admin saved');
           this.snackbar.showSnackbar('Administrator updated');
           const updated = this.admins.find((item: ApplicationUserDto) => item.id === this.selected.id);
           updated.firstName = this.adminForm.value.firstName;
@@ -146,14 +144,13 @@ export class AdministratorsPageComponent implements OnInit {
 
     dialogRef.afterClosed().pipe(
       filter((result) => result),
-      switchMap(() => this.companiesClient.assignAdminToCompany(this.selectedCompanyId, this.selected.id))
+      switchMap(() => this.companiesClient.assignAdminToCompany(this.selectedCompany.id, this.selected.id))
       ).subscribe(() => {
         console.log('Assign successful');
         this.snackbar.showSnackbar('Administrator successfully assigned to company');
-        const selectedCompany = this.companies.find((c: CompanyDto) => c.id === this.selectedCompanyId);
         const updated = this.admins.find((item: ApplicationUserDto) => item.id === this.selected.id);
-        updated.administratedCompanyId = selectedCompany.id;
-        updated.administratedCompany = selectedCompany.name;
+        updated.administratedCompanyId = this.selectedCompany.id;
+        updated.administratedCompany = this.selectedCompany.name;
       },
       (error: ErrorDetails) => {
         this.snackbar.showSnackbar(error.message);
@@ -165,14 +162,14 @@ export class AdministratorsPageComponent implements OnInit {
 
     dialogRef.afterClosed().pipe(
       filter((result) => result),
-      switchMap(() => this.companiesClient.removeAdminOfCompany(this.selectedCompanyId))
+      switchMap(() => this.companiesClient.removeAdminOfCompany(this.selectedCompany.id))
       ).subscribe(() => {
         console.log('Remove successful');
         this.snackbar.showSnackbar('Administrator successfully removed from company');
         const updated = this.admins.find((item: ApplicationUserDto) => item.id === this.selected.id);
         updated.administratedCompanyId = null;
         updated.administratedCompany = '-';
-        this.selectedCompanyId = null;
+        this.selectedCompany = null;
       },
       (error: ErrorDetails) => {
         this.snackbar.showSnackbar(error.message);
