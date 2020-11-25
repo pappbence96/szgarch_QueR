@@ -56,13 +56,13 @@ export class LoginComponent implements OnInit {
         data => {
           this.loading = false;
           console.log(data);
-          if (this.authService.role === 'administrator' && !this.authService.administradeCompanyId) {
+          if (this.authService.isInRole('administrator') && !this.authService.administradeCompanyId) {
             this.error = 'You are currently not assigned as the administrator of any companies. Please contact the system operator.';
             this.authService.logout();
-          } else if (this.authService.role === 'manager' && !this.authService.managedSiteId) {
+          } else if (this.authService.isInRole('manager') && !this.authService.managedSiteId) {
             this.error = 'You are currently not assigned as the manager of any sites. Please contact the administrator of your company.';
             this.authService.logout();
-          } else if (this.authService.role === 'worker' && !this.authService.worksiteId) {
+          } else if (this.authService.isInRole('employee') && !this.authService.managedSiteId) {
             this.error = 'You are currently not assigned to any worksites. Please contact the manager of your worksite.';
             this.authService.logout();
           } else {
@@ -78,14 +78,13 @@ export class LoginComponent implements OnInit {
   }
 
   navigatePostLogin(): void {
-    const role = this.authService.role;
-    if (role === 'operator'){
+    if (this.authService.isInRole('operator')){
       this.router.navigate( ['/operator'] );
-    } else if (role === 'administrator') {
+    } else if (this.authService.isInRole('administrator')) {
       this.router.navigate( ['/administrator'] );
-    } else if (role === 'manager') {
+    } else if (this.authService.isInRole('manager')) {
       this.router.navigate( ['/manager'] );
-    } else if (role === 'employee') {
+    } else if (this.authService.isInRole('employee')) {
 
     }
   }

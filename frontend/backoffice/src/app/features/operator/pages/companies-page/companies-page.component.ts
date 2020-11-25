@@ -124,6 +124,7 @@ export class CompaniesPageComponent implements OnInit {
         updated.adminName = '-';
         updated.adminId = null;
         this.selectedAdmin = null;
+        this.selected = updated;
       },
       (error: ErrorDetails) => {
         this.snackbar.showSnackbar(error.message);
@@ -141,6 +142,7 @@ export class CompaniesPageComponent implements OnInit {
         const updated = this.companies.find((item: CompanyDto) => item.id === this.selected.id);
         updated.adminId = this.selectedAdmin.id;
         updated.adminName = this.selectedAdmin.userName;
+        this.selected = updated;
       },
       (error: ErrorDetails) => {
         this.snackbar.showSnackbar(error.message);

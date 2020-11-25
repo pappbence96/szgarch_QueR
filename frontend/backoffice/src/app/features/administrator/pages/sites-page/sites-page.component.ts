@@ -28,6 +28,7 @@ export class SitesPageComponent implements OnInit {
     private sitesClient: SitesClient,
     userClient: UsersClient,
     private formBuilder: FormBuilder,
+    private dialog: MatDialog,
     private snackbar: SnackbarService
   ) {
     userClient.getEmployees().subscribe(data => {
@@ -110,12 +111,17 @@ export class SitesPageComponent implements OnInit {
   }
 
   promoteManager(): void {
-    this.sitesClient.assignManagerToSite(this.selected.id, this.selectedEmployee.id)
-      .subscribe(() => {
+    const dialogRef = this.dialog.open(ConfirmDialogComponent);
+
+    dialogRef.afterClosed().pipe(
+      filter((result) => result),
+      switchMap(() => this.sitesClient.assignManagerToSite(this.selected.id, this.selectedEmployee.id))
+      ).subscribe(() => {
         this.snackbar.showSnackbar('Manager successfully promoted');
         const updated = this.sites.find((item: SiteDto) => item.id === this.selected.id);
         updated.managerName = this.selectedEmployee.userName;
         updated.managerId = this.selectedEmployee.id;
+        this.selected = updated;
       },
       (error: ErrorDetails) => {
         this.snackbar.showSnackbar(error.message);
@@ -123,13 +129,18 @@ export class SitesPageComponent implements OnInit {
   }
 
   demoteManager(): void {
-    this.sitesClient.removeManagerFromSite(this.selected.id)
-      .subscribe(() => {
+    const dialogRef = this.dialog.open(ConfirmDialogComponent);
+
+    dialogRef.afterClosed().pipe(
+      filter((result) => result),
+      switchMap(() => this.sitesClient.removeManagerFromSite(this.selected.id))
+      ).subscribe(() => {
         this.snackbar.showSnackbar('Manager successfully demoted');
         const updated = this.sites.find((item: SiteDto) => item.id === this.selected.id);
         updated.managerName = '-';
         updated.managerId = null;
         this.selectedEmployee = null;
+        this.selected = updated;
       },
       (error: ErrorDetails) => {
         this.snackbar.showSnackbar(error.message);

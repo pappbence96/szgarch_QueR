@@ -37,7 +37,7 @@ export class AuthService {
         return this.currentLoginSubject.value != null;
     }
 
-    public get role(): string {
+    public get roles(): string[] {
         if (!this.isLoggedIn) {
             return null;
         }
@@ -45,6 +45,10 @@ export class AuthService {
         const decodedJwtJsonData = window.atob(jwtData);
         const decodedJwtData = JSON.parse(decodedJwtJsonData);
         return decodedJwtData.role;
+    }
+
+    public isInRole(role: string): boolean {
+        return this.roles.indexOf(role) !== -1;
     }
 
     public get userName(): string {

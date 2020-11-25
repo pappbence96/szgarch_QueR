@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { MatTableDataSource } from '@angular/material/table';
+import { filter, switchMap } from 'rxjs/operators';
 import { ApplicationUserDto, CreateUserModel, ErrorDetails, SiteDto, SitesClient, UpdateUserModel, UsersClient } from 'src/app/shared/clients';
 import { ConfirmDialogComponent } from 'src/app/shared/components/confirm-dialog/confirm-dialog.component';
 import { SnackbarService } from 'src/app/shared/utilities/Snackbar.service';
@@ -27,6 +28,7 @@ export class EmployeesPageComponent implements OnInit {
     private sitesClient: SitesClient,
     private userClient: UsersClient,
     private formBuilder: FormBuilder,
+    private dialog: MatDialog,
     private snackbar: SnackbarService
   ) {
     userClient.getEmployees().subscribe(data => {
@@ -136,12 +138,17 @@ export class EmployeesPageComponent implements OnInit {
   }
 
   assignToWorksite(): void {
-    this.sitesClient.assignWorkerToSite(this.selectedWorksite.id, this.selected.id)
-      .subscribe(() => {
+    const dialogRef = this.dialog.open(ConfirmDialogComponent);
+
+    dialogRef.afterClosed().pipe(
+      filter((result) => result),
+      switchMap(() => this.sitesClient.assignWorkerToSite(this.selectedWorksite.id, this.selected.id))
+      ).subscribe(() => {
         this.snackbar.showSnackbar('Employee successfully assigned to worksite');
         const updated = this.employees.find((item: ApplicationUserDto) => item.id === this.selected.id);
         updated.worksiteId = this.selectedWorksite.id;
         updated.worksite = this.selectedWorksite.name;
+        this.selected = updated;
       },
       (error: ErrorDetails) => {
         this.snackbar.showSnackbar(error.message);
@@ -149,13 +156,18 @@ export class EmployeesPageComponent implements OnInit {
   }
 
   removeFromWorksite(): void {
-    this.sitesClient.removeEmployeeOfSite(this.selectedWorksite.id, this.selected.id)
-      .subscribe(() => {
+    const dialogRef = this.dialog.open(ConfirmDialogComponent);
+
+    dialogRef.afterClosed().pipe(
+      filter((result) => result),
+      switchMap(() => this.sitesClient.removeEmployeeOfSite(this.selectedWorksite.id, this.selected.id))
+      ).subscribe(() => {
         this.snackbar.showSnackbar('Employee successfully removed from worksite');
         const updated = this.employees.find((item: ApplicationUserDto) => item.id === this.selected.id);
         updated.worksiteId = null;
         updated.worksite = '-';
         this.selectedWorksite = null;
+        this.selected = updated;
       },
       (error: ErrorDetails) => {
         this.snackbar.showSnackbar(error.message);
