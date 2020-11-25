@@ -1,0 +1,8 @@
+div {
+    padding: 5px;
+}
+
+mat-button {
+    display: flex;
+    align-items: center;
+}
