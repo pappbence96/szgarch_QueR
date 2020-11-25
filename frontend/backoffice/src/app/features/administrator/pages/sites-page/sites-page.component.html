@@ -33,10 +33,10 @@
     <div class="screen-column">
       <mat-card class="mat-elevation-z8">
         <mat-card-header>
-            <mat-card-title>Company details</mat-card-title>
+            <mat-card-title>Site details</mat-card-title>
         </mat-card-header>
         <mat-card-content>
-          <p *ngIf="!selected">Select a company to edit or create a new one</p>
+          <p *ngIf="!selected">Select a worksite to edit or create a new one</p>
           <form *ngIf="selected" [formGroup]="siteForm" (ngSubmit)="onSubmit()">
             <mat-form-field class="full-width-input">
               <mat-label>Site name</mat-label>
@@ -66,18 +66,16 @@
           <mat-card-title>Manager</mat-card-title>
         </mat-card-header>
         <mat-card-content>
-          <p *ngIf="!selected || isNew">Select an employee to promote to the manager position</p>
-          <mat-form-field appearance="fill" class="full-width-input" *ngIf="selected && !isNew">
-            <mat-label>Select</mat-label>
-            <mat-select [(ngModel)]="selectedEmployeeId">
-              <mat-option *ngFor="let c of employees" 
-                [value]="c.id">
-                {{c.userName}}
-              </mat-option>
+          <p *ngIf="!selected || isNew">Select a site to promote or demote its manager</p>
+          <p *ngIf="selected && !isNew && !!selected.managerId">The current manager is {{selected.managerName}}</p>
+          <mat-form-field appearance="fill" class="full-width-input" *ngIf="selected && !isNew && !selected.managerId">
+            <mat-label>Select an employee</mat-label>
+            <mat-select [(ngModel)]="selectedEmployee" >
+              <mat-option *ngFor="let e of employees" [value]="e"> {{e.userName}} </mat-option>
             </mat-select>
           </mat-form-field>
-          <button *ngIf="selected && !isNew" mat-raised-button color="primary" class="form-btn" (click)="promoteManager()" [disabled]="!selectedEmployeeId">Assign</button>
-          <button *ngIf="selected && !isNew" mat-raised-button color="warn" class="form-btn" (click)="demoteManager()" [disabled]="!selectedEmployeeId">Remove</button>
+          <button *ngIf="selected && !isNew && !selected.managerId" mat-raised-button color="primary" class="form-btn" (click)="promoteManager()" [disabled]="!selectedEmployee">Assign manager</button>
+          <button *ngIf="selected && !isNew && !!selected.managerId" mat-raised-button color="warn" class="form-btn" (click)="demoteManager()">Demote manager</button>
         </mat-card-content>
       </mat-card>
     </div>

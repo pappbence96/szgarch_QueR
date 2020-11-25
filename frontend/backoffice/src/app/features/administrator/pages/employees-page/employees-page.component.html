@@ -45,10 +45,10 @@
     <div class="screen-column">
       <mat-card class="mat-elevation-z8">
         <mat-card-header>
-          <mat-card-title>Administrator details</mat-card-title>
+          <mat-card-title>Employee details</mat-card-title>
         </mat-card-header>
         <mat-card-content>
-          <p *ngIf="!selected">Select an administrator to edit or create a new one</p>
+          <p *ngIf="!selected">Select an employee to edit or create a new one</p>
           <form *ngIf="selected" [formGroup]="employeeForm" (ngSubmit)="onSubmit()">
             <mat-form-field class="full-width-input">
               <mat-label>Username</mat-label>
@@ -110,18 +110,16 @@
           <mat-card-title>Worksite</mat-card-title>
         </mat-card-header>
         <mat-card-content>
-          <p *ngIf="!selected || isNew">Select a user to associate them with a worksite</p>
-          <mat-form-field appearance="fill" class="full-width-input" *ngIf="selected && !isNew">
+          <p *ngIf="!selected || isNew">Select an employee to associate them with a worksite</p>
+          <p *ngIf="selected && !isNew && !!selected.worksiteId">The current worksite of the employee is {{selected.worksite}}</p>
+          <mat-form-field appearance="fill" class="full-width-input" *ngIf="selected && !isNew && !selected.worksiteId">
             <mat-label>Select</mat-label>
-            <mat-select [(ngModel)]="selectedWorksiteId">
-              <mat-option *ngFor="let c of sites" 
-                [value]="c.id">
-                {{c.name}}
-              </mat-option>
+            <mat-select [(ngModel)]="selectedWorksite">
+              <mat-option *ngFor="let s of sites" [value]="s"> {{s.name}} </mat-option>
             </mat-select>
           </mat-form-field>
-          <button *ngIf="selected && !isNew" mat-raised-button color="primary" class="form-btn" (click)="assignToWorksite()" [disabled]="!selectedWorksiteId">Assign</button>
-          <button *ngIf="selected && !isNew" mat-raised-button color="warn" class="form-btn" (click)="removeFromWorksite()" [disabled]="!selectedWorksiteId">Remove</button>
+          <button *ngIf="selected && !isNew && !selected.worksiteId" mat-raised-button color="primary" class="form-btn" (click)="assignToWorksite()" [disabled]="!selectedWorksite">Assign to worksite</button>
+          <button *ngIf="selected && !isNew && !!selected.worksiteId" mat-raised-button color="warn" class="form-btn" (click)="removeFromWorksite()">Remove from worksite</button>
         </mat-card-content>
       </mat-card>
     </div>

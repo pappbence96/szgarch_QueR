@@ -14,19 +14,20 @@ import { SnackbarService } from 'src/app/shared/utilities/Snackbar.service';
 })
 export class SitesPageComponent implements OnInit {
   dataSource: MatTableDataSource<SiteDto>;
+  columnsToDisplay = [ 'name', 'address', 'managerName', 'numberOfEmployees' ];
+  siteForm: FormGroup;
+
+  employees: ApplicationUserDto[];
+  selectedEmployee: ApplicationUserDto;
+  
   sites: SiteDto[];
   selected: SiteDto;
-  columnsToDisplay = [ 'name', 'address', 'managerName', 'numberOfEmployees' ];
   isNew = false;
-  siteForm: FormGroup;
-  employees: ApplicationUserDto[];
-  selectedEmployeeId: number;
 
   constructor(
     private sitesClient: SitesClient,
-    private userClient: UsersClient,
+    userClient: UsersClient,
     private formBuilder: FormBuilder,
-    private dialog: MatDialog,
     private snackbar: SnackbarService
   ) {
     userClient.getEmployees().subscribe(data => {
@@ -51,7 +52,7 @@ export class SitesPageComponent implements OnInit {
   selectRow(row: SiteDto): void {
     this.selected = new SiteDto(row);
     this.isNew = false;
-    this.selectedEmployeeId = this.selected.managerId;
+    this.selectedEmployee = this.employees.find((employee: ApplicationUserDto) => employee.id === this.selected.managerId);
 
     this.siteForm = this.formBuilder.group({
       name: [this.selected.name, Validators.required],
@@ -109,13 +110,12 @@ export class SitesPageComponent implements OnInit {
   }
 
   promoteManager(): void {
-    this.sitesClient.assignManagerToSite(this.selected.id, this.selectedEmployeeId)
+    this.sitesClient.assignManagerToSite(this.selected.id, this.selectedEmployee.id)
       .subscribe(() => {
         this.snackbar.showSnackbar('Manager successfully promoted');
         const updated = this.sites.find((item: SiteDto) => item.id === this.selected.id);
-        const selectedManager = this.employees.find((c: SiteDto) => c.id === this.selectedEmployeeId);
-        updated.managerName = selectedManager.userName;
-        updated.managerId = selectedManager.id;
+        updated.managerName = this.selectedEmployee.userName;
+        updated.managerId = this.selectedEmployee.id;
       },
       (error: ErrorDetails) => {
         this.snackbar.showSnackbar(error.message);
@@ -129,7 +129,7 @@ export class SitesPageComponent implements OnInit {
         const updated = this.sites.find((item: SiteDto) => item.id === this.selected.id);
         updated.managerName = '-';
         updated.managerId = null;
-        this.selectedEmployeeId = null;
+        this.selectedEmployee = null;
       },
       (error: ErrorDetails) => {
         this.snackbar.showSnackbar(error.message);

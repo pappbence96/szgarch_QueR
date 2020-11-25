@@ -13,14 +13,15 @@ import { SnackbarService } from 'src/app/shared/utilities/Snackbar.service';
 })
 export class EmployeesPageComponent implements OnInit {
   dataSource: MatTableDataSource<ApplicationUserDto>;
-  employees: ApplicationUserDto[];
-  sites: SiteDto[];
-  selected: ApplicationUserDto;
   columnsToDisplay = [ 'userName', 'firstName', 'lastName', 'email', 'gender', 'address', 'worksite' ];
-  isNew = false;
   employeeForm: FormGroup;
-  selectedWorksiteId: number;
 
+  sites: SiteDto[];
+  selectedWorksite: SiteDto;
+
+  employees: ApplicationUserDto[];
+  selected: ApplicationUserDto;
+  isNew = false;
 
   constructor(
     private sitesClient: SitesClient,
@@ -50,7 +51,7 @@ export class EmployeesPageComponent implements OnInit {
   selectRow(row: ApplicationUserDto): void {
     this.selected = new ApplicationUserDto(row);
     this.isNew = false;
-    this.selectedWorksiteId = this.selected.worksiteId;
+    this.selectedWorksite = this.sites.find((site: SiteDto) => site.id === this.selected.worksiteId);
 
     this.employeeForm = this.formBuilder.group({
       userName: [{ value: this.selected.userName, disabled: true }],
@@ -135,11 +136,12 @@ export class EmployeesPageComponent implements OnInit {
   }
 
   assignToWorksite(): void {
-    this.sitesClient.assignWorkerToSite(this.selectedWorksiteId, this.selected.id)
+    this.sitesClient.assignWorkerToSite(this.selectedWorksite.id, this.selected.id)
       .subscribe(() => {
         this.snackbar.showSnackbar('Employee successfully assigned to worksite');
         const updated = this.employees.find((item: ApplicationUserDto) => item.id === this.selected.id);
-        updated.worksite = this.sites.find((c: SiteDto) => c.id === this.selectedWorksiteId).name;
+        updated.worksiteId = this.selectedWorksite.id;
+        updated.worksite = this.selectedWorksite.name;
       },
       (error: ErrorDetails) => {
         this.snackbar.showSnackbar(error.message);
@@ -147,12 +149,13 @@ export class EmployeesPageComponent implements OnInit {
   }
 
   removeFromWorksite(): void {
-    this.sitesClient.removeEmployeeOfSite(this.selectedWorksiteId, this.selected.id)
+    this.sitesClient.removeEmployeeOfSite(this.selectedWorksite.id, this.selected.id)
       .subscribe(() => {
         this.snackbar.showSnackbar('Employee successfully removed from worksite');
         const updated = this.employees.find((item: ApplicationUserDto) => item.id === this.selected.id);
+        updated.worksiteId = null;
         updated.worksite = '-';
-        this.selectedWorksiteId = null;
+        this.selectedWorksite = null;
       },
       (error: ErrorDetails) => {
         this.snackbar.showSnackbar(error.message);
