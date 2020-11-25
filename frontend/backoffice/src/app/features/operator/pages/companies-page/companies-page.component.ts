@@ -15,18 +15,20 @@ import { SnackbarService } from 'src/app/shared/utilities/Snackbar.service';
 })
 export class CompaniesPageComponent implements OnInit {
   dataSource: MatTableDataSource<CompanyDto>;
+  columnsToDisplay = [ 'name', 'address', 'adminName', 'numberOfSites', 'numberOfEmployees' ];
+  companyForm: FormGroup;
+
   admins: ApplicationUserDto[];
+  selectedAdmin: ApplicationUserDto;
+
   companies: CompanyDto[];
   selected: CompanyDto;
-  columnsToDisplay = [ 'name', 'address', 'adminName', 'numberOfSites', 'numberOfEmployees' ];
   isNew = false;
-  companyForm: FormGroup;
-  selectedAdminId: number;
 
 
   constructor(
     private companiesClient: CompaniesClient,
-    private usersClient: UsersClient,
+    usersClient: UsersClient,
     private formBuilder: FormBuilder,
     private dialog: MatDialog,
     private snackbar: SnackbarService
@@ -53,7 +55,7 @@ export class CompaniesPageComponent implements OnInit {
   selectRow(row: CompanyDto): void {
     this.selected = new CompanyDto(row);
     this.isNew = false;
-    this.selectedAdminId = this.selected.adminId;
+    this.selectedAdmin = this.admins.find((admin: ApplicationUserDto) => admin.id === this.selected.adminId);
 
     this.companyForm = this.formBuilder.group({
       name: [this.selected.name, Validators.required],
@@ -67,12 +69,10 @@ export class CompaniesPageComponent implements OnInit {
       return;
     }
 
-    console.log('onSubmit()');
     const model = new CompanyModel({name: this.companyForm.value.name, address: this.companyForm.value.address});
     if (this.isNew){
       this.companiesClient.createCompany(model)
         .subscribe(created => {
-          console.log('Company created');
           this.snackbar.showSnackbar('Company created');
           this.companies.push(created);
           this.dataSource = new MatTableDataSource<CompanyDto>(this.companies);
@@ -86,7 +86,6 @@ export class CompaniesPageComponent implements OnInit {
     } else {
       this.companiesClient.updateCompany(this.selected.id, model)
         .subscribe(() => {
-          console.log('Company updated');
           this.snackbar.showSnackbar('Company updated');
           const updated = this.companies.find((item: CompanyDto) => item.id === this.selected.id);
           updated.name = this.companyForm.value.name;
@@ -124,7 +123,7 @@ export class CompaniesPageComponent implements OnInit {
         const updated = this.companies.find((item: CompanyDto) => item.id === this.selected.id);
         updated.adminName = '-';
         updated.adminId = null;
-        this.selectedAdminId = null;
+        this.selectedAdmin = null;
       },
       (error: ErrorDetails) => {
         this.snackbar.showSnackbar(error.message);
@@ -136,14 +135,12 @@ export class CompaniesPageComponent implements OnInit {
 
     dialogRef.afterClosed().pipe(
       filter((result) => result),
-      switchMap(() => this.companiesClient.assignAdminToCompany(this.selected.id, this.selectedAdminId))
+      switchMap(() => this.companiesClient.assignAdminToCompany(this.selected.id, this.selectedAdmin.id))
       ).subscribe(() => {
-        console.log('Remove successful');
-        this.snackbar.showSnackbar('Administrator successfully removed from company');
+        this.snackbar.showSnackbar('Administrator successfully assigned to the company');
         const updated = this.companies.find((item: CompanyDto) => item.id === this.selected.id);
-        const selectedAdmin = this.admins.find((item: ApplicationUserDto) => item.id === this.selectedAdminId);
-        updated.adminId = selectedAdmin.id;
-        updated.adminName = selectedAdmin.userName;
+        updated.adminId = this.selectedAdmin.id;
+        updated.adminName = this.selectedAdmin.userName;
       },
       (error: ErrorDetails) => {
         this.snackbar.showSnackbar(error.message);

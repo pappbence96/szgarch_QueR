@@ -67,21 +67,19 @@
 
     <mat-card class="mat-elevation-z8 bottom-card">
       <mat-card-header>
-        <mat-card-title>Company</mat-card-title>
+        <mat-card-title>Administrator</mat-card-title>
       </mat-card-header>
       <mat-card-content>
         <p *ngIf="!selected || isNew">Select a company to assign or remove its administrator</p>
-        <mat-form-field appearance="fill" class="full-width-input" *ngIf="selected && !isNew">
-          <mat-label>Select</mat-label>
-          <mat-select [(ngModel)]="selectedAdminId">
-            <mat-option *ngFor="let a of admins" 
-              [value]="a.id">
-              {{a.userName}}
-            </mat-option>
+        <p *ngIf="selected && !isNew && !!selected.adminId">The current administrator is {{selected.adminName}}</p>
+        <mat-form-field appearance="fill" class="full-width-input" *ngIf="selected && !isNew && !selected.adminId">
+          <mat-label>Select administrator</mat-label>
+          <mat-select [(ngModel)]="selectedAdmin">
+            <mat-option *ngFor="let a of admins" [value]="a"> {{a.userName}} </mat-option>
           </mat-select>
         </mat-form-field>
-        <button *ngIf="selected && !isNew" mat-raised-button color="primary" class="form-btn" (click)="assignAdmin()" [disabled]="!selectedAdminId">Assign</button>
-        <button *ngIf="selected && !isNew" mat-raised-button color="warn" class="form-btn" (click)="removeAdmin()" [disabled]="!selectedAdminId">Remove</button>
+        <button *ngIf="selected && !isNew && !selected.adminId" mat-raised-button color="primary" class="form-btn" (click)="assignAdmin()" [disabled]="!selectedAdmin">Assign administrator</button>
+        <button *ngIf="selected && !isNew && !!selected.adminId" mat-raised-button color="warn" class="form-btn" (click)="removeAdmin()">Remove administrator</button>
       </mat-card-content>
     </mat-card>
   </div>
