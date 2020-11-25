@@ -63,11 +63,11 @@ namespace QueR.BLL.Services.Site
             {
                 throw new InvalidOperationException("Manager or site is not part of the company.");
             }
-
+            /*
             if (!await userManager.IsInRoleAsync(manager, "manager"))
             {
                 throw new InvalidOperationException("User is not a manager");
-            }
+            }*/
 
             if ((site.Manager != null) && (site.ManagerId != managerId))
             {
@@ -80,6 +80,7 @@ namespace QueR.BLL.Services.Site
 
             site.Manager = manager;
             site.Employees.Add(manager);
+            await userManager.AddToRoleAsync(manager, "manager");
             
             await context.SaveChangesAsync();
         }
