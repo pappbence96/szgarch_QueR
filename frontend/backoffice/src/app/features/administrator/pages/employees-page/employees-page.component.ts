@@ -26,7 +26,6 @@ export class EmployeesPageComponent implements OnInit {
     private sitesClient: SitesClient,
     private userClient: UsersClient,
     private formBuilder: FormBuilder,
-    private dialog: MatDialog,
     private snackbar: SnackbarService
   ) {
     userClient.getEmployees().subscribe(data => {

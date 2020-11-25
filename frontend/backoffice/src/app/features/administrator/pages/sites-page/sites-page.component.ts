@@ -3,7 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { MatTableDataSource } from '@angular/material/table';
 import { filter, switchMap } from 'rxjs/operators';
-import { ErrorDetails, SiteDto, SiteModel, SitesClient } from 'src/app/shared/clients';
+import { ApplicationUserDto, ErrorDetails, SiteDto, SiteModel, SitesClient, UsersClient } from 'src/app/shared/clients';
 import { ConfirmDialogComponent } from 'src/app/shared/components/confirm-dialog/confirm-dialog.component';
 import { SnackbarService } from 'src/app/shared/utilities/Snackbar.service';
 
@@ -19,14 +19,23 @@ export class SitesPageComponent implements OnInit {
   columnsToDisplay = [ 'name', 'address', 'managerName', 'numberOfEmployees' ];
   isNew = false;
   siteForm: FormGroup;
-
+  employees: ApplicationUserDto[];
+  selectedEmployeeId: number;
 
   constructor(
     private sitesClient: SitesClient,
+    private userClient: UsersClient,
     private formBuilder: FormBuilder,
     private dialog: MatDialog,
     private snackbar: SnackbarService
   ) {
+    userClient.getEmployees().subscribe(data => {
+      this.employees = data;
+      this.setFilter();
+    },
+    (error: ErrorDetails) => {
+      snackbar.showSnackbar(error.message);
+    });
     sitesClient.getSites().subscribe(data => {
       this.sites = data;
       this.dataSource = new MatTableDataSource<SiteDto>(this.sites);
@@ -43,6 +52,7 @@ export class SitesPageComponent implements OnInit {
   selectRow(row: SiteDto): void {
     this.selected = new SiteDto(row);
     this.isNew = false;
+    this.selectedEmployeeId = this.selected.managerId;
 
     this.siteForm = this.formBuilder.group({
       name: [this.selected.name, Validators.required],
@@ -99,15 +109,28 @@ export class SitesPageComponent implements OnInit {
     this.dataSource.filter = searchValue;
   }
 
-  removeManager(siteId: number): void {
-    const dialogRef = this.dialog.open(ConfirmDialogComponent);
+  promoteManager(): void {
+    this.sitesClient.assignManagerToSite(this.selected.id, this.selectedEmployeeId)
+      .subscribe(() => {
+        this.snackbar.showSnackbar('Manager successfully promoted');
+        const updated = this.sites.find((item: SiteDto) => item.id === this.selected.id);
+        const selectedManager = this.employees.find((c: SiteDto) => c.id === this.selectedEmployeeId);
+        updated.managerName = selectedManager.userName;
+        updated.managerId = selectedManager.id;
+      },
+      (error: ErrorDetails) => {
+        this.snackbar.showSnackbar(error.message);
+      });
+  }
 
-    dialogRef.afterClosed().pipe(
-      filter((result) => result),
-      switchMap(() => this.sitesClient.removeManagerFromSite(siteId))
-      ).subscribe( () => {
-        this.snackbar.showSnackbar('Administrator successfully removed.');
-        this.sites.find((company) => company.id === siteId).managerName = '-';
+  demoteManager(): void {
+    this.sitesClient.removeManagerFromSite(this.selected.id)
+      .subscribe(() => {
+        this.snackbar.showSnackbar('Manager successfully demoted');
+        const updated = this.sites.find((item: SiteDto) => item.id === this.selected.id);
+        updated.managerName = '-';
+        updated.managerId = null;
+        this.selectedEmployeeId = null;
       },
       (error: ErrorDetails) => {
         this.snackbar.showSnackbar(error.message);
