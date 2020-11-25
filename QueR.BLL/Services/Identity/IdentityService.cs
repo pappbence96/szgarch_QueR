@@ -1,5 +1,6 @@
 ﻿using FluentValidation;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using QueR.DAL;
 using QueR.Domain.Entities;
@@ -58,6 +59,16 @@ namespace QueR.BLL.Services.Identity
                 if(user.WorksiteId != null)
                 {
                     claims.Add(new Claim("worksite", user.WorksiteId.Value.ToString()));
+                }
+                var administratedCompany = await context.Companies.FirstOrDefaultAsync(c => c.AdministratorId == user.Id);
+                if(administratedCompany != null)
+                {
+                    claims.Add(new Claim("administrated_company", administratedCompany.Id.ToString()));
+                }
+                var managedSite = await context.Sites.FirstOrDefaultAsync(c => c.ManagerId == user.Id);
+                if(managedSite != null)
+                {
+                    claims.Add(new Claim("managed_site", managedSite.Id.ToString()));
                 }
 
                 var tokeOptions = new JwtSecurityToken(
