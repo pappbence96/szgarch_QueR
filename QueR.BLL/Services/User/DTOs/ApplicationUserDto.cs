@@ -18,9 +18,13 @@ namespace QueR.BLL.Services.User.DTOs
         public Gender Gender { get; set; }
         public string Address { get; set; }
         public string AssignedQueue { get; set; }
+        public int? AssignedQueueId { get; set; }
         public string AdministratedCompany { get; set; }
+        public int? AdministratedCompanyId { get; set; }
         public string ManagedWorksite { get; set; }
+        public int? ManagedWorksiteId { get; set; }
         public string Company { get; set; }
+        public int? CompanyId { get; set; }
     }
 
     public class ApplicationUserDtoProfile : Profile
@@ -29,9 +33,12 @@ namespace QueR.BLL.Services.User.DTOs
         {
             CreateMap<Domain.Entities.ApplicationUser, ApplicationUserDto>()
                 .ForMember(dest => dest.AssignedQueue, opt => opt.MapFrom(src => src.AssignedQueue != null ? src.AssignedQueue.Type.Name : "-"))
+                .ForMember(dest => dest.AssignedQueueId, opt => opt.MapFrom(src => src.AssignedQueueId))
                 .ForMember(dest => dest.AdministratedCompany, opt => opt.MapFrom(src => src.AdministratedCompany != null ? src.AdministratedCompany.Name : "-"))
+                .ForMember(dest => dest.AdministratedCompanyId, opt => opt.MapFrom(src => src.AdministratedCompany != null ? src.AdministratedCompany.Id : (int?)null))
                 .ForMember(dest => dest.ManagedWorksite, opt => opt.MapFrom(src => src.ManagedSite != null ? src.ManagedSite.Name : "-"))
-                .ForMember(dest => dest.Company, opt => opt.MapFrom(src => src.Company != null ? src.Company.Name : "-"));
+                .ForMember(dest => dest.ManagedWorksiteId, opt => opt.MapFrom(src => src.ManagedSite != null ? src.ManagedSite.Id : (int?) null))
+                .ForMember(dest => dest.CompanyId, opt => opt.MapFrom(src => src.CompanyId));
         }
     }
 }

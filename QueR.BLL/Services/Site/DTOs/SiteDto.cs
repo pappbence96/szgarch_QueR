@@ -12,6 +12,7 @@ namespace QueR.BLL.Services.Site.DTOs
         public string Name { get; set; }
         public string Address { get; set; }
         public string ManagerName { get; set; }
+        public int? ManagerId { get; set; }
         public int NumberOfEmployees { get; set; }
     }
 
@@ -21,6 +22,7 @@ namespace QueR.BLL.Services.Site.DTOs
         {
             CreateMap<Domain.Entities.Site, SiteDto>()
                 .ForMember(dest => dest.ManagerName, opt => opt.MapFrom(src => src.Manager != null ? src.Manager.UserName : "-"))
+                .ForMember(dest => dest.ManagerId, opt => opt.MapFrom(src => src.ManagerId))
                 .ForMember(dest => dest.NumberOfEmployees, opt => opt.MapFrom(src => src.Employees.Count));
         }
     }
