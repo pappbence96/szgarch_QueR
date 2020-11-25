@@ -150,8 +150,10 @@ export class AdministratorsPageComponent implements OnInit {
       ).subscribe(() => {
         console.log('Assign successful');
         this.snackbar.showSnackbar('Administrator successfully assigned to company');
+        const selectedCompany = this.companies.find((c: CompanyDto) => c.id === this.selectedCompanyId);
         const updated = this.admins.find((item: ApplicationUserDto) => item.id === this.selected.id);
-        updated.administratedCompany = this.companies.find((c: CompanyDto) => c.id === this.selectedCompanyId).name;
+        updated.administratedCompanyId = selectedCompany.id;
+        updated.administratedCompany = selectedCompany.name;
       },
       (error: ErrorDetails) => {
         this.snackbar.showSnackbar(error.message);
@@ -168,6 +170,7 @@ export class AdministratorsPageComponent implements OnInit {
         console.log('Remove successful');
         this.snackbar.showSnackbar('Administrator successfully removed from company');
         const updated = this.admins.find((item: ApplicationUserDto) => item.id === this.selected.id);
+        updated.administratedCompanyId = null;
         updated.administratedCompany = '-';
         this.selectedCompanyId = null;
       },

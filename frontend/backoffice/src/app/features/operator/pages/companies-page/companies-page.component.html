@@ -19,14 +19,7 @@
       </ng-container>
       <ng-container matColumnDef="adminName">
         <th mat-header-cell *matHeaderCellDef> Administrator </th>
-        <td mat-cell *matCellDef="let element"> 
-          <div class="table-row">
-            {{element.adminName}} 
-            <button *ngIf="element.adminName !== '-'" mat-icon-button color="warn" aria-label="Delete admin button" (click)="removeAdmin(element.id)">
-              <mat-icon>delete</mat-icon>
-            </button>
-          </div>
-        </td>
+        <td mat-cell *matCellDef="let element"> {{element.adminName}} </td>
       </ng-container>
       <ng-container matColumnDef="numberOfSites">
         <th mat-header-cell *matHeaderCellDef> # sites </th>
@@ -41,33 +34,55 @@
     </table>
   </div> 
 
-  <mat-card class="screen-column mat-elevation-z8">
-    <mat-card-header>
-		<mat-card-title>Company details</mat-card-title>
-    </mat-card-header>
-    <mat-card-content>
-      <p *ngIf="!selected">Select a company to edit or create a new one</p>
-      <form *ngIf="selected" [formGroup]="companyForm" (ngSubmit)="onSubmit()">
-        <mat-form-field class="full-width-input">
-          <mat-label>Company name</mat-label>
-          <input matInput formControlName="name" required>
-          <mat-error>
-            Company name can not be empty.
-          </mat-error>
+  <div class="screen-column">
+    <mat-card class="mat-elevation-z8">
+      <mat-card-header>
+        <mat-card-title>Company details</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <p *ngIf="!selected">Select a company to edit or create a new one</p>
+        <form *ngIf="selected" [formGroup]="companyForm" (ngSubmit)="onSubmit()">
+          <mat-form-field class="full-width-input">
+            <mat-label>Company name</mat-label>
+            <input matInput formControlName="name" required>
+            <mat-error>
+              Company name can not be empty.
+            </mat-error>
+          </mat-form-field>
+          <mat-form-field class="full-width-input">
+            <mat-label>Company address</mat-label>
+            <input matInput formControlName="address" required>
+            <mat-error>
+              Company address can not be empty.
+            </mat-error>
+          </mat-form-field>
+          <mat-form-field class="full-width-input" disabled>
+            <mat-label>Administrator</mat-label>
+            <input matInput formControlName="adminName">
+          </mat-form-field>
+          <button *ngIf="selected" mat-raised-button color="primary" [disabled]="companyForm.invalid" class="form-btn">Save</button>
+        </form>
+      </mat-card-content>
+    </mat-card>
+
+    <mat-card class="mat-elevation-z8 bottom-card">
+      <mat-card-header>
+        <mat-card-title>Company</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <p *ngIf="!selected || isNew">Select a company to assign or remove its administrator</p>
+        <mat-form-field appearance="fill" class="full-width-input" *ngIf="selected && !isNew">
+          <mat-label>Select</mat-label>
+          <mat-select [(ngModel)]="selectedAdminId">
+            <mat-option *ngFor="let a of admins" 
+              [value]="a.id">
+              {{a.userName}}
+            </mat-option>
+          </mat-select>
         </mat-form-field>
-        <mat-form-field class="full-width-input">
-          <mat-label>Company address</mat-label>
-          <input matInput formControlName="address" required>
-          <mat-error>
-            Company address can not be empty.
-          </mat-error>
-        </mat-form-field>
-        <mat-form-field class="full-width-input" disabled>
-          <mat-label>Administrator</mat-label>
-          <input matInput formControlName="adminName">
-        </mat-form-field>
-        <button *ngIf="selected" mat-raised-button color="primary" [disabled]="companyForm.invalid" class="form-btn">Save</button>
-      </form>
-    </mat-card-content>
-  </mat-card>
+        <button *ngIf="selected && !isNew" mat-raised-button color="primary" class="form-btn" (click)="assignAdmin()" [disabled]="!selectedAdminId">Assign</button>
+        <button *ngIf="selected && !isNew" mat-raised-button color="warn" class="form-btn" (click)="removeAdmin()" [disabled]="!selectedAdminId">Remove</button>
+      </mat-card-content>
+    </mat-card>
+  </div>
 </div>

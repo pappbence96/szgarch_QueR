@@ -4,7 +4,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatTableDataSource } from '@angular/material/table';
 import { filter, switchMap } from 'rxjs/operators';
-import { CompaniesClient, CompanyDto, CompanyModel, ErrorDetails } from 'src/app/shared/clients';
+import { ApplicationUserDto, CompaniesClient, CompanyDto, CompanyModel, ErrorDetails, UsersClient } from 'src/app/shared/clients';
 import { ConfirmDialogComponent } from 'src/app/shared/components/confirm-dialog/confirm-dialog.component';
 import { SnackbarService } from 'src/app/shared/utilities/Snackbar.service';
 
@@ -15,15 +15,18 @@ import { SnackbarService } from 'src/app/shared/utilities/Snackbar.service';
 })
 export class CompaniesPageComponent implements OnInit {
   dataSource: MatTableDataSource<CompanyDto>;
+  admins: ApplicationUserDto[];
   companies: CompanyDto[];
   selected: CompanyDto;
   columnsToDisplay = [ 'name', 'address', 'adminName', 'numberOfSites', 'numberOfEmployees' ];
   isNew = false;
   companyForm: FormGroup;
+  selectedAdminId: number;
 
 
   constructor(
     private companiesClient: CompaniesClient,
+    private usersClient: UsersClient,
     private formBuilder: FormBuilder,
     private dialog: MatDialog,
     private snackbar: SnackbarService
@@ -36,6 +39,12 @@ export class CompaniesPageComponent implements OnInit {
     (error: ErrorDetails) => {
       this.snackbar.showSnackbar(error.message);
     });
+    usersClient.getAdmins().subscribe(data => {
+      this.admins = data;
+    },
+    (error: ErrorDetails) => {
+      snackbar.showSnackbar(error.message);
+    });
   }
 
   ngOnInit(): void {
@@ -44,6 +53,7 @@ export class CompaniesPageComponent implements OnInit {
   selectRow(row: CompanyDto): void {
     this.selected = new CompanyDto(row);
     this.isNew = false;
+    this.selectedAdminId = this.selected.adminId;
 
     this.companyForm = this.formBuilder.group({
       name: [this.selected.name, Validators.required],
@@ -103,15 +113,37 @@ export class CompaniesPageComponent implements OnInit {
     this.dataSource.filter = searchValue;
   }
 
-  removeAdmin(companyId: number): void {
+  removeAdmin(): void {
     const dialogRef = this.dialog.open(ConfirmDialogComponent);
 
     dialogRef.afterClosed().pipe(
       filter((result) => result),
-      switchMap(() => this.companiesClient.removeAdminOfCompany(companyId))
-      ).subscribe( () => {
-        this.snackbar.showSnackbar('Administrator successfully removed.');
-        this.companies.find((company) => company.id === companyId).adminName = '-';
+      switchMap(() => this.companiesClient.removeAdminOfCompany(this.selected.id))
+      ).subscribe(() => {
+        this.snackbar.showSnackbar('Administrator successfully removed from the company');
+        const updated = this.companies.find((item: CompanyDto) => item.id === this.selected.id);
+        updated.adminName = '-';
+        updated.adminId = null;
+        this.selectedAdminId = null;
+      },
+      (error: ErrorDetails) => {
+        this.snackbar.showSnackbar(error.message);
+      });
+  }
+
+  assignAdmin(): void {
+    const dialogRef = this.dialog.open(ConfirmDialogComponent);
+
+    dialogRef.afterClosed().pipe(
+      filter((result) => result),
+      switchMap(() => this.companiesClient.assignAdminToCompany(this.selected.id, this.selectedAdminId))
+      ).subscribe(() => {
+        console.log('Remove successful');
+        this.snackbar.showSnackbar('Administrator successfully removed from company');
+        const updated = this.companies.find((item: CompanyDto) => item.id === this.selected.id);
+        const selectedAdmin = this.admins.find((item: ApplicationUserDto) => item.id === this.selectedAdminId);
+        updated.adminId = selectedAdmin.id;
+        updated.adminName = selectedAdmin.userName;
       },
       (error: ErrorDetails) => {
         this.snackbar.showSnackbar(error.message);

@@ -31,7 +31,6 @@ export class SitesPageComponent implements OnInit {
   ) {
     userClient.getEmployees().subscribe(data => {
       this.employees = data;
-      this.setFilter();
     },
     (error: ErrorDetails) => {
       snackbar.showSnackbar(error.message);
