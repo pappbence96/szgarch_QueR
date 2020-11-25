@@ -66,7 +66,7 @@ namespace QueR.Application.Controllers.Backoffice
         }
 
         [HttpGet("employees")]
-        [Authorize(Roles = "operator")]
+        [Authorize(Roles = "manager,administrator")]
         [ProducesDefaultResponseType(typeof(IEnumerable<ApplicationUserDto>))]
         public async Task<ActionResult<IEnumerable<ApplicationUserDto>>> GetEmployees()
         {
@@ -74,7 +74,7 @@ namespace QueR.Application.Controllers.Backoffice
         }
 
         [HttpGet("managers")]
-        [Authorize(Roles = "operator")]
+        [Authorize(Roles = "administrator")]
         [ProducesDefaultResponseType(typeof(IEnumerable<ApplicationUserDto>))]
         public async Task<ActionResult<IEnumerable<ApplicationUserDto>>> GetManagers()
         {

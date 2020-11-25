@@ -153,35 +153,42 @@ namespace QueR.BLL.Services.User
 
         public async Task<IEnumerable<ApplicationUserDto>> GetAdministrators()
         {
-            return await GetUsersInRole("administrator");
+            var users = await GetUsersInRole("administrator");
+            return mapper.Map<IEnumerable<ApplicationUserDto>>(users);
         }
 
         public async Task<IEnumerable<ApplicationUserDto>> GetManagers()
         {
-            return await GetUsersInRole("manager");
+            var callerCompanyId = userAccessor.CompanyId;
+            var users = await GetUsersInRole("manager");
+            return mapper.Map<IEnumerable<ApplicationUserDto>>(users.Where(u => u.CompanyId == callerCompanyId));
         }
 
         public async Task<IEnumerable<ApplicationUserDto>> GetEmployees()
         {
-            return await GetUsersInRole("employee");
+            var callerCompanyId = userAccessor.CompanyId;
+            var users = await GetUsersInRole("employee");
+            return mapper.Map<IEnumerable<ApplicationUserDto>>(users.Where(u => u.CompanyId == callerCompanyId));
         }
 
         public async Task<IEnumerable<ApplicationUserDto>> GetSimpleUsers()
         {
-            return await GetUsersInRole("user");
+            var users = await GetUsersInRole("user");
+            return mapper.Map<IEnumerable<ApplicationUserDto>>(users);
         }
 
-        private async Task<IEnumerable<ApplicationUserDto>> GetUsersInRole(string role)
+        private async Task<IEnumerable<ApplicationUser>> GetUsersInRole(string role) 
         {
+            var currentUserCompany = userAccessor.CompanyId;
             var userIds = (await userManager.GetUsersInRoleAsync(role)).Select(u => u.Id);
-            var users = await context.Users
+            return await context.Users
                 .Include(u => u.ManagedSite)
                 .Include(u => u.AdministratedCompany)
                 .Include(u => u.Company)
                 .Include(u => u.AssignedQueue)
+                .Include(u => u.Worksite)
                 .Where(u => userIds.Contains(u.Id))
                 .ToListAsync();
-            return mapper.Map<IEnumerable<ApplicationUserDto>>(users);
 
         }
 
