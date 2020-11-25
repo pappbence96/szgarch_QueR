@@ -2339,6 +2339,8 @@ export class ApplicationUserDto implements IApplicationUserDto {
     managedWorksiteId?: number | undefined;
     company?: string | undefined;
     companyId?: number | undefined;
+    worksite?: string | undefined;
+    worksiteId?: number | undefined;
 
     constructor(data?: IApplicationUserDto) {
         if (data) {
@@ -2366,6 +2368,8 @@ export class ApplicationUserDto implements IApplicationUserDto {
             this.managedWorksiteId = _data["managedWorksiteId"];
             this.company = _data["company"];
             this.companyId = _data["companyId"];
+            this.worksite = _data["worksite"];
+            this.worksiteId = _data["worksiteId"];
         }
     }
 
@@ -2393,6 +2397,8 @@ export class ApplicationUserDto implements IApplicationUserDto {
         data["managedWorksiteId"] = this.managedWorksiteId;
         data["company"] = this.company;
         data["companyId"] = this.companyId;
+        data["worksite"] = this.worksite;
+        data["worksiteId"] = this.worksiteId;
         return data; 
     }
 }
@@ -2413,6 +2419,8 @@ export interface IApplicationUserDto {
     managedWorksiteId?: number | undefined;
     company?: string | undefined;
     companyId?: number | undefined;
+    worksite?: string | undefined;
+    worksiteId?: number | undefined;
 }
 
 export enum Gender {

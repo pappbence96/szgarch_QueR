@@ -53,8 +53,7 @@ export class AdministratorsPageComponent implements OnInit {
   selectRow(row: ApplicationUserDto): void {
     this.selected = new ApplicationUserDto(row);
     this.isNew = false;
-    this.selectedCompanyId = this.companies.find((c: CompanyDto) => c.id === this.selected.administratedCompanyId)?.id || null;
-    console.log(this.selectedCompanyId);
+    this.selectedCompanyId = this.selected.administratedCompanyId;
 
     this.adminForm = this.formBuilder.group({
       userName: [{ value: this.selected.userName, disabled: true }],
