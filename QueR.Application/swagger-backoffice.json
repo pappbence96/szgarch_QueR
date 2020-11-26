@@ -2608,6 +2608,10 @@
             "type": "string",
             "nullable": true
           },
+          "queueTypeId": {
+            "type": "integer",
+            "format": "int32"
+          },
           "nextNumber": {
             "type": "integer",
             "format": "int32"
