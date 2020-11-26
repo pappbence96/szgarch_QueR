@@ -71,7 +71,7 @@
           <mat-form-field appearance="fill" class="full-width-input" *ngIf="selected && !isNew && !selected.managerId">
             <mat-label>Select an employee</mat-label>
             <mat-select [(ngModel)]="selectedEmployee" >
-              <mat-option *ngFor="let e of employees" [value]="e"> {{e.userName}} </mat-option>
+              <mat-option *ngFor="let e of employeesOfSelectedSite()" [value]="e"> {{e.userName}} </mat-option>
             </mat-select>
           </mat-form-field>
           <button *ngIf="selected && !isNew && !selected.managerId" mat-raised-button color="primary" class="form-btn" (click)="promoteManager()" [disabled]="!selectedEmployee">Assign manager</button>

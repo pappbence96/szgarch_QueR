@@ -14,7 +14,6 @@ namespace QueR.Application.Controllers.Backoffice
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize(Roles = "administrator")]
     [ApiExplorerSettings(GroupName = "backoffice")]
     [ProducesResponseType(typeof(ErrorDetails), StatusCodes.Status400BadRequest)]
     [ProducesResponseType(typeof(ErrorDetails), StatusCodes.Status401Unauthorized)]
@@ -30,6 +29,7 @@ namespace QueR.Application.Controllers.Backoffice
         }
 
         [HttpPost]
+        [Authorize(Roles = "administrator")]
         [ProducesDefaultResponseType(typeof(QueueTypeDto))]
         public async Task<ActionResult<QueueTypeDto>> CreateQueueType([FromBody] QueueTypeModel model)
         {
@@ -37,6 +37,7 @@ namespace QueR.Application.Controllers.Backoffice
         }
 
         [HttpPut("{queueTypeId}")]
+        [Authorize(Roles = "administrator")]
         public async Task<ActionResult> UpdateQueueType(int queueTypeId, QueueTypeModel model)
         {
             await queueTypeService.UpdateQueueType(queueTypeId, model);
@@ -44,6 +45,7 @@ namespace QueR.Application.Controllers.Backoffice
         }
 
         [HttpGet]
+        [Authorize(Roles = "administrator,manager")]
         [ProducesDefaultResponseType(typeof(IEnumerable<QueueTypeDto>))]
         public async Task<ActionResult<IEnumerable<QueueTypeDto>>> GetQueueTypes()
         {

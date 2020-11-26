@@ -2608,6 +2608,10 @@
             "type": "string",
             "nullable": true
           },
+          "queueTypeId": {
+            "type": "integer",
+            "format": "int32"
+          },
           "nextNumber": {
             "type": "integer",
             "format": "int32"
@@ -2615,6 +2619,14 @@
           "worksite": {
             "type": "string",
             "nullable": true
+          },
+          "prefix": {
+            "type": "string",
+            "nullable": true
+          },
+          "step": {
+            "type": "integer",
+            "format": "int32"
           },
           "worksiteId": {
             "type": "integer",
@@ -2639,6 +2651,14 @@
             "format": "int32"
           },
           "nextNumber": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "prefix": {
+            "type": "string",
+            "nullable": true
+          },
+          "step": {
             "type": "integer",
             "format": "int32"
           }

@@ -95,7 +95,7 @@ namespace QueR.BLL.Services.Queue
                 throw new InvalidOperationException("Only the current manager can make changes");
             }
 
-            new QueueValidator().ValidateAndThrow(model);
+            new CreateQueueValidator().ValidateAndThrow(model);
 
             var queueType = (await context.QueueTypes.Include(qt => qt.Queues).FirstOrDefaultAsync(u => u.Id == model.TypeId))
                    ?? throw new KeyNotFoundException($"QueueType not found with an id of {model.TypeId}");
@@ -114,7 +114,9 @@ namespace QueR.BLL.Services.Queue
             {
                 TypeId = model.TypeId,
                 SiteId = callerWorksiteId,
-                NextNumber = model.NextNumber
+                NextNumber = model.NextNumber,
+                Prefix = model.Prefix,
+                Step = model.Step
             };
 
             context.Queues.Add(queue);
@@ -168,23 +170,17 @@ namespace QueR.BLL.Services.Queue
                 throw new InvalidOperationException("Only the current manager can make changes");
             }
 
-            new QueueValidator().ValidateAndThrow(model);
+            new UpdateQueueValidator().ValidateAndThrow(model);
 
-            var queueType = (await context.QueueTypes.FirstOrDefaultAsync(u => u.Id == model.TypeId))
-                   ?? throw new KeyNotFoundException($"QueueType not found with an id of {model.TypeId}");
+            var queueType = await context.QueueTypes.FirstAsync(u => u.Id == queue.TypeId);
 
             if (queueType.CompanyId != callerCompanyId)
             {
                 throw new InvalidOperationException("QueueType is not part of the company");
             }
 
-            if (await context.Queues.AnyAsync(c => c.TypeId == model.TypeId))
-            {
-                throw new ArgumentException($"Queue already exists with type Id: \"{model.TypeId}\"");
-            }
-
-            queue.TypeId = model.TypeId;
-            queue.NextNumber = model.NextNumber;
+            queue.Step = model.Step;
+            queue.Prefix = model.Prefix;
 
             await context.SaveChangesAsync();
         }

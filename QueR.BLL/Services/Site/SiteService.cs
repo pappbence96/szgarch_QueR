@@ -254,6 +254,7 @@ namespace QueR.BLL.Services.Site
             }
 
             employee.Worksite = null;
+            employee.ManagedSite = null;
             await context.SaveChangesAsync();
         }
 

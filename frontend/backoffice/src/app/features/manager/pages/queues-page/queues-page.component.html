@@ -1,0 +1,94 @@
+<app-site-title title="Queue management page"></app-site-title>
+
+<div class="page-content d-flex flex-row justify-content-center">
+    <div class="d-flex flex-column align-items-stretch screen-column ">
+      <button mat-raised-button color="primary" (click)="onNew()">Add new queue</button>
+  
+      <table mat-table [(dataSource)]="dataSource" class="mat-elevation-z8" >
+        <ng-container matColumnDef="type">
+          <th mat-header-cell *matHeaderCellDef> Name </th>
+          <td mat-cell *matCellDef="let element"> {{element.queueType}} </td>
+        </ng-container>
+        <ng-container matColumnDef="number">
+          <th mat-header-cell *matHeaderCellDef> Next number </th>
+          <td mat-cell *matCellDef="let element"> {{element.prefix}}{{element.nextNumber}} </td>
+        </ng-container>
+        <ng-container matColumnDef="step">
+          <th mat-header-cell *matHeaderCellDef> Step </th>
+          <td mat-cell *matCellDef="let element"> {{element.step}} </td>
+        </ng-container>
+        <ng-container matColumnDef="employees">
+          <th mat-header-cell *matHeaderCellDef> # of employees </th>
+          <td mat-cell *matCellDef="let element"> {{element.numOfAssignedEmployees}} </td>
+        </ng-container>
+        <ng-container matColumnDef="tickets">
+          <th mat-header-cell *matHeaderCellDef> # of tickets </th>
+          <td mat-cell *matCellDef="let element"> {{element.numOfTickets}} </td>
+        </ng-container>
+        <tr mat-header-row *matHeaderRowDef="columnsToDisplay"></tr>
+        <tr mat-row *matRowDef="let row; columns: columnsToDisplay;" (click)="selectRow(row)"></tr>
+      </table>
+    </div> 
+
+    <div class="screen-column">
+
+      <mat-card class="mat-elevation-z8">
+        <mat-card-header>
+            <mat-card-title>Queue details</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+          <p *ngIf="!selected">Select a queue to edit or create a new one</p>
+          <form *ngIf="selected" [formGroup]="queueForm" (ngSubmit)="onSubmit()">
+            <mat-form-field class="full-width-input">
+                <mat-label>Type</mat-label>
+                <mat-select formControlName="type" required>
+                    <mat-option *ngFor="let t of types" [value]="t"> {{t.name}} </mat-option>
+                </mat-select>
+              </mat-form-field>
+              <mat-form-field class="full-width-input">
+                <mat-label>Starting number</mat-label>
+                <input matInput formControlName="start" required>
+                <mat-error>
+                    Starting number must be between 1 and 100000.
+                </mat-error>
+              </mat-form-field>
+              <mat-form-field class="full-width-input">
+                <mat-label>Prefix</mat-label>
+                <input matInput formControlName="prefix" required>
+                <mat-error>
+                    Prefix must be between 0-10 characters long.
+                </mat-error>
+              </mat-form-field>
+              <mat-form-field class="full-width-input">
+                <mat-label>Step</mat-label>
+                <input matInput formControlName="step" required>
+                <mat-error>
+                    Step must be between 1 and 10.
+                </mat-error>
+              </mat-form-field>
+            <button *ngIf="selected" mat-raised-button color="primary" [disabled]="queueForm.invalid" class="form-btn">Save</button>
+          </form>
+        </mat-card-content>
+      </mat-card>
+<!--
+      <mat-card class="mat-elevation-z8 bottom-card">
+        <mat-card-header>
+          <mat-card-title>Manager</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+          <p *ngIf="!selected || isNew">Select a site to promote or demote its manager</p>
+          <p *ngIf="selected && !isNew && !!selected.managerId">The current manager is {{selected.managerName}}</p>
+          <mat-form-field appearance="fill" class="full-width-input" *ngIf="selected && !isNew && !selected.managerId">
+            <mat-label>Select an employee</mat-label>
+            <mat-select [(ngModel)]="selectedEmployee" >
+              <mat-option *ngFor="let e of employeesOfSelectedSite()" [value]="e"> {{e.userName}} </mat-option>
+            </mat-select>
+          </mat-form-field>
+          <button *ngIf="selected && !isNew && !selected.managerId" mat-raised-button color="primary" class="form-btn" (click)="promoteManager()" [disabled]="!selectedEmployee">Assign manager</button>
+          <button *ngIf="selected && !isNew && !!selected.managerId" mat-raised-button color="warn" class="form-btn" (click)="demoteManager()">Demote manager</button>
+        </mat-card-content>
+      </mat-card>
+-->
+    </div>
+  </div>
+  

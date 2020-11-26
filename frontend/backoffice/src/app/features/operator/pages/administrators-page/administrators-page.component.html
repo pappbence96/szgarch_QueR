@@ -115,7 +115,7 @@
         <mat-form-field appearance="fill" class="full-width-input" *ngIf="selected && !isNew && !selected.administratedCompanyId">
           <mat-label>Select company</mat-label>
           <mat-select [(ngModel)]="selectedCompany">
-            <mat-option *ngFor="let c of companies" [value]="c"> {{c.name}} </mat-option>
+            <mat-option *ngFor="let c of availableCompanies()" [value]="c"> {{c.name}} </mat-option>
           </mat-select>
         </mat-form-field>
         <button *ngIf="selected && !isNew && !selected.administratedCompanyId" mat-raised-button color="primary" class="form-btn" (click)="assingToCompany()" [disabled]="!selectedCompany">Assign to company</button>

@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using QueR.DAL;
 
 namespace QueR.DAL.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20201126211037_SeedUpdate")]
+    partial class SeedUpdate
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -51,35 +53,35 @@ namespace QueR.DAL.Migrations
                         new
                         {
                             Id = 1,
-                            ConcurrencyStamp = "f5583ca1-c767-48a2-8699-4c320103cdbc",
+                            ConcurrencyStamp = "eec16eca-92fd-4fc8-a40e-9200e7c5e54b",
                             Name = "operator",
                             NormalizedName = "OPERATOR"
                         },
                         new
                         {
                             Id = 2,
-                            ConcurrencyStamp = "1927f661-1d07-4444-8aaf-709a88fd0aae",
+                            ConcurrencyStamp = "df211399-9990-4ad1-badd-98866a4607e8",
                             Name = "administrator",
                             NormalizedName = "ADMINISTRATOR"
                         },
                         new
                         {
                             Id = 3,
-                            ConcurrencyStamp = "63bbe611-4da6-44a2-aaff-18cd12170bbb",
+                            ConcurrencyStamp = "666699b3-591f-4567-b4a9-a83b4f536eb3",
                             Name = "manager",
                             NormalizedName = "MANAGER"
                         },
                         new
                         {
                             Id = 4,
-                            ConcurrencyStamp = "946315b3-5ebc-4d33-80bf-fadddf7de12e",
+                            ConcurrencyStamp = "f0907eb2-d3d3-4575-a866-5d3dac3316f0",
                             Name = "employee",
                             NormalizedName = "EMPLOYEE"
                         },
                         new
                         {
                             Id = 5,
-                            ConcurrencyStamp = "7c856f2f-8d2d-47e3-9a69-d1709c6fc909",
+                            ConcurrencyStamp = "ad1b886d-60bf-4428-b4e1-8a73613ca7a9",
                             Name = "user",
                             NormalizedName = "USER"
                         });
@@ -382,7 +384,7 @@ namespace QueR.DAL.Migrations
                             Id = 1,
                             AccessFailedCount = 0,
                             Address = "",
-                            ConcurrencyStamp = "99c2da2e-6173-44b8-b82e-ac73cf8a715c",
+                            ConcurrencyStamp = "73013b06-8cac-4bbc-9fa9-88f35d312394",
                             Email = "operator@test.hu",
                             EmailConfirmed = false,
                             FirstName = "Test",
@@ -391,7 +393,7 @@ namespace QueR.DAL.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "OPERATOR@TEST.HU",
                             NormalizedUserName = "OPERATOR",
-                            PasswordHash = "AQAAAAEAACcQAAAAEHZV6cTXXnBDX907gsG0vcqaxnr7ydHpyxPaYn2ISYttx54APL5bd4pMds8Di3uWdw==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEGfQCff+v3H8LRsVTCfGeUnb8fugy7mez7fdZk7fFjPxovS0qkZh2GDCsfuNq16OBQ==",
                             PhoneNumberConfirmed = false,
                             TwoFactorEnabled = false,
                             UserName = "operator"
@@ -401,8 +403,7 @@ namespace QueR.DAL.Migrations
                             Id = 2,
                             AccessFailedCount = 0,
                             Address = "",
-                            CompanyId = 1,
-                            ConcurrencyStamp = "dc88261a-290c-4414-aa1c-2f1c43acdc34",
+                            ConcurrencyStamp = "cc30d075-1486-4f3e-8c3d-ce4a4f796da8",
                             Email = "admina@test.hu",
                             EmailConfirmed = false,
                             FirstName = "Admin",
@@ -411,7 +412,7 @@ namespace QueR.DAL.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "ADMINA@TEST.HU",
                             NormalizedUserName = "ADMINA",
-                            PasswordHash = "AQAAAAEAACcQAAAAEK3Pn9Lb/y287e0myjoFHA3gc3zSspeL/3V2piIS0gYhRXqWpnh5JG/jAa5gjUIDtQ==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEA5aS8EzVEwHcVueG1Mrzi9sfUKxd6MwQn5lDk3FVfQU2VvfEsnuqbU3tSw8x7QhFQ==",
                             PhoneNumberConfirmed = false,
                             TwoFactorEnabled = false,
                             UserName = "admina"
@@ -421,8 +422,7 @@ namespace QueR.DAL.Migrations
                             Id = 3,
                             AccessFailedCount = 0,
                             Address = "",
-                            CompanyId = 2,
-                            ConcurrencyStamp = "5bcd2bf7-6975-4a08-977a-e5d6bda3c798",
+                            ConcurrencyStamp = "29d16c0f-e2de-419b-80ec-bfbc00662f82",
                             Email = "adminb@test.hu",
                             EmailConfirmed = false,
                             FirstName = "Admin",
@@ -431,7 +431,7 @@ namespace QueR.DAL.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "ADMINB@TEST.HU",
                             NormalizedUserName = "ADMINB",
-                            PasswordHash = "AQAAAAEAACcQAAAAEIJMcJHm57TC80MANa3hq728aQ0YpPM/nnUW0I2FFc3FxgpC4rYbqz4GNCFFI/DwRA==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEMDfa53bJOKofWRXwgdgcnmC49oRcrqVdeAUi+70qJ+SVvzP+GEgev/WUbsThMHoKQ==",
                             PhoneNumberConfirmed = false,
                             TwoFactorEnabled = false,
                             UserName = "adminb"
@@ -441,8 +441,7 @@ namespace QueR.DAL.Migrations
                             Id = 4,
                             AccessFailedCount = 0,
                             Address = "",
-                            CompanyId = 1,
-                            ConcurrencyStamp = "a0fee814-69ca-4d87-93a3-8373e2a9c2fb",
+                            ConcurrencyStamp = "d4ac3c41-fb11-4ae5-a637-879ca92f1b2d",
                             Email = "managera1@test.hu",
                             EmailConfirmed = false,
                             FirstName = "Manager",
@@ -451,19 +450,17 @@ namespace QueR.DAL.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "MANAGERA1@TEST.HU",
                             NormalizedUserName = "MANAGERA1",
-                            PasswordHash = "AQAAAAEAACcQAAAAEEbnAPUkpWYgGDBM130RTZ8WktHt9N7B820YBXBPaAR+cNf8JeQ0gbJ+WoKow6CMZA==",
+                            PasswordHash = "AQAAAAEAACcQAAAAENoRH3nuzYdZ++UHBGajcUvxbgVxzSjBTaFQIRr7H80swfpja2Dzqrzdw9RaywQLlA==",
                             PhoneNumberConfirmed = false,
                             TwoFactorEnabled = false,
-                            UserName = "managera1",
-                            WorksiteId = 1
+                            UserName = "managera1"
                         },
                         new
                         {
                             Id = 5,
                             AccessFailedCount = 0,
                             Address = "",
-                            CompanyId = 1,
-                            ConcurrencyStamp = "ab1f10dc-9f36-43ef-a26f-2c80c6d70070",
+                            ConcurrencyStamp = "bbcfc071-55fe-4a93-b739-ed26d52d7a41",
                             Email = "managera2@test.hu",
                             EmailConfirmed = false,
                             FirstName = "Manager",
@@ -472,19 +469,17 @@ namespace QueR.DAL.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "MANAGERA2@TEST.HU",
                             NormalizedUserName = "MANAGERA2",
-                            PasswordHash = "AQAAAAEAACcQAAAAEG/Ev3LEbxCFEBHkTFOVUNlKBduf5gGqBPZoG4T4m6SsPTxgEsmvQtzjVigkXrk7Ig==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEPCykcZrYYY4exKzoMxj+B9mL3iRsBqFwK/MENHKIaAgPl/Se44cmxcJrE+EbjQwMw==",
                             PhoneNumberConfirmed = false,
                             TwoFactorEnabled = false,
-                            UserName = "managera2",
-                            WorksiteId = 2
+                            UserName = "managera2"
                         },
                         new
                         {
                             Id = 6,
                             AccessFailedCount = 0,
                             Address = "",
-                            CompanyId = 2,
-                            ConcurrencyStamp = "c8528207-2878-44a1-9daa-64b249aad260",
+                            ConcurrencyStamp = "9a9943f8-c8d3-45d9-aec9-71b71e33d2ef",
                             Email = "managerb1@test.hu",
                             EmailConfirmed = false,
                             FirstName = "Manager",
@@ -493,19 +488,17 @@ namespace QueR.DAL.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "MANAGERB1@TEST.HU",
                             NormalizedUserName = "MANAGERB1",
-                            PasswordHash = "AQAAAAEAACcQAAAAEFxZkfpxL0JMpWGeu93kbLHqbgr7aAnJw7JcWF8KUMqlsxP/W3c4FsBfHWw7jJFK3A==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEIKCl8w7DQBEJBdkl9cmKkpd02FwXFYxSfVBwB4exIBXtzD2eSWSjEOYrC26+yBA4w==",
                             PhoneNumberConfirmed = false,
                             TwoFactorEnabled = false,
-                            UserName = "managerb1",
-                            WorksiteId = 3
+                            UserName = "managerb1"
                         },
                         new
                         {
                             Id = 7,
                             AccessFailedCount = 0,
                             Address = "",
-                            CompanyId = 2,
-                            ConcurrencyStamp = "88507dc7-e344-404c-82fd-c3dd0684c00f",
+                            ConcurrencyStamp = "7474edba-3f1a-4d09-ad23-db82c3e127a6",
                             Email = "managerb2@test.hu",
                             EmailConfirmed = false,
                             FirstName = "Manager",
@@ -514,19 +507,17 @@ namespace QueR.DAL.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "MANAGERB2@TEST.HU",
                             NormalizedUserName = "MANAGERB2",
-                            PasswordHash = "AQAAAAEAACcQAAAAEDl1jaij5P5k/fseQi6kyDcBNBcTJ+AoK+9Z2tvxb5yNzmrrzH68Afs4oZ/f7MlZug==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEPLKROaJ20Bego7gviET4WohjrvyS9TqKFd4oxFofvARdZ2OKPBOhUCTwSxcG2ZVTg==",
                             PhoneNumberConfirmed = false,
                             TwoFactorEnabled = false,
-                            UserName = "managerb2",
-                            WorksiteId = 4
+                            UserName = "managerb2"
                         },
                         new
                         {
                             Id = 8,
                             AccessFailedCount = 0,
                             Address = "",
-                            CompanyId = 1,
-                            ConcurrencyStamp = "fc5e3e7e-2f18-47d8-97aa-61ea79ad3512",
+                            ConcurrencyStamp = "6ff01aee-ab75-4999-ad0f-edb20a289e96",
                             Email = "workera11@test.hu",
                             EmailConfirmed = false,
                             FirstName = "Worker",
@@ -535,19 +526,17 @@ namespace QueR.DAL.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "WORKERA11@TEST.HU",
                             NormalizedUserName = "WORKERA11",
-                            PasswordHash = "AQAAAAEAACcQAAAAEFOTdgRR9GyJAPCb1avuQajARtnEdkP7zremlE3iQt4Xpps3AjWAaSt79VaPVoFm6A==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEJx/LhCrjBKJKLQsDwBQYK1J9XFG0BQG4gwz7CA0GwWDDqBAO6MxUmyPfm/zquX7nA==",
                             PhoneNumberConfirmed = false,
                             TwoFactorEnabled = false,
-                            UserName = "workera11",
-                            WorksiteId = 1
+                            UserName = "workera11"
                         },
                         new
                         {
                             Id = 9,
                             AccessFailedCount = 0,
                             Address = "",
-                            CompanyId = 1,
-                            ConcurrencyStamp = "d95ca76d-e2c7-43df-84d7-c79deeb94093",
+                            ConcurrencyStamp = "7a021976-2333-4640-95c5-cb4203eeb497",
                             Email = "workera12@test.hu",
                             EmailConfirmed = false,
                             FirstName = "Worker",
@@ -556,19 +545,17 @@ namespace QueR.DAL.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "WORKERA12@TEST.HU",
                             NormalizedUserName = "WORKERA12",
-                            PasswordHash = "AQAAAAEAACcQAAAAEIsncEBFsfcTSJdVMbTFfcTiQtx2r8H2SLbHCnLQ4xlmw89fG46Eu/PcG5wlYO04zQ==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEN6OTk9BzwRO+2yRKoLvUGtpdtpNxVqioPfYmqhLRWk/Lr/4PaXdvjGegSS2Wrulxg==",
                             PhoneNumberConfirmed = false,
                             TwoFactorEnabled = false,
-                            UserName = "workera12",
-                            WorksiteId = 1
+                            UserName = "workera12"
                         },
                         new
                         {
                             Id = 10,
                             AccessFailedCount = 0,
                             Address = "",
-                            CompanyId = 1,
-                            ConcurrencyStamp = "d0728c1b-d1cd-4fd3-ada4-6d96229d9154",
+                            ConcurrencyStamp = "9c784958-4f19-4e1c-9f1f-9dba5e65bdab",
                             Email = "workera21@test.hu",
                             EmailConfirmed = false,
                             FirstName = "Worker",
@@ -577,19 +564,17 @@ namespace QueR.DAL.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "WORKERA21@TEST.HU",
                             NormalizedUserName = "WORKERA21",
-                            PasswordHash = "AQAAAAEAACcQAAAAEFzEx7eGtC4evB30lZMiCkG0v8FOid3EeGFL372UHKAT9JyGf0f4jA+WjBlgHo+8BA==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEDyVO2ldytyquMqx9joPGVdtOMOG4FdKxsge8AyqsrjQhkz+q95up3irp9dVg7z8Ww==",
                             PhoneNumberConfirmed = false,
                             TwoFactorEnabled = false,
-                            UserName = "workera21",
-                            WorksiteId = 2
+                            UserName = "workera21"
                         },
                         new
                         {
                             Id = 11,
                             AccessFailedCount = 0,
                             Address = "",
-                            CompanyId = 1,
-                            ConcurrencyStamp = "b39434de-467b-4f05-86ac-31cbcedef2d3",
+                            ConcurrencyStamp = "7d3d3cce-e71d-4174-bf26-2c14a57f421c",
                             Email = "workera22@test.hu",
                             EmailConfirmed = false,
                             FirstName = "Worker",
@@ -598,19 +583,17 @@ namespace QueR.DAL.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "WORKERA22@TEST.HU",
                             NormalizedUserName = "WORKERA22",
-                            PasswordHash = "AQAAAAEAACcQAAAAEHNkRZuy0px6l/xU5fddLh+75aIRfcnUEdoxrhI4D7o7GUO8XlsP5zNjYpbJ+RkkbA==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEJWxqTvho6wK56N8oGrN2bUuGWLXA5f6YwA21Lka/inaRlBG12icKGKT7DWvEmzeAA==",
                             PhoneNumberConfirmed = false,
                             TwoFactorEnabled = false,
-                            UserName = "workera22",
-                            WorksiteId = 2
+                            UserName = "workera22"
                         },
                         new
                         {
                             Id = 12,
                             AccessFailedCount = 0,
                             Address = "",
-                            CompanyId = 2,
-                            ConcurrencyStamp = "d6eb6649-3788-472b-8070-ff07dd0a8fc2",
+                            ConcurrencyStamp = "b9d12ab3-0996-45ad-9509-d5e2fb808701",
                             Email = "workerb11@test.hu",
                             EmailConfirmed = false,
                             FirstName = "Worker",
@@ -619,19 +602,17 @@ namespace QueR.DAL.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "WORKERB11@TEST.HU",
                             NormalizedUserName = "WORKERB11",
-                            PasswordHash = "AQAAAAEAACcQAAAAEL89d+QYH5KI8FxIuS66fmBQQrtn1TFuSUCwNkbiAw92CUJte/21faya71PKzzbc4A==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEMY90GhktP3ulul2H4jYU7X6nHb0LiQtih+QoV1qPfqfpgXZgmslmS1ABKSTHrVCdg==",
                             PhoneNumberConfirmed = false,
                             TwoFactorEnabled = false,
-                            UserName = "workerb11",
-                            WorksiteId = 3
+                            UserName = "workerb11"
                         },
                         new
                         {
                             Id = 13,
                             AccessFailedCount = 0,
                             Address = "",
-                            CompanyId = 2,
-                            ConcurrencyStamp = "5d1e511b-1e35-47a3-b877-acbe13a287ca",
+                            ConcurrencyStamp = "273c8cb9-3142-4433-a1ff-7f7601d427ae",
                             Email = "workerb12@test.hu",
                             EmailConfirmed = false,
                             FirstName = "Worker",
@@ -640,19 +621,17 @@ namespace QueR.DAL.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "WORKERB12@TEST.HU",
                             NormalizedUserName = "WORKERB12",
-                            PasswordHash = "AQAAAAEAACcQAAAAEGOWFVIpONkOrpiIHQ6p9sB08WFCUq5TdLc9MJBEwU2BIgs3KDNZ6e564PvGNPUy9A==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEA/Zg39TdCDbtsegTbTyl7VhwJ3zdEIMDA+FAhCOc6i1DBunfKz7FZfl/rHRG0SxKw==",
                             PhoneNumberConfirmed = false,
                             TwoFactorEnabled = false,
-                            UserName = "workerb12",
-                            WorksiteId = 3
+                            UserName = "workerb12"
                         },
                         new
                         {
                             Id = 14,
                             AccessFailedCount = 0,
                             Address = "",
-                            CompanyId = 2,
-                            ConcurrencyStamp = "5b4609b8-cbaa-489e-9b02-7ea2ee92d2a5",
+                            ConcurrencyStamp = "b5032de2-2267-4f20-84c1-434c174341b8",
                             Email = "workerb21@test.hu",
                             EmailConfirmed = false,
                             FirstName = "Worker",
@@ -661,19 +640,17 @@ namespace QueR.DAL.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "WORKERB21@TEST.HU",
                             NormalizedUserName = "WORKERB21",
-                            PasswordHash = "AQAAAAEAACcQAAAAEI/fvcYGYmf8XHvcjeLKDKNnUnnyZOAfjUnKXy9ji2FC35hMir+tI12LjnpoMcJN6A==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEPdBWW4b296TIreHeu34UL7LCb0D9Ep/C1Eom8S/j13sP6K5zi5yONiT/ld2mECkjw==",
                             PhoneNumberConfirmed = false,
                             TwoFactorEnabled = false,
-                            UserName = "workerb21",
-                            WorksiteId = 4
+                            UserName = "workerb21"
                         },
                         new
                         {
                             Id = 15,
                             AccessFailedCount = 0,
                             Address = "",
-                            CompanyId = 2,
-                            ConcurrencyStamp = "cf9656b3-cf76-49c2-b212-96e5afff48b4",
+                            ConcurrencyStamp = "79aefd0a-3253-4d8b-8f2d-a3ac56bb92de",
                             Email = "workerb22@test.hu",
                             EmailConfirmed = false,
                             FirstName = "Worker",
@@ -682,11 +659,10 @@ namespace QueR.DAL.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "WORKERB22@TEST.HU",
                             NormalizedUserName = "WORKERB22",
-                            PasswordHash = "AQAAAAEAACcQAAAAEPhgMydZx+tTup7UK6oFBloso241i3Saeur5n6FH0qs5eB21Abot4/OQPcWPPrrYaQ==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEBsRhWs0YXrB9Sh/khXu1yMXLc3KVitOLuUEQwgu3i5NWaENtO5s83C1a7kzmBHrIw==",
                             PhoneNumberConfirmed = false,
                             TwoFactorEnabled = false,
-                            UserName = "workerb22",
-                            WorksiteId = 4
+                            UserName = "workerb22"
                         });
                 });
 
@@ -718,12 +694,14 @@ namespace QueR.DAL.Migrations
                         new
                         {
                             Id = 1,
+                            AdministratorId = 2,
                             MailingAddress = "Address of Company A",
                             Name = "Company A"
                         },
                         new
                         {
                             Id = 2,
+                            AdministratorId = 3,
                             MailingAddress = "Address of Company B",
                             Name = "Company B"
                         });
@@ -841,6 +819,7 @@ namespace QueR.DAL.Migrations
                             Id = 1,
                             Address = "random address",
                             CompanyId = 1,
+                            ManagerId = 4,
                             Name = "A Site 1"
                         },
                         new
@@ -848,6 +827,7 @@ namespace QueR.DAL.Migrations
                             Id = 2,
                             Address = "random address",
                             CompanyId = 1,
+                            ManagerId = 5,
                             Name = "A Site 2"
                         },
                         new
@@ -855,6 +835,7 @@ namespace QueR.DAL.Migrations
                             Id = 3,
                             Address = "random address",
                             CompanyId = 2,
+                            ManagerId = 6,
                             Name = "B Site 1"
                         },
                         new
@@ -862,6 +843,7 @@ namespace QueR.DAL.Migrations
                             Id = 4,
                             Address = "random address",
                             CompanyId = 2,
+                            ManagerId = 7,
                             Name = "B Site 2"
                         });
                 });

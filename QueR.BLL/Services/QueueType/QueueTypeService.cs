@@ -25,31 +25,8 @@ namespace QueR.BLL.Services.QueueType
             this.mapper = mapper;
         }
 
-        private async Task<bool> IsCallerCurrentAdministrator()
-        {
-            var callerCompanyId = userAccessor.CompanyId;
-            var company = (await context.Companies.FirstOrDefaultAsync(u => u.Id == callerCompanyId))
-                   ?? throw new KeyNotFoundException($"Company not found with an id of {callerCompanyId}");
-
-            if (!company.AdministratorId.HasValue || (company.AdministratorId.HasValue && company.AdministratorId != userAccessor.UserId))
-            {
-                return false;
-            }
-            else
-            {
-                return true;
-            }
-        }
-
         public async Task<QueueTypeDto> CreateQueueType(QueueTypeModel model)
         {
-            var callerCompanyId = userAccessor.CompanyId;
-
-            if (!await IsCallerCurrentAdministrator())
-            {
-                throw new InvalidOperationException("Only the current administrator can make changes");
-            }
-
             new QueueTypeValidator().ValidateAndThrow(model);
 
             if (await context.QueueTypes.AnyAsync(c => c.Name == model.Name))
@@ -60,7 +37,7 @@ namespace QueR.BLL.Services.QueueType
             var queueType = new Domain.Entities.QueueType
             {
                 Name = model.Name,
-                CompanyId = (int)callerCompanyId,
+                CompanyId = (int)userAccessor.CompanyId,
                 IsEnabled = true
             };
 
@@ -77,15 +54,8 @@ namespace QueR.BLL.Services.QueueType
 
         public async Task<IEnumerable<QueueTypeDto>> GetQueueTypes()
         {
-            var callerCompanyId = userAccessor.CompanyId;
-
-            if (!await IsCallerCurrentAdministrator())
-            {
-                throw new InvalidOperationException("Only the current administrator can view statistics");
-            }
-
             var queueTypes = await context.QueueTypes
-                .Where(qt => qt.CompanyId == callerCompanyId)
+                .Where(qt => qt.CompanyId == userAccessor.CompanyId)
                 .Include(qt => qt.Queues)
                 .ToListAsync();
             return mapper.Map<IEnumerable<QueueTypeDto>>(queueTypes);
@@ -96,16 +66,14 @@ namespace QueR.BLL.Services.QueueType
             var queueType = (await context.QueueTypes.FirstOrDefaultAsync(u => u.Id == queueTypeId))
                 ?? throw new KeyNotFoundException($"Queue type not found with an id of {queueTypeId}");
 
-            var callerCompanyId = userAccessor.CompanyId;
-
-            if (!await IsCallerCurrentAdministrator())
+            if (queueType.CompanyId != userAccessor.CompanyId)
             {
                 throw new InvalidOperationException("Only the current manager can make changes");
             }
 
             new QueueTypeValidator().ValidateAndThrow(model);
 
-            if (queueType.CompanyId != callerCompanyId)
+            if (queueType.CompanyId != userAccessor.CompanyId)
             {
                 throw new InvalidOperationException("Queue type is not part of the company");
             }

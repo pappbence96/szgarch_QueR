@@ -20,7 +20,6 @@ namespace QueR.Application
 
             var host = CreateHostBuilder(args).Build();
             await host.CreateAndUpdateDatabase();
-            await host.CreateRolesAndUsers();
             await host.RunAsync();
         }
         

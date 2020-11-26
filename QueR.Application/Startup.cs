@@ -61,7 +61,9 @@ namespace QueR.Application
                 options.Password.RequireUppercase = false;
                 options.Password.RequiredLength = 3;
                 options.Password.RequiredUniqueChars = 1;
-            }).AddEntityFrameworkStores<AppDbContext>();
+            })
+                .AddRoles<IdentityRole<int>>()
+                .AddEntityFrameworkStores<AppDbContext>();
 
             services.AddAuthentication(options =>
             {

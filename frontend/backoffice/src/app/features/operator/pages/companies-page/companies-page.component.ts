@@ -123,8 +123,9 @@ export class CompaniesPageComponent implements OnInit {
         const updated = this.companies.find((item: CompanyDto) => item.id === this.selected.id);
         updated.adminName = '-';
         updated.adminId = null;
-        this.selectedAdmin = null;
         this.selected = updated;
+        this.selectedAdmin.administratedCompanyId = null;
+        this.selectedAdmin = null;
       },
       (error: ErrorDetails) => {
         this.snackbar.showSnackbar(error.message);
@@ -143,6 +144,7 @@ export class CompaniesPageComponent implements OnInit {
         updated.adminId = this.selectedAdmin.id;
         updated.adminName = this.selectedAdmin.userName;
         this.selected = updated;
+        this.selectedAdmin.administratedCompanyId = this.selected.id;
       },
       (error: ErrorDetails) => {
         this.snackbar.showSnackbar(error.message);
@@ -153,5 +155,9 @@ export class CompaniesPageComponent implements OnInit {
     this.dataSource.filterPredicate = (company: CompanyDto, filterText: string) => {
       return company.name.toLowerCase().indexOf(filterText.toLocaleLowerCase()) === 0;
     };
+  }
+
+  availableAdmins(): ApplicationUserDto[] {
+    return this.admins.filter(a => a.administratedCompanyId === null);
   }
 }
