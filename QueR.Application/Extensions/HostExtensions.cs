@@ -18,7 +18,7 @@ namespace QueR.Application.Extensions
         {
             using var scope = host.Services.CreateScope();
             var appDbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-            await appDbContext.Database.EnsureCreatedAsync();   
+            await appDbContext.Database.EnsureCreatedAsync();
 
             return host;
         }

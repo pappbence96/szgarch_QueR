@@ -63,11 +63,11 @@ namespace QueR.BLL.Services.Site
             {
                 throw new InvalidOperationException("Manager or site is not part of the company.");
             }
-            /*
-            if (!await userManager.IsInRoleAsync(manager, "manager"))
+            
+            if (!await userManager.IsInRoleAsync(manager, "employee"))
             {
                 throw new InvalidOperationException("User is not a manager");
-            }*/
+            }
 
             if ((site.Manager != null) && (site.ManagerId != managerId))
             {
