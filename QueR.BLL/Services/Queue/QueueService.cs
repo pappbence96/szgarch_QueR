@@ -9,6 +9,7 @@ using QueR.Domain.Entities;
 using QueR.Domain.Services;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -199,6 +200,26 @@ namespace QueR.BLL.Services.Queue
             }
 
             return mapper.Map<IEnumerable<ApplicationUserDto>>(queue.AssignedEmployees);
+        }
+
+        public async Task<IEnumerable<QueueDto>> GetQueues()
+        {
+            //var callerCompanyId = userAccessor.CompanyId;
+            var callerWorksiteId = userAccessor.WorksiteId;
+
+            if (!await IsCallerCurrentManager())
+            {
+                throw new InvalidOperationException("Only the current manager can view statistics");
+            }
+
+            var queues = await context.Queues
+                .Include(q => q.Site)
+                .Include(q => q.Type)
+                .Include(q => q.AssignedEmployees)
+                .Include(q => q.Tickets)
+                .Where(u => u.SiteId == callerWorksiteId)
+                .ToListAsync();
+            return mapper.Map<IEnumerable<QueueDto>>(queues);
         }
     }
 }
