@@ -85,7 +85,8 @@ namespace QueR.BLL.Services.QueueType
             }
 
             var queueTypes = await context.QueueTypes
-                .Where(u => u.CompanyId == callerCompanyId)
+                .Where(qt => qt.CompanyId == callerCompanyId)
+                .Include(qt => qt.Queues)
                 .ToListAsync();
             return mapper.Map<IEnumerable<QueueTypeDto>>(queueTypes);
         }

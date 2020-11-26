@@ -66,7 +66,7 @@ namespace QueR.BLL.Services.Site
             
             if (!await userManager.IsInRoleAsync(manager, "employee"))
             {
-                throw new InvalidOperationException("User is not a manager");
+                throw new InvalidOperationException("User is not an employee");
             }
 
             if ((site.Manager != null) && (site.ManagerId != managerId))

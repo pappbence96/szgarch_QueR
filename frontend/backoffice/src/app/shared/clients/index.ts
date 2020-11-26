@@ -490,6 +490,400 @@ export class IdentityClient {
 @Injectable({
     providedIn: 'root'
 })
+export class QueuesClient {
+    private http: HttpClient;
+    private baseUrl: string;
+    protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
+
+    constructor(@Inject(HttpClient) http: HttpClient, @Optional() @Inject(API_BASE_URL) baseUrl?: string) {
+        this.http = http;
+        this.baseUrl = baseUrl !== undefined && baseUrl !== null ? baseUrl : "";
+    }
+
+    createQueue(model: QueueModel): Observable<QueueDto> {
+        let url_ = this.baseUrl + "/api/Queues";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(model);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json",
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processCreateQueue(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processCreateQueue(<any>response_);
+                } catch (e) {
+                    return <Observable<QueueDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<QueueDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processCreateQueue(response: HttpResponseBase): Observable<QueueDto> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 400) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result400: any = null;
+            let resultData400 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result400 = ErrorDetails.fromJS(resultData400);
+            return throwException("A server side error occurred.", status, _responseText, _headers, result400);
+            }));
+        } else if (status === 401) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result401: any = null;
+            let resultData401 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result401 = ErrorDetails.fromJS(resultData401);
+            return throwException("A server side error occurred.", status, _responseText, _headers, result401);
+            }));
+        } else if (status === 403) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result403: any = null;
+            let resultData403 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result403 = ErrorDetails.fromJS(resultData403);
+            return throwException("A server side error occurred.", status, _responseText, _headers, result403);
+            }));
+        } else if (status === 404) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result404: any = null;
+            let resultData404 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result404 = ErrorDetails.fromJS(resultData404);
+            return throwException("A server side error occurred.", status, _responseText, _headers, result404);
+            }));
+        } else {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let resultdefault: any = null;
+            let resultDatadefault = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            resultdefault = QueueDto.fromJS(resultDatadefault);
+            return _observableOf(resultdefault);
+            }));
+        }
+    }
+
+    updateQueue(queueId: number, model: QueueModel): Observable<void> {
+        let url_ = this.baseUrl + "/api/Queues/{queueId}";
+        if (queueId === undefined || queueId === null)
+            throw new Error("The parameter 'queueId' must be defined.");
+        url_ = url_.replace("{queueId}", encodeURIComponent("" + queueId));
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(model);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json",
+            })
+        };
+
+        return this.http.request("put", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processUpdateQueue(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processUpdateQueue(<any>response_);
+                } catch (e) {
+                    return <Observable<void>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<void>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processUpdateQueue(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 400) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result400: any = null;
+            let resultData400 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result400 = ErrorDetails.fromJS(resultData400);
+            return throwException("A server side error occurred.", status, _responseText, _headers, result400);
+            }));
+        } else if (status === 401) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result401: any = null;
+            let resultData401 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result401 = ErrorDetails.fromJS(resultData401);
+            return throwException("A server side error occurred.", status, _responseText, _headers, result401);
+            }));
+        } else if (status === 403) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result403: any = null;
+            let resultData403 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result403 = ErrorDetails.fromJS(resultData403);
+            return throwException("A server side error occurred.", status, _responseText, _headers, result403);
+            }));
+        } else if (status === 404) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result404: any = null;
+            let resultData404 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result404 = ErrorDetails.fromJS(resultData404);
+            return throwException("A server side error occurred.", status, _responseText, _headers, result404);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<void>(<any>null);
+    }
+
+    getEmployeesOfQueue(queueId: number): Observable<ApplicationUserDto[]> {
+        let url_ = this.baseUrl + "/api/Queues/{queueId}";
+        if (queueId === undefined || queueId === null)
+            throw new Error("The parameter 'queueId' must be defined.");
+        url_ = url_.replace("{queueId}", encodeURIComponent("" + queueId));
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetEmployeesOfQueue(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetEmployeesOfQueue(<any>response_);
+                } catch (e) {
+                    return <Observable<ApplicationUserDto[]>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<ApplicationUserDto[]>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetEmployeesOfQueue(response: HttpResponseBase): Observable<ApplicationUserDto[]> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 400) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result400: any = null;
+            let resultData400 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result400 = ErrorDetails.fromJS(resultData400);
+            return throwException("A server side error occurred.", status, _responseText, _headers, result400);
+            }));
+        } else if (status === 401) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result401: any = null;
+            let resultData401 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result401 = ErrorDetails.fromJS(resultData401);
+            return throwException("A server side error occurred.", status, _responseText, _headers, result401);
+            }));
+        } else if (status === 403) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result403: any = null;
+            let resultData403 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result403 = ErrorDetails.fromJS(resultData403);
+            return throwException("A server side error occurred.", status, _responseText, _headers, result403);
+            }));
+        } else if (status === 404) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result404: any = null;
+            let resultData404 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result404 = ErrorDetails.fromJS(resultData404);
+            return throwException("A server side error occurred.", status, _responseText, _headers, result404);
+            }));
+        } else {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let resultdefault: any = null;
+            let resultDatadefault = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            if (Array.isArray(resultDatadefault)) {
+                resultdefault = [] as any;
+                for (let item of resultDatadefault)
+                    resultdefault!.push(ApplicationUserDto.fromJS(item));
+            }
+            return _observableOf(resultdefault);
+            }));
+        }
+    }
+
+    assignEmployeeToQueue(queueId: number, workerId: number): Observable<void> {
+        let url_ = this.baseUrl + "/api/Queues/{queueId}/workers/{workerId}";
+        if (queueId === undefined || queueId === null)
+            throw new Error("The parameter 'queueId' must be defined.");
+        url_ = url_.replace("{queueId}", encodeURIComponent("" + queueId));
+        if (workerId === undefined || workerId === null)
+            throw new Error("The parameter 'workerId' must be defined.");
+        url_ = url_.replace("{workerId}", encodeURIComponent("" + workerId));
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processAssignEmployeeToQueue(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processAssignEmployeeToQueue(<any>response_);
+                } catch (e) {
+                    return <Observable<void>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<void>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processAssignEmployeeToQueue(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 400) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result400: any = null;
+            let resultData400 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result400 = ErrorDetails.fromJS(resultData400);
+            return throwException("A server side error occurred.", status, _responseText, _headers, result400);
+            }));
+        } else if (status === 401) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result401: any = null;
+            let resultData401 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result401 = ErrorDetails.fromJS(resultData401);
+            return throwException("A server side error occurred.", status, _responseText, _headers, result401);
+            }));
+        } else if (status === 403) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result403: any = null;
+            let resultData403 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result403 = ErrorDetails.fromJS(resultData403);
+            return throwException("A server side error occurred.", status, _responseText, _headers, result403);
+            }));
+        } else if (status === 404) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result404: any = null;
+            let resultData404 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result404 = ErrorDetails.fromJS(resultData404);
+            return throwException("A server side error occurred.", status, _responseText, _headers, result404);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<void>(<any>null);
+    }
+
+    removeEmployeeFromQueue(queueId: number, workerId: number | undefined, employeeId: string): Observable<void> {
+        let url_ = this.baseUrl + "/api/Queues/{queueId}/workers/{employeeId}?";
+        if (queueId === undefined || queueId === null)
+            throw new Error("The parameter 'queueId' must be defined.");
+        url_ = url_.replace("{queueId}", encodeURIComponent("" + queueId));
+        if (employeeId === undefined || employeeId === null)
+            throw new Error("The parameter 'employeeId' must be defined.");
+        url_ = url_.replace("{employeeId}", encodeURIComponent("" + employeeId));
+        if (workerId === null)
+            throw new Error("The parameter 'workerId' cannot be null.");
+        else if (workerId !== undefined)
+            url_ += "workerId=" + encodeURIComponent("" + workerId) + "&";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+            })
+        };
+
+        return this.http.request("delete", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processRemoveEmployeeFromQueue(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processRemoveEmployeeFromQueue(<any>response_);
+                } catch (e) {
+                    return <Observable<void>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<void>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processRemoveEmployeeFromQueue(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 400) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result400: any = null;
+            let resultData400 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result400 = ErrorDetails.fromJS(resultData400);
+            return throwException("A server side error occurred.", status, _responseText, _headers, result400);
+            }));
+        } else if (status === 401) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result401: any = null;
+            let resultData401 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result401 = ErrorDetails.fromJS(resultData401);
+            return throwException("A server side error occurred.", status, _responseText, _headers, result401);
+            }));
+        } else if (status === 403) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result403: any = null;
+            let resultData403 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result403 = ErrorDetails.fromJS(resultData403);
+            return throwException("A server side error occurred.", status, _responseText, _headers, result403);
+            }));
+        } else if (status === 404) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result404: any = null;
+            let resultData404 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result404 = ErrorDetails.fromJS(resultData404);
+            return throwException("A server side error occurred.", status, _responseText, _headers, result404);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<void>(<any>null);
+    }
+}
+
+@Injectable({
+    providedIn: 'root'
+})
 export class QueueTypesClient {
     private http: HttpClient;
     private baseUrl: string;
@@ -2466,6 +2860,208 @@ export interface ILoginModel {
     password?: string | undefined;
 }
 
+export class QueueDto implements IQueueDto {
+    queueType?: string | undefined;
+    nextNumber?: number;
+    worksite?: string | undefined;
+    worksiteId?: number;
+    numOfAssignedEmployees?: number;
+    numOfTickets?: number;
+
+    constructor(data?: IQueueDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.queueType = _data["queueType"];
+            this.nextNumber = _data["nextNumber"];
+            this.worksite = _data["worksite"];
+            this.worksiteId = _data["worksiteId"];
+            this.numOfAssignedEmployees = _data["numOfAssignedEmployees"];
+            this.numOfTickets = _data["numOfTickets"];
+        }
+    }
+
+    static fromJS(data: any): QueueDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new QueueDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["queueType"] = this.queueType;
+        data["nextNumber"] = this.nextNumber;
+        data["worksite"] = this.worksite;
+        data["worksiteId"] = this.worksiteId;
+        data["numOfAssignedEmployees"] = this.numOfAssignedEmployees;
+        data["numOfTickets"] = this.numOfTickets;
+        return data; 
+    }
+}
+
+export interface IQueueDto {
+    queueType?: string | undefined;
+    nextNumber?: number;
+    worksite?: string | undefined;
+    worksiteId?: number;
+    numOfAssignedEmployees?: number;
+    numOfTickets?: number;
+}
+
+export class QueueModel implements IQueueModel {
+    typeId?: number;
+    nextNumber?: number;
+
+    constructor(data?: IQueueModel) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.typeId = _data["typeId"];
+            this.nextNumber = _data["nextNumber"];
+        }
+    }
+
+    static fromJS(data: any): QueueModel {
+        data = typeof data === 'object' ? data : {};
+        let result = new QueueModel();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["typeId"] = this.typeId;
+        data["nextNumber"] = this.nextNumber;
+        return data; 
+    }
+}
+
+export interface IQueueModel {
+    typeId?: number;
+    nextNumber?: number;
+}
+
+export class ApplicationUserDto implements IApplicationUserDto {
+    id?: number;
+    userName?: string | undefined;
+    firstName?: string | undefined;
+    lastName?: string | undefined;
+    email?: string | undefined;
+    gender?: Gender;
+    address?: string | undefined;
+    assignedQueue?: string | undefined;
+    assignedQueueId?: number | undefined;
+    administratedCompany?: string | undefined;
+    administratedCompanyId?: number | undefined;
+    managedWorksite?: string | undefined;
+    managedWorksiteId?: number | undefined;
+    company?: string | undefined;
+    companyId?: number | undefined;
+    worksite?: string | undefined;
+    worksiteId?: number | undefined;
+
+    constructor(data?: IApplicationUserDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.id = _data["id"];
+            this.userName = _data["userName"];
+            this.firstName = _data["firstName"];
+            this.lastName = _data["lastName"];
+            this.email = _data["email"];
+            this.gender = _data["gender"];
+            this.address = _data["address"];
+            this.assignedQueue = _data["assignedQueue"];
+            this.assignedQueueId = _data["assignedQueueId"];
+            this.administratedCompany = _data["administratedCompany"];
+            this.administratedCompanyId = _data["administratedCompanyId"];
+            this.managedWorksite = _data["managedWorksite"];
+            this.managedWorksiteId = _data["managedWorksiteId"];
+            this.company = _data["company"];
+            this.companyId = _data["companyId"];
+            this.worksite = _data["worksite"];
+            this.worksiteId = _data["worksiteId"];
+        }
+    }
+
+    static fromJS(data: any): ApplicationUserDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new ApplicationUserDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
+        data["userName"] = this.userName;
+        data["firstName"] = this.firstName;
+        data["lastName"] = this.lastName;
+        data["email"] = this.email;
+        data["gender"] = this.gender;
+        data["address"] = this.address;
+        data["assignedQueue"] = this.assignedQueue;
+        data["assignedQueueId"] = this.assignedQueueId;
+        data["administratedCompany"] = this.administratedCompany;
+        data["administratedCompanyId"] = this.administratedCompanyId;
+        data["managedWorksite"] = this.managedWorksite;
+        data["managedWorksiteId"] = this.managedWorksiteId;
+        data["company"] = this.company;
+        data["companyId"] = this.companyId;
+        data["worksite"] = this.worksite;
+        data["worksiteId"] = this.worksiteId;
+        return data; 
+    }
+}
+
+export interface IApplicationUserDto {
+    id?: number;
+    userName?: string | undefined;
+    firstName?: string | undefined;
+    lastName?: string | undefined;
+    email?: string | undefined;
+    gender?: Gender;
+    address?: string | undefined;
+    assignedQueue?: string | undefined;
+    assignedQueueId?: number | undefined;
+    administratedCompany?: string | undefined;
+    administratedCompanyId?: number | undefined;
+    managedWorksite?: string | undefined;
+    managedWorksiteId?: number | undefined;
+    company?: string | undefined;
+    companyId?: number | undefined;
+    worksite?: string | undefined;
+    worksiteId?: number | undefined;
+}
+
+export enum Gender {
+    Male = "Male",
+    Female = "Female",
+    Other = "Other",
+}
+
 export class QueueTypeDto implements IQueueTypeDto {
     name?: string | undefined;
     numOfQueues?: number;
@@ -2636,112 +3232,6 @@ export class SiteModel implements ISiteModel {
 export interface ISiteModel {
     name?: string | undefined;
     address?: string | undefined;
-}
-
-export class ApplicationUserDto implements IApplicationUserDto {
-    id?: number;
-    userName?: string | undefined;
-    firstName?: string | undefined;
-    lastName?: string | undefined;
-    email?: string | undefined;
-    gender?: Gender;
-    address?: string | undefined;
-    assignedQueue?: string | undefined;
-    assignedQueueId?: number | undefined;
-    administratedCompany?: string | undefined;
-    administratedCompanyId?: number | undefined;
-    managedWorksite?: string | undefined;
-    managedWorksiteId?: number | undefined;
-    company?: string | undefined;
-    companyId?: number | undefined;
-    worksite?: string | undefined;
-    worksiteId?: number | undefined;
-
-    constructor(data?: IApplicationUserDto) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-        }
-    }
-
-    init(_data?: any) {
-        if (_data) {
-            this.id = _data["id"];
-            this.userName = _data["userName"];
-            this.firstName = _data["firstName"];
-            this.lastName = _data["lastName"];
-            this.email = _data["email"];
-            this.gender = _data["gender"];
-            this.address = _data["address"];
-            this.assignedQueue = _data["assignedQueue"];
-            this.assignedQueueId = _data["assignedQueueId"];
-            this.administratedCompany = _data["administratedCompany"];
-            this.administratedCompanyId = _data["administratedCompanyId"];
-            this.managedWorksite = _data["managedWorksite"];
-            this.managedWorksiteId = _data["managedWorksiteId"];
-            this.company = _data["company"];
-            this.companyId = _data["companyId"];
-            this.worksite = _data["worksite"];
-            this.worksiteId = _data["worksiteId"];
-        }
-    }
-
-    static fromJS(data: any): ApplicationUserDto {
-        data = typeof data === 'object' ? data : {};
-        let result = new ApplicationUserDto();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["id"] = this.id;
-        data["userName"] = this.userName;
-        data["firstName"] = this.firstName;
-        data["lastName"] = this.lastName;
-        data["email"] = this.email;
-        data["gender"] = this.gender;
-        data["address"] = this.address;
-        data["assignedQueue"] = this.assignedQueue;
-        data["assignedQueueId"] = this.assignedQueueId;
-        data["administratedCompany"] = this.administratedCompany;
-        data["administratedCompanyId"] = this.administratedCompanyId;
-        data["managedWorksite"] = this.managedWorksite;
-        data["managedWorksiteId"] = this.managedWorksiteId;
-        data["company"] = this.company;
-        data["companyId"] = this.companyId;
-        data["worksite"] = this.worksite;
-        data["worksiteId"] = this.worksiteId;
-        return data; 
-    }
-}
-
-export interface IApplicationUserDto {
-    id?: number;
-    userName?: string | undefined;
-    firstName?: string | undefined;
-    lastName?: string | undefined;
-    email?: string | undefined;
-    gender?: Gender;
-    address?: string | undefined;
-    assignedQueue?: string | undefined;
-    assignedQueueId?: number | undefined;
-    administratedCompany?: string | undefined;
-    administratedCompanyId?: number | undefined;
-    managedWorksite?: string | undefined;
-    managedWorksiteId?: number | undefined;
-    company?: string | undefined;
-    companyId?: number | undefined;
-    worksite?: string | undefined;
-    worksiteId?: number | undefined;
-}
-
-export enum Gender {
-    Male = "Male",
-    Female = "Female",
-    Other = "Other",
 }
 
 export class CreateUserModel implements ICreateUserModel {
