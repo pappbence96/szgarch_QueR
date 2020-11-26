@@ -29,31 +29,16 @@ namespace QueR.BLL.Services.User
             this.mapper = mapper;
         }
 
-        private async Task<bool> IsCallerCurrentAdministrator()
-        {
-            var callerCompanyId = userAccessor.CompanyId;
-            var company = (await context.Companies.FirstOrDefaultAsync(u => u.Id == callerCompanyId))
-                   ?? throw new KeyNotFoundException($"Company not found with an id of {callerCompanyId}");
-            if (!company.AdministratorId.HasValue || (company.AdministratorId.HasValue && company.AdministratorId != userAccessor.UserId))
-            {
-                return false;
-            }
-            else
-            {
-                return true;
-            }
-        }
-
         private async Task<ApplicationUser> CreateWorker(CreateUserModel model)
         {
             new WorkerValidator().ValidateAndThrow(model);
             new PasswordValidator().ValidateAndThrow(model);
 
             var callerCompanyId = userAccessor.CompanyId;
-            
-            if (!await IsCallerCurrentAdministrator())
+
+            if (callerCompanyId == null)
             {
-                throw new InvalidOperationException("Only the current administrator can make changes");
+                throw new InvalidOperationException("Only an assigned administrator can make changes");
             }
 
             var user = new ApplicationUser
@@ -66,11 +51,6 @@ namespace QueR.BLL.Services.User
                 CompanyId = callerCompanyId,
                 Gender = model.Gender
             };
-
-            if (!user.CompanyId.HasValue)
-            {
-                throw new InvalidOperationException("CompanyId is null");
-            }
 
             var result = await userManager.CreateAsync(user, model.Password);
 
@@ -226,9 +206,9 @@ namespace QueR.BLL.Services.User
 
             var callerCompanyId = userAccessor.CompanyId;
 
-            if (!await IsCallerCurrentAdministrator())
+            if (callerCompanyId == null)
             {
-                throw new InvalidOperationException("Only the current administrator can make changes");
+                throw new InvalidOperationException("Only an assigned administrator can make changes");
             }
 
             if (manager.CompanyId != callerCompanyId)
@@ -265,9 +245,9 @@ namespace QueR.BLL.Services.User
 
             var callerCompanyId = userAccessor.CompanyId;
 
-            if (!await IsCallerCurrentAdministrator())
+            if (callerCompanyId == null)
             {
-                throw new InvalidOperationException("Only the current administrator can make changes");
+                throw new InvalidOperationException("Only an assigned administrator can make changes");
             }
 
             if (employee.CompanyId != callerCompanyId)

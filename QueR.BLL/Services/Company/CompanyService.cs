@@ -86,7 +86,10 @@ namespace QueR.BLL.Services.Company
             var company = (await context.Companies.Include(c => c.Administrator).FirstOrDefaultAsync(u => u.Id == companyId))
                 ?? throw new KeyNotFoundException($"Company not found with an id of {companyId}");
 
+            var user = company.Administrator;
             company.AdministratorId = null;
+            user.CompanyId = null;
+
             await context.SaveChangesAsync();
         }
 

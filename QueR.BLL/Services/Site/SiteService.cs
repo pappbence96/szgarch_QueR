@@ -30,36 +30,6 @@ namespace QueR.BLL.Services.Site
             this.mapper = mapper;
         }
 
-        private async Task<bool> IsCallerCurrentAdministrator()
-        {
-            var callerCompanyId = userAccessor.CompanyId;
-            var company = (await context.Companies.FirstOrDefaultAsync(u => u.Id == callerCompanyId))
-                   ?? throw new KeyNotFoundException($"Company not found with an id of {callerCompanyId}");
-            if (!company.AdministratorId.HasValue || (company.AdministratorId.HasValue && company.AdministratorId != userAccessor.UserId))
-            {
-                return false;
-            }
-            else
-            {
-                return true;
-            }
-        }
-
-        private async Task<bool> IsCallerCurrentManager()
-        {
-            var callerWorksiteId = userAccessor.WorksiteId;
-            var site = (await context.Sites.FirstOrDefaultAsync(u => u.Id == callerWorksiteId))
-                   ?? throw new KeyNotFoundException($"Worksite not found with an id of {callerWorksiteId}");
-            if (!site.ManagerId.HasValue || (site.ManagerId.HasValue && site.ManagerId != userAccessor.UserId))
-            {
-                return false;
-            }
-            else
-            {
-                return true;
-            }
-        }
-
         public async Task AssignManagerToSite(int siteId, int managerId)
         {
             var manager = (await context.Users.Include(a => a.ManagedSite).FirstOrDefaultAsync(u => u.Id == managerId))
@@ -69,9 +39,9 @@ namespace QueR.BLL.Services.Site
 
             var callerCompanyId = userAccessor.CompanyId;
 
-            if (!await IsCallerCurrentAdministrator())
+            if (callerCompanyId == null)
             {
-                throw new InvalidOperationException("Only the current administrator can make changes");
+                throw new InvalidOperationException("Only an assigned administrator can make changes");
             }
 
             if (manager.CompanyId != callerCompanyId || site.CompanyId != callerCompanyId)
@@ -109,9 +79,9 @@ namespace QueR.BLL.Services.Site
 
             var callerCompanyId = userAccessor.CompanyId;
             
-            if (!await IsCallerCurrentAdministrator())
+            if (callerCompanyId == null)
             {
-                throw new InvalidOperationException("Only the current administrator can make changes");
+                throw new InvalidOperationException("Only an assigned administrator can make changes");
             }
 
             if (employee.CompanyId != callerCompanyId || site.CompanyId != callerCompanyId)
@@ -143,9 +113,9 @@ namespace QueR.BLL.Services.Site
         {
             var callerCompanyId = userAccessor.CompanyId;
             
-            if (!await IsCallerCurrentAdministrator())
+            if (callerCompanyId == null)
             {
-                throw new InvalidOperationException("Only the current administrator can make changes");
+                throw new InvalidOperationException("Only an assigned administrator can make changes");
             }
 
             new SiteValidator().ValidateAndThrow(model);
@@ -172,9 +142,9 @@ namespace QueR.BLL.Services.Site
         {
             var callerCompanyId = userAccessor.CompanyId;
            
-            if (!await IsCallerCurrentAdministrator())
+            if (callerCompanyId == null)
             {
-                throw new InvalidOperationException("Only the current administrator can view statistics");
+                throw new InvalidOperationException("Only an assigned administrator can view statistics");
             }
 
             var sites = await context.Sites
@@ -192,9 +162,9 @@ namespace QueR.BLL.Services.Site
 
             var callerCompanyId = userAccessor.CompanyId;
 
-            if(!await IsCallerCurrentAdministrator())
+            if(callerCompanyId == null)
             {
-                throw new InvalidOperationException("Only the current administrator can view statistics");
+                throw new InvalidOperationException("Only an assigned administrator can view statistics");
             }
 
             if(site.CompanyId != callerCompanyId)
@@ -209,12 +179,12 @@ namespace QueR.BLL.Services.Site
         {
             var site = (await context.Sites.Include(c => c.Manager).FirstOrDefaultAsync(u => u.Id == siteId))
                 ?? throw new KeyNotFoundException($"Site not found with an id of {siteId}");
-            
+
             var callerCompanyId = userAccessor.CompanyId;
 
-            if (!await IsCallerCurrentAdministrator())
+            if (callerCompanyId == null)
             {
-                throw new InvalidOperationException("Only the current administrator can make changes");
+                throw new InvalidOperationException("Only an assigned administrator can make changes");
             }
 
             if (site.CompanyId != callerCompanyId)
@@ -222,7 +192,9 @@ namespace QueR.BLL.Services.Site
                 throw new InvalidOperationException("Site is not part of the company");
             }
 
+            var user = site.Manager;
             site.Manager = null;
+            await userManager.RemoveFromRoleAsync(user, "manager");
             
             await context.SaveChangesAsync();
         }
@@ -233,9 +205,10 @@ namespace QueR.BLL.Services.Site
                    ?? throw new KeyNotFoundException($"Employee not found with an id of {employeeId}");
 
             var callerCompanyId = userAccessor.CompanyId;
-            if (!await IsCallerCurrentAdministrator())
+
+            if (callerCompanyId == null)
             {
-                throw new InvalidOperationException("Only the current administrator can make changes");
+                throw new InvalidOperationException("Only an assigned administrator can make changes");
             }
 
             if (!await userManager.IsInRoleAsync(employee, "employee"))
@@ -264,9 +237,9 @@ namespace QueR.BLL.Services.Site
                 ?? throw new KeyNotFoundException($"Site not found with an id of {siteId}");
             
             var callerCompanyId = userAccessor.CompanyId;
-            if (!await IsCallerCurrentAdministrator())
+            if (callerCompanyId == null)
             {
-                throw new InvalidOperationException("Only the current manager can make changes");
+                throw new InvalidOperationException("Only an assigned administrator can make changes");
             }
 
             new SiteValidator().ValidateAndThrow(model);
@@ -295,6 +268,7 @@ namespace QueR.BLL.Services.Site
         public async Task<IEnumerable<ApplicationUserDto>> GetOwnEmployees()
         {
             var callerWorksiteId = userAccessor.WorksiteId;
+
             var site = (await context.Sites
                 .Include(c => c.Employees)
                     .ThenInclude(e => e.Company)
@@ -303,11 +277,6 @@ namespace QueR.BLL.Services.Site
                         .ThenInclude(q => q.Type)
                 .FirstOrDefaultAsync(u => u.Id == callerWorksiteId))
                 ?? throw new KeyNotFoundException($"Site not found with an id of {callerWorksiteId}");
-
-            if (!await IsCallerCurrentManager())
-            {
-                throw new InvalidOperationException("Only the current manager can view statistics");
-            }
 
             return mapper.Map<IEnumerable<ApplicationUserDto>>(site.Employees);
         }

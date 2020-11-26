@@ -66,9 +66,9 @@ namespace QueR.BLL.Services.QueueType
             var queueType = (await context.QueueTypes.FirstOrDefaultAsync(u => u.Id == queueTypeId))
                 ?? throw new KeyNotFoundException($"Queue type not found with an id of {queueTypeId}");
 
-            if (queueType.CompanyId != userAccessor.CompanyId)
+            if (userAccessor.CompanyId == null)
             {
-                throw new InvalidOperationException("Only the current manager can make changes");
+                throw new InvalidOperationException("Only an assigned administrator can make changes");
             }
 
             new QueueTypeValidator().ValidateAndThrow(model);

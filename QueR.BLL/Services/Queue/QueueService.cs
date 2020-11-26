@@ -30,21 +30,6 @@ namespace QueR.BLL.Services.Queue
             this.mapper = mapper;
         }
 
-        private async Task<bool> IsCallerCurrentManager()
-        {
-            var callerWorksiteId = userAccessor.WorksiteId;
-            var site = (await context.Sites.FirstOrDefaultAsync(u => u.Id == callerWorksiteId))
-                   ?? throw new KeyNotFoundException($"Worksite not found with an id of {callerWorksiteId}");
-            if (!site.ManagerId.HasValue || (site.ManagerId.HasValue && site.ManagerId != userAccessor.UserId))
-            {
-                return false;
-            }
-            else
-            {
-                return true;
-            }
-        }
-
         public async Task AssignEmployeeToQueue(int queueId, int employeeId)
         {
             var employee = (await context.Users.Include(a => a.AssignedQueue).FirstOrDefaultAsync(u => u.Id == employeeId))
@@ -54,11 +39,6 @@ namespace QueR.BLL.Services.Queue
 
             var callerCompanyId = userAccessor.CompanyId;
             var callerWorksiteId = userAccessor.WorksiteId;
-
-            if (!await IsCallerCurrentManager())
-            {
-                throw new InvalidOperationException("Only the current manager can make changes");
-            }
 
             if (employee.CompanyId != callerCompanyId || employee.WorksiteId != callerWorksiteId)
             {
@@ -90,11 +70,6 @@ namespace QueR.BLL.Services.Queue
             var callerWorksiteId = userAccessor.WorksiteId;
             var callerCompanyId = userAccessor.CompanyId;
 
-            if (!await IsCallerCurrentManager())
-            {
-                throw new InvalidOperationException("Only the current manager can make changes");
-            }
-
             new CreateQueueValidator().ValidateAndThrow(model);
 
             var queueType = (await context.QueueTypes.Include(qt => qt.Queues).FirstOrDefaultAsync(u => u.Id == model.TypeId))
@@ -120,7 +95,7 @@ namespace QueR.BLL.Services.Queue
             };
 
             context.Queues.Add(queue);
-            //queueType.Queues.Add(queue);
+
             await context.SaveChangesAsync();
 
             return mapper.Map<QueueDto>(queue);
@@ -133,11 +108,6 @@ namespace QueR.BLL.Services.Queue
 
             var callerCompanyId = userAccessor.CompanyId;
             var callerWorksiteId = userAccessor.WorksiteId;
-
-            if (!await IsCallerCurrentManager())
-            {
-                throw new InvalidOperationException("Only the current manager can make changes");
-            }
 
             if (!await userManager.IsInRoleAsync(employee, "employee"))
             {
@@ -165,11 +135,6 @@ namespace QueR.BLL.Services.Queue
 
             var callerCompanyId = userAccessor.CompanyId;
 
-            if (!await IsCallerCurrentManager())
-            {
-                throw new InvalidOperationException("Only the current manager can make changes");
-            }
-
             new UpdateQueueValidator().ValidateAndThrow(model);
 
             var queueType = await context.QueueTypes.FirstAsync(u => u.Id == queue.TypeId);
@@ -194,23 +159,12 @@ namespace QueR.BLL.Services.Queue
                 .FirstOrDefaultAsync(u => u.Id == queueId))
                 ?? throw new KeyNotFoundException($"Queue not found with an id of {queueId}");
 
-            if (!await IsCallerCurrentManager())
-            {
-                throw new InvalidOperationException("Only the current manager can view statistics");
-            }
-
             return mapper.Map<IEnumerable<ApplicationUserDto>>(queue.AssignedEmployees);
         }
 
         public async Task<IEnumerable<QueueDto>> GetQueues()
         {
-            //var callerCompanyId = userAccessor.CompanyId;
             var callerWorksiteId = userAccessor.WorksiteId;
-
-            if (!await IsCallerCurrentManager())
-            {
-                throw new InvalidOperationException("Only the current manager can view statistics");
-            }
 
             var queues = await context.Queues
                 .Include(q => q.Site)
