@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Identity;
+using QueR.BLL.Services.Queue.DTOs;
 using QueR.DAL;
 using QueR.Domain.Entities;
 using System;

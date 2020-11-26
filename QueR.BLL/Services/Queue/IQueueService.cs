@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using QueR.BLL.Services.Queue.DTOs;
+using System.Threading.Tasks;
 
 namespace QueR.BLL.Services.Queue
 {
