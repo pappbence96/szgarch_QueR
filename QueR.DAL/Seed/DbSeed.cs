@@ -19,14 +19,14 @@ namespace QueR.DAL.Seed
                     Id = 1,
                     Name = "Company A",
                     MailingAddress = "Address of Company A",
-                    AdministratorId = 2
+                    //AdministratorId = 2
                 },
                 new Company
                 {
                     Id = 2,
                     Name = "Company B",
                     MailingAddress = "Address of Company B",
-                    AdministratorId = 3
+                    //AdministratorId = 3
                 },
             };
         }
@@ -67,7 +67,7 @@ namespace QueR.DAL.Seed
                     CompanyId = 1,
                     Name = "A Site 1",
                     Address = "random address",
-                    ManagerId = 4
+                    //ManagerId = 4
                 },
                 new Site
                 {
@@ -75,7 +75,7 @@ namespace QueR.DAL.Seed
                     CompanyId = 1,
                     Name = "A Site 2",
                     Address = "random address",
-                    ManagerId = 5
+                    //ManagerId = 5
                 },
                 new Site
                 {
@@ -83,7 +83,7 @@ namespace QueR.DAL.Seed
                     CompanyId = 2,
                     Name = "B Site 1",
                     Address = "random address",
-                    ManagerId = 6
+                    //ManagerId = 6
                 },
                 new Site
                 {
@@ -91,7 +91,7 @@ namespace QueR.DAL.Seed
                     CompanyId = 2,
                     Name = "B Site 2",
                     Address = "random address",
-                    ManagerId = 7
+                    //ManagerId = 7
                 },
             };
         }
@@ -159,7 +159,8 @@ namespace QueR.DAL.Seed
                     LastName = "A",
                     Gender = Gender.Other,
                     Address = "",
-                    PasswordHash = hasher.HashPassword(null, "123456")
+                    PasswordHash = hasher.HashPassword(null, "123456"),
+                    CompanyId = 1
                 },
                 new ApplicationUser
                 {
@@ -172,7 +173,8 @@ namespace QueR.DAL.Seed
                     LastName = "B",
                     Gender = Gender.Other,
                     Address = "",
-                    PasswordHash = hasher.HashPassword(null, "123456")
+                    PasswordHash = hasher.HashPassword(null, "123456"),
+                    CompanyId = 2
                 },
 
                 new ApplicationUser
@@ -186,7 +188,9 @@ namespace QueR.DAL.Seed
                     LastName = "A1",
                     Gender = Gender.Other,
                     Address = "",
-                    PasswordHash = hasher.HashPassword(null, "123456")
+                    PasswordHash = hasher.HashPassword(null, "123456"),
+                    CompanyId = 1,
+                    WorksiteId = 1
                 },
                 new ApplicationUser
                 {
@@ -199,7 +203,9 @@ namespace QueR.DAL.Seed
                     LastName = "A2",
                     Gender = Gender.Other,
                     Address = "",
-                    PasswordHash = hasher.HashPassword(null, "123456")
+                    PasswordHash = hasher.HashPassword(null, "123456"),
+                    CompanyId = 1,
+                    WorksiteId = 2
                 },
                 new ApplicationUser
                 {
@@ -212,7 +218,9 @@ namespace QueR.DAL.Seed
                     LastName = "B1",
                     Gender = Gender.Other,
                     Address = "",
-                    PasswordHash = hasher.HashPassword(null, "123456")
+                    PasswordHash = hasher.HashPassword(null, "123456"),
+                    CompanyId = 2,
+                    WorksiteId = 3
                 },
                 new ApplicationUser
                 {
@@ -225,7 +233,9 @@ namespace QueR.DAL.Seed
                     LastName = "B2",
                     Gender = Gender.Other,
                     Address = "",
-                    PasswordHash = hasher.HashPassword(null, "123456")
+                    PasswordHash = hasher.HashPassword(null, "123456"),
+                    CompanyId = 2,
+                    WorksiteId = 4
                 },
 
                 new ApplicationUser
@@ -239,7 +249,9 @@ namespace QueR.DAL.Seed
                     LastName = "A11",
                     Gender = Gender.Other,
                     Address = "",
-                    PasswordHash = hasher.HashPassword(null, "123456")
+                    PasswordHash = hasher.HashPassword(null, "123456"),
+                    CompanyId = 1,
+                    WorksiteId = 1
                 },
                 new ApplicationUser
                 {
@@ -252,7 +264,9 @@ namespace QueR.DAL.Seed
                     LastName = "A12",
                     Gender = Gender.Other,
                     Address = "",
-                    PasswordHash = hasher.HashPassword(null, "123456")
+                    PasswordHash = hasher.HashPassword(null, "123456"),
+                    CompanyId = 1,
+                    WorksiteId = 1
                 },
                 new ApplicationUser
                 {
@@ -265,7 +279,9 @@ namespace QueR.DAL.Seed
                     LastName = "A21",
                     Gender = Gender.Other,
                     Address = "",
-                    PasswordHash = hasher.HashPassword(null, "123456")
+                    PasswordHash = hasher.HashPassword(null, "123456"),
+                    CompanyId = 1,
+                    WorksiteId = 2
                 },
                 new ApplicationUser
                 {
@@ -278,7 +294,9 @@ namespace QueR.DAL.Seed
                     LastName = "A22",
                     Gender = Gender.Other,
                     Address = "",
-                    PasswordHash = hasher.HashPassword(null, "123456")
+                    PasswordHash = hasher.HashPassword(null, "123456"),
+                    CompanyId = 1,
+                    WorksiteId = 2
                 },
                 new ApplicationUser
                 {
@@ -291,7 +309,9 @@ namespace QueR.DAL.Seed
                     LastName = "B11",
                     Gender = Gender.Other,
                     Address = "",
-                    PasswordHash = hasher.HashPassword(null, "123456")
+                    PasswordHash = hasher.HashPassword(null, "123456"),
+                    CompanyId = 2,
+                    WorksiteId = 3
                 },
                 new ApplicationUser
                 {
@@ -304,7 +324,9 @@ namespace QueR.DAL.Seed
                     LastName = "B12",
                     Gender = Gender.Other,
                     Address = "",
-                    PasswordHash = hasher.HashPassword(null, "123456")
+                    PasswordHash = hasher.HashPassword(null, "123456"),
+                    CompanyId = 2,
+                    WorksiteId = 3
                 },
                 new ApplicationUser
                 {
@@ -317,7 +339,9 @@ namespace QueR.DAL.Seed
                     LastName = "B21",
                     Gender = Gender.Other,
                     Address = "",
-                    PasswordHash = hasher.HashPassword(null, "123456")
+                    PasswordHash = hasher.HashPassword(null, "123456"),
+                    CompanyId = 2,
+                    WorksiteId = 4
                 },
                 new ApplicationUser
                 {
@@ -330,7 +354,9 @@ namespace QueR.DAL.Seed
                     LastName = "B22",
                     Gender = Gender.Other,
                     Address = "",
-                    PasswordHash = hasher.HashPassword(null, "123456")
+                    PasswordHash = hasher.HashPassword(null, "123456"),
+                    CompanyId = 2,
+                    WorksiteId = 4
                 },
 
             };
@@ -363,187 +389,6 @@ namespace QueR.DAL.Seed
                 new IdentityUserRole<int> { UserId = 14, RoleId = 4 },
                 new IdentityUserRole<int> { UserId = 15, RoleId = 4 },
             };
-        }
-
-        public static Dictionary<IEnumerable<string>, IEnumerable<ApplicationUser>> Userss {
-            get => new Dictionary<IEnumerable<string>, IEnumerable<ApplicationUser>>
-            {
-                { new List<string>{ "operator" }, new List<ApplicationUser>
-                    {
-                        new ApplicationUser
-                        {
-                            Id = 1,
-                            Email = "operator@test.hu",
-                            UserName = "operator",
-                            FirstName = "Test",
-                            LastName = "Operator",
-                            Gender = Gender.Other
-                        }
-                    }
-                },
-                {
-                     new List<string>{ "administrator" }, new List<ApplicationUser>
-                    {
-                        new ApplicationUser
-                        {
-                            Id = 2,
-                            Email = "admina@test.hu",
-                            UserName = "admina",
-                            FirstName = "Admin",
-                            LastName = "A",
-                            Gender = Gender.Male,
-                            CompanyId = 1
-                        },
-                        new ApplicationUser
-                        {
-                            Id = 3,
-                            Email = "adminb@test.hu",
-                            UserName = "adminb",
-                            FirstName = "Admin",
-                            LastName = "B",
-                            Gender = Gender.Female,
-                            CompanyId = 2
-                        },
-                    }
-                },
-                {
-                    new List<string>{ "manager", "employee" }, new List<ApplicationUser>
-                    {
-                        new ApplicationUser
-                        {
-                            Id = 4,
-                            Email = "managera1@test.hu",
-                            UserName = "managera1",
-                            FirstName = "Manager",
-                            LastName = "A1",
-                            Gender = Gender.Male,
-                            CompanyId = 1
-                        },
-                        new ApplicationUser
-                        {
-                            Id = 5,
-                            Email = "managera2@test.hu",
-                            UserName = "managera2",
-                            FirstName = "Manager",
-                            LastName = "A2",
-                            Gender = Gender.Female,
-                            CompanyId = 1
-                        },
-                        new ApplicationUser
-                        {
-                            Id = 6,
-                            Email = "managerb1@test.hu",
-                            UserName = "managerb1",
-                            FirstName = "Manager",
-                            LastName = "B1",
-                            Gender = Gender.Female,
-                            CompanyId = 2 
-                        },
-                        new ApplicationUser
-                        {
-                            Id = 7,
-                            Email = "managerb2@test.hu",
-                            UserName = "managerb2",
-                            FirstName = "Manager",
-                            LastName = "B2",
-                            Gender = Gender.Male,
-                            CompanyId = 2
-                        },
-                    }
-                },
-                {
-                    new List<string>{ "employee" }, new List<ApplicationUser>
-                    {
-                        new ApplicationUser
-                        {
-                            Id = 8,
-                            Email = "workera11@test.hu",
-                            UserName = "workera11",
-                            FirstName = "Worker",
-                            LastName = "A1 1",
-                            Gender = Gender.Female,
-                            CompanyId = 1,
-                        },
-                        new ApplicationUser
-                        {
-                            Id = 9,
-                            Email = "workera12@test.hu",
-                            UserName = "workera12",
-                            FirstName = "Worker",
-                            LastName = "A1 2",
-                            Gender = Gender.Female,
-                            CompanyId = 1
-                        },
-                        new ApplicationUser
-                        {
-                            Id = 10,
-                            Email = "workera21@test.hu",
-                            UserName = "workera21",
-                            FirstName = "Worker",
-                            LastName = "A2 1",
-                            Gender = Gender.Male,
-                            CompanyId = 1
-                        },
-                        new ApplicationUser
-                        {
-                            Id = 11,
-                            Email = "workera22@test.hu",
-                            UserName = "workera22",
-                            FirstName = "Worker",
-                            LastName = "A2 2",
-                            Gender = Gender.Male,
-                            CompanyId = 1
-                        },
-                        new ApplicationUser
-                        {
-                            Id = 12,
-                            Email = "workerb11@test.hu",
-                            UserName = "workerb11",
-                            FirstName = "Worker",
-                            LastName = "B1 1",
-                            Gender = Gender.Female,
-                            CompanyId = 2
-                        },
-                        new ApplicationUser
-                        {
-                            Id = 13,
-                            Email = "workerb12@test.hu",
-                            UserName = "workerb12",
-                            FirstName = "Worker",
-                            LastName = "B1 2",
-                            Gender = Gender.Female,
-                            CompanyId = 2
-                        },
-                        new ApplicationUser
-                        {
-                            Id = 14,
-                            Email = "workerb21@test.hu",
-                            UserName = "workerb21",
-                            FirstName = "Worker",
-                            LastName = "B2 1",
-                            Gender = Gender.Male,
-                            CompanyId = 2
-                        },
-                        new ApplicationUser
-                        {
-                            Id = 15,
-                            Email = "workerb22@test.hu",
-                            UserName = "workerb22",
-                            FirstName = "Worker",
-                            LastName = "B2 2",
-                            Gender = Gender.Male,
-                            CompanyId = 2
-                        },
-                    }
-                }/*,
-                {
-                    "user", new List<ApplicationUser>
-                    {
-
-                    }
-                }*/
-            };
-
         }
     }
 }
