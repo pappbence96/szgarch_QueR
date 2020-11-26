@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using QueR.DAL;
 
 namespace QueR.DAL.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20201126194155_ExtraQueueColumns")]
+    partial class ExtraQueueColumns
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -46,43 +48,6 @@ namespace QueR.DAL.Migrations
                         .HasFilter("[NormalizedName] IS NOT NULL");
 
                     b.ToTable("AspNetRoles");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            ConcurrencyStamp = "eec16eca-92fd-4fc8-a40e-9200e7c5e54b",
-                            Name = "operator",
-                            NormalizedName = "OPERATOR"
-                        },
-                        new
-                        {
-                            Id = 2,
-                            ConcurrencyStamp = "df211399-9990-4ad1-badd-98866a4607e8",
-                            Name = "administrator",
-                            NormalizedName = "ADMINISTRATOR"
-                        },
-                        new
-                        {
-                            Id = 3,
-                            ConcurrencyStamp = "666699b3-591f-4567-b4a9-a83b4f536eb3",
-                            Name = "manager",
-                            NormalizedName = "MANAGER"
-                        },
-                        new
-                        {
-                            Id = 4,
-                            ConcurrencyStamp = "f0907eb2-d3d3-4575-a866-5d3dac3316f0",
-                            Name = "employee",
-                            NormalizedName = "EMPLOYEE"
-                        },
-                        new
-                        {
-                            Id = 5,
-                            ConcurrencyStamp = "ad1b886d-60bf-4428-b4e1-8a73613ca7a9",
-                            Name = "user",
-                            NormalizedName = "USER"
-                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<int>", b =>
@@ -165,103 +130,6 @@ namespace QueR.DAL.Migrations
                     b.HasIndex("RoleId");
 
                     b.ToTable("AspNetUserRoles");
-
-                    b.HasData(
-                        new
-                        {
-                            UserId = 1,
-                            RoleId = 1
-                        },
-                        new
-                        {
-                            UserId = 2,
-                            RoleId = 2
-                        },
-                        new
-                        {
-                            UserId = 3,
-                            RoleId = 2
-                        },
-                        new
-                        {
-                            UserId = 4,
-                            RoleId = 3
-                        },
-                        new
-                        {
-                            UserId = 5,
-                            RoleId = 3
-                        },
-                        new
-                        {
-                            UserId = 6,
-                            RoleId = 3
-                        },
-                        new
-                        {
-                            UserId = 7,
-                            RoleId = 3
-                        },
-                        new
-                        {
-                            UserId = 4,
-                            RoleId = 4
-                        },
-                        new
-                        {
-                            UserId = 5,
-                            RoleId = 4
-                        },
-                        new
-                        {
-                            UserId = 6,
-                            RoleId = 4
-                        },
-                        new
-                        {
-                            UserId = 7,
-                            RoleId = 4
-                        },
-                        new
-                        {
-                            UserId = 8,
-                            RoleId = 4
-                        },
-                        new
-                        {
-                            UserId = 9,
-                            RoleId = 4
-                        },
-                        new
-                        {
-                            UserId = 10,
-                            RoleId = 4
-                        },
-                        new
-                        {
-                            UserId = 11,
-                            RoleId = 4
-                        },
-                        new
-                        {
-                            UserId = 12,
-                            RoleId = 4
-                        },
-                        new
-                        {
-                            UserId = 13,
-                            RoleId = 4
-                        },
-                        new
-                        {
-                            UserId = 14,
-                            RoleId = 4
-                        },
-                        new
-                        {
-                            UserId = 15,
-                            RoleId = 4
-                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<int>", b =>
@@ -375,293 +243,6 @@ namespace QueR.DAL.Migrations
                     b.HasIndex("WorksiteId");
 
                     b.ToTable("AspNetUsers");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            AccessFailedCount = 0,
-                            Address = "",
-                            ConcurrencyStamp = "73013b06-8cac-4bbc-9fa9-88f35d312394",
-                            Email = "operator@test.hu",
-                            EmailConfirmed = false,
-                            FirstName = "Test",
-                            Gender = 2,
-                            LastName = "Operator",
-                            LockoutEnabled = false,
-                            NormalizedEmail = "OPERATOR@TEST.HU",
-                            NormalizedUserName = "OPERATOR",
-                            PasswordHash = "AQAAAAEAACcQAAAAEGfQCff+v3H8LRsVTCfGeUnb8fugy7mez7fdZk7fFjPxovS0qkZh2GDCsfuNq16OBQ==",
-                            PhoneNumberConfirmed = false,
-                            TwoFactorEnabled = false,
-                            UserName = "operator"
-                        },
-                        new
-                        {
-                            Id = 2,
-                            AccessFailedCount = 0,
-                            Address = "",
-                            ConcurrencyStamp = "cc30d075-1486-4f3e-8c3d-ce4a4f796da8",
-                            Email = "admina@test.hu",
-                            EmailConfirmed = false,
-                            FirstName = "Admin",
-                            Gender = 2,
-                            LastName = "A",
-                            LockoutEnabled = false,
-                            NormalizedEmail = "ADMINA@TEST.HU",
-                            NormalizedUserName = "ADMINA",
-                            PasswordHash = "AQAAAAEAACcQAAAAEA5aS8EzVEwHcVueG1Mrzi9sfUKxd6MwQn5lDk3FVfQU2VvfEsnuqbU3tSw8x7QhFQ==",
-                            PhoneNumberConfirmed = false,
-                            TwoFactorEnabled = false,
-                            UserName = "admina"
-                        },
-                        new
-                        {
-                            Id = 3,
-                            AccessFailedCount = 0,
-                            Address = "",
-                            ConcurrencyStamp = "29d16c0f-e2de-419b-80ec-bfbc00662f82",
-                            Email = "adminb@test.hu",
-                            EmailConfirmed = false,
-                            FirstName = "Admin",
-                            Gender = 2,
-                            LastName = "B",
-                            LockoutEnabled = false,
-                            NormalizedEmail = "ADMINB@TEST.HU",
-                            NormalizedUserName = "ADMINB",
-                            PasswordHash = "AQAAAAEAACcQAAAAEMDfa53bJOKofWRXwgdgcnmC49oRcrqVdeAUi+70qJ+SVvzP+GEgev/WUbsThMHoKQ==",
-                            PhoneNumberConfirmed = false,
-                            TwoFactorEnabled = false,
-                            UserName = "adminb"
-                        },
-                        new
-                        {
-                            Id = 4,
-                            AccessFailedCount = 0,
-                            Address = "",
-                            ConcurrencyStamp = "d4ac3c41-fb11-4ae5-a637-879ca92f1b2d",
-                            Email = "managera1@test.hu",
-                            EmailConfirmed = false,
-                            FirstName = "Manager",
-                            Gender = 2,
-                            LastName = "A1",
-                            LockoutEnabled = false,
-                            NormalizedEmail = "MANAGERA1@TEST.HU",
-                            NormalizedUserName = "MANAGERA1",
-                            PasswordHash = "AQAAAAEAACcQAAAAENoRH3nuzYdZ++UHBGajcUvxbgVxzSjBTaFQIRr7H80swfpja2Dzqrzdw9RaywQLlA==",
-                            PhoneNumberConfirmed = false,
-                            TwoFactorEnabled = false,
-                            UserName = "managera1"
-                        },
-                        new
-                        {
-                            Id = 5,
-                            AccessFailedCount = 0,
-                            Address = "",
-                            ConcurrencyStamp = "bbcfc071-55fe-4a93-b739-ed26d52d7a41",
-                            Email = "managera2@test.hu",
-                            EmailConfirmed = false,
-                            FirstName = "Manager",
-                            Gender = 2,
-                            LastName = "A2",
-                            LockoutEnabled = false,
-                            NormalizedEmail = "MANAGERA2@TEST.HU",
-                            NormalizedUserName = "MANAGERA2",
-                            PasswordHash = "AQAAAAEAACcQAAAAEPCykcZrYYY4exKzoMxj+B9mL3iRsBqFwK/MENHKIaAgPl/Se44cmxcJrE+EbjQwMw==",
-                            PhoneNumberConfirmed = false,
-                            TwoFactorEnabled = false,
-                            UserName = "managera2"
-                        },
-                        new
-                        {
-                            Id = 6,
-                            AccessFailedCount = 0,
-                            Address = "",
-                            ConcurrencyStamp = "9a9943f8-c8d3-45d9-aec9-71b71e33d2ef",
-                            Email = "managerb1@test.hu",
-                            EmailConfirmed = false,
-                            FirstName = "Manager",
-                            Gender = 2,
-                            LastName = "B1",
-                            LockoutEnabled = false,
-                            NormalizedEmail = "MANAGERB1@TEST.HU",
-                            NormalizedUserName = "MANAGERB1",
-                            PasswordHash = "AQAAAAEAACcQAAAAEIKCl8w7DQBEJBdkl9cmKkpd02FwXFYxSfVBwB4exIBXtzD2eSWSjEOYrC26+yBA4w==",
-                            PhoneNumberConfirmed = false,
-                            TwoFactorEnabled = false,
-                            UserName = "managerb1"
-                        },
-                        new
-                        {
-                            Id = 7,
-                            AccessFailedCount = 0,
-                            Address = "",
-                            ConcurrencyStamp = "7474edba-3f1a-4d09-ad23-db82c3e127a6",
-                            Email = "managerb2@test.hu",
-                            EmailConfirmed = false,
-                            FirstName = "Manager",
-                            Gender = 2,
-                            LastName = "B2",
-                            LockoutEnabled = false,
-                            NormalizedEmail = "MANAGERB2@TEST.HU",
-                            NormalizedUserName = "MANAGERB2",
-                            PasswordHash = "AQAAAAEAACcQAAAAEPLKROaJ20Bego7gviET4WohjrvyS9TqKFd4oxFofvARdZ2OKPBOhUCTwSxcG2ZVTg==",
-                            PhoneNumberConfirmed = false,
-                            TwoFactorEnabled = false,
-                            UserName = "managerb2"
-                        },
-                        new
-                        {
-                            Id = 8,
-                            AccessFailedCount = 0,
-                            Address = "",
-                            ConcurrencyStamp = "6ff01aee-ab75-4999-ad0f-edb20a289e96",
-                            Email = "workera11@test.hu",
-                            EmailConfirmed = false,
-                            FirstName = "Worker",
-                            Gender = 2,
-                            LastName = "A11",
-                            LockoutEnabled = false,
-                            NormalizedEmail = "WORKERA11@TEST.HU",
-                            NormalizedUserName = "WORKERA11",
-                            PasswordHash = "AQAAAAEAACcQAAAAEJx/LhCrjBKJKLQsDwBQYK1J9XFG0BQG4gwz7CA0GwWDDqBAO6MxUmyPfm/zquX7nA==",
-                            PhoneNumberConfirmed = false,
-                            TwoFactorEnabled = false,
-                            UserName = "workera11"
-                        },
-                        new
-                        {
-                            Id = 9,
-                            AccessFailedCount = 0,
-                            Address = "",
-                            ConcurrencyStamp = "7a021976-2333-4640-95c5-cb4203eeb497",
-                            Email = "workera12@test.hu",
-                            EmailConfirmed = false,
-                            FirstName = "Worker",
-                            Gender = 2,
-                            LastName = "A12",
-                            LockoutEnabled = false,
-                            NormalizedEmail = "WORKERA12@TEST.HU",
-                            NormalizedUserName = "WORKERA12",
-                            PasswordHash = "AQAAAAEAACcQAAAAEN6OTk9BzwRO+2yRKoLvUGtpdtpNxVqioPfYmqhLRWk/Lr/4PaXdvjGegSS2Wrulxg==",
-                            PhoneNumberConfirmed = false,
-                            TwoFactorEnabled = false,
-                            UserName = "workera12"
-                        },
-                        new
-                        {
-                            Id = 10,
-                            AccessFailedCount = 0,
-                            Address = "",
-                            ConcurrencyStamp = "9c784958-4f19-4e1c-9f1f-9dba5e65bdab",
-                            Email = "workera21@test.hu",
-                            EmailConfirmed = false,
-                            FirstName = "Worker",
-                            Gender = 2,
-                            LastName = "A21",
-                            LockoutEnabled = false,
-                            NormalizedEmail = "WORKERA21@TEST.HU",
-                            NormalizedUserName = "WORKERA21",
-                            PasswordHash = "AQAAAAEAACcQAAAAEDyVO2ldytyquMqx9joPGVdtOMOG4FdKxsge8AyqsrjQhkz+q95up3irp9dVg7z8Ww==",
-                            PhoneNumberConfirmed = false,
-                            TwoFactorEnabled = false,
-                            UserName = "workera21"
-                        },
-                        new
-                        {
-                            Id = 11,
-                            AccessFailedCount = 0,
-                            Address = "",
-                            ConcurrencyStamp = "7d3d3cce-e71d-4174-bf26-2c14a57f421c",
-                            Email = "workera22@test.hu",
-                            EmailConfirmed = false,
-                            FirstName = "Worker",
-                            Gender = 2,
-                            LastName = "A22",
-                            LockoutEnabled = false,
-                            NormalizedEmail = "WORKERA22@TEST.HU",
-                            NormalizedUserName = "WORKERA22",
-                            PasswordHash = "AQAAAAEAACcQAAAAEJWxqTvho6wK56N8oGrN2bUuGWLXA5f6YwA21Lka/inaRlBG12icKGKT7DWvEmzeAA==",
-                            PhoneNumberConfirmed = false,
-                            TwoFactorEnabled = false,
-                            UserName = "workera22"
-                        },
-                        new
-                        {
-                            Id = 12,
-                            AccessFailedCount = 0,
-                            Address = "",
-                            ConcurrencyStamp = "b9d12ab3-0996-45ad-9509-d5e2fb808701",
-                            Email = "workerb11@test.hu",
-                            EmailConfirmed = false,
-                            FirstName = "Worker",
-                            Gender = 2,
-                            LastName = "B11",
-                            LockoutEnabled = false,
-                            NormalizedEmail = "WORKERB11@TEST.HU",
-                            NormalizedUserName = "WORKERB11",
-                            PasswordHash = "AQAAAAEAACcQAAAAEMY90GhktP3ulul2H4jYU7X6nHb0LiQtih+QoV1qPfqfpgXZgmslmS1ABKSTHrVCdg==",
-                            PhoneNumberConfirmed = false,
-                            TwoFactorEnabled = false,
-                            UserName = "workerb11"
-                        },
-                        new
-                        {
-                            Id = 13,
-                            AccessFailedCount = 0,
-                            Address = "",
-                            ConcurrencyStamp = "273c8cb9-3142-4433-a1ff-7f7601d427ae",
-                            Email = "workerb12@test.hu",
-                            EmailConfirmed = false,
-                            FirstName = "Worker",
-                            Gender = 2,
-                            LastName = "B12",
-                            LockoutEnabled = false,
-                            NormalizedEmail = "WORKERB12@TEST.HU",
-                            NormalizedUserName = "WORKERB12",
-                            PasswordHash = "AQAAAAEAACcQAAAAEA/Zg39TdCDbtsegTbTyl7VhwJ3zdEIMDA+FAhCOc6i1DBunfKz7FZfl/rHRG0SxKw==",
-                            PhoneNumberConfirmed = false,
-                            TwoFactorEnabled = false,
-                            UserName = "workerb12"
-                        },
-                        new
-                        {
-                            Id = 14,
-                            AccessFailedCount = 0,
-                            Address = "",
-                            ConcurrencyStamp = "b5032de2-2267-4f20-84c1-434c174341b8",
-                            Email = "workerb21@test.hu",
-                            EmailConfirmed = false,
-                            FirstName = "Worker",
-                            Gender = 2,
-                            LastName = "B21",
-                            LockoutEnabled = false,
-                            NormalizedEmail = "WORKERB21@TEST.HU",
-                            NormalizedUserName = "WORKERB21",
-                            PasswordHash = "AQAAAAEAACcQAAAAEPdBWW4b296TIreHeu34UL7LCb0D9Ep/C1Eom8S/j13sP6K5zi5yONiT/ld2mECkjw==",
-                            PhoneNumberConfirmed = false,
-                            TwoFactorEnabled = false,
-                            UserName = "workerb21"
-                        },
-                        new
-                        {
-                            Id = 15,
-                            AccessFailedCount = 0,
-                            Address = "",
-                            ConcurrencyStamp = "79aefd0a-3253-4d8b-8f2d-a3ac56bb92de",
-                            Email = "workerb22@test.hu",
-                            EmailConfirmed = false,
-                            FirstName = "Worker",
-                            Gender = 2,
-                            LastName = "B22",
-                            LockoutEnabled = false,
-                            NormalizedEmail = "WORKERB22@TEST.HU",
-                            NormalizedUserName = "WORKERB22",
-                            PasswordHash = "AQAAAAEAACcQAAAAEBsRhWs0YXrB9Sh/khXu1yMXLc3KVitOLuUEQwgu3i5NWaENtO5s83C1a7kzmBHrIw==",
-                            PhoneNumberConfirmed = false,
-                            TwoFactorEnabled = false,
-                            UserName = "workerb22"
-                        });
                 });
 
             modelBuilder.Entity("QueR.Domain.Entities.Company", b =>
@@ -692,14 +273,12 @@ namespace QueR.DAL.Migrations
                         new
                         {
                             Id = 1,
-                            AdministratorId = 2,
                             MailingAddress = "Address of Company A",
                             Name = "Company A"
                         },
                         new
                         {
                             Id = 2,
-                            AdministratorId = 3,
                             MailingAddress = "Address of Company B",
                             Name = "Company B"
                         });
@@ -817,7 +396,6 @@ namespace QueR.DAL.Migrations
                             Id = 1,
                             Address = "random address",
                             CompanyId = 1,
-                            ManagerId = 4,
                             Name = "A Site 1"
                         },
                         new
@@ -825,7 +403,6 @@ namespace QueR.DAL.Migrations
                             Id = 2,
                             Address = "random address",
                             CompanyId = 1,
-                            ManagerId = 5,
                             Name = "A Site 2"
                         },
                         new
@@ -833,7 +410,6 @@ namespace QueR.DAL.Migrations
                             Id = 3,
                             Address = "random address",
                             CompanyId = 2,
-                            ManagerId = 6,
                             Name = "B Site 1"
                         },
                         new
@@ -841,7 +417,6 @@ namespace QueR.DAL.Migrations
                             Id = 4,
                             Address = "random address",
                             CompanyId = 2,
-                            ManagerId = 7,
                             Name = "B Site 2"
                         });
                 });

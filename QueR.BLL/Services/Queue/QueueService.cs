@@ -114,7 +114,9 @@ namespace QueR.BLL.Services.Queue
             {
                 TypeId = model.TypeId,
                 SiteId = callerWorksiteId,
-                NextNumber = model.NextNumber
+                NextNumber = model.NextNumber,
+                Prefix = model.Prefix,
+                Step = model.Step
             };
 
             context.Queues.Add(queue);
@@ -183,8 +185,8 @@ namespace QueR.BLL.Services.Queue
                 throw new ArgumentException($"Queue already exists with type Id: \"{model.TypeId}\"");
             }
 
-            queue.TypeId = model.TypeId;
-            queue.NextNumber = model.NextNumber;
+            queue.Step = model.Step;
+            queue.Prefix = model.Prefix;
 
             await context.SaveChangesAsync();
         }

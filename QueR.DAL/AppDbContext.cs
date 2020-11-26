@@ -33,6 +33,9 @@ namespace QueR.DAL
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
+            builder.Entity<IdentityRole<int>>().HasData(DbSeed.Roles);
+            builder.Entity<ApplicationUser>().HasData(DbSeed.Users);
+            builder.Entity<IdentityUserRole<int>>().HasData(DbSeed.UserRoles);
 
             builder.Entity<Company>()
                 .HasOne(c => c.Administrator)

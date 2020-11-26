@@ -2616,6 +2616,14 @@
             "type": "string",
             "nullable": true
           },
+          "prefix": {
+            "type": "string",
+            "nullable": true
+          },
+          "step": {
+            "type": "integer",
+            "format": "int32"
+          },
           "worksiteId": {
             "type": "integer",
             "format": "int32"
@@ -2639,6 +2647,14 @@
             "format": "int32"
           },
           "nextNumber": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "prefix": {
+            "type": "string",
+            "nullable": true
+          },
+          "step": {
             "type": "integer",
             "format": "int32"
           }

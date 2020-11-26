@@ -11,6 +11,8 @@ namespace QueR.BLL.Services.Queue.DTOs
         public string QueueType { get; set; }
         public int NextNumber { get; set; }
         public string Worksite { get; set; }
+        public string Prefix { get; set; }
+        public int Step { get; set; }
         public int WorksiteId { get; set; }
         public int NumOfAssignedEmployees { get; set; }
         public int NumOfTickets { get; set; }

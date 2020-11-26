@@ -11,6 +11,8 @@ namespace QueR.Domain.Entities
         public virtual Site Site { get; set; }
         public int? SiteId { get; set; }
         public int NextNumber { get; set; }
+        public string Prefix { get; set; }
+        public int Step { get; set; }
 
         public virtual ICollection<ApplicationUser> AssignedEmployees { get; set; }
         public virtual ICollection<Ticket> Tickets { get; set; }
