@@ -59,9 +59,9 @@ namespace QueR.BLL.Services.Queue
                 throw new InvalidOperationException("Only the current manager can make changes");
             }
 
-            if (employee.CompanyId != callerCompanyId)
+            if (employee.CompanyId != callerCompanyId || employee.WorksiteId != callerWorksiteId)
             {
-                throw new InvalidOperationException("Employee is not part of the company.");
+                throw new InvalidOperationException("Employee is not part of the company or the worksite.");
             }
 
             if (!await userManager.IsInRoleAsync(employee, "employee"))
@@ -117,7 +117,7 @@ namespace QueR.BLL.Services.Queue
             };
 
             context.Queues.Add(queue);
-            queueType.Queues.Add(queue);
+            //queueType.Queues.Add(queue);
             await context.SaveChangesAsync();
 
             return mapper.Map<QueueDto>(queue);
@@ -129,6 +129,7 @@ namespace QueR.BLL.Services.Queue
                    ?? throw new KeyNotFoundException($"Employee not found with an id of {employeeId}");
 
             var callerCompanyId = userAccessor.CompanyId;
+            var callerWorksiteId = userAccessor.WorksiteId;
 
             if (!await IsCallerCurrentManager())
             {
@@ -138,6 +139,11 @@ namespace QueR.BLL.Services.Queue
             if (!await userManager.IsInRoleAsync(employee, "employee"))
             {
                 throw new InvalidOperationException("User is not an employee");
+            }
+
+            if (employee.CompanyId != callerCompanyId || employee.WorksiteId != callerWorksiteId)
+            {
+                throw new InvalidOperationException("Employee is not part of the company or the worksite");
             }
 
             if (employee.AssignedQueue == null)
