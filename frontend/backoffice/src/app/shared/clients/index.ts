@@ -575,6 +575,81 @@ export class QueuesClient {
         }
     }
 
+    getQueues(): Observable<QueueDto[]> {
+        let url_ = this.baseUrl + "/api/Queues";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetQueues(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetQueues(<any>response_);
+                } catch (e) {
+                    return <Observable<QueueDto[]>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<QueueDto[]>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetQueues(response: HttpResponseBase): Observable<QueueDto[]> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 400) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result400: any = null;
+            let resultData400 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result400 = ErrorDetails.fromJS(resultData400);
+            return throwException("A server side error occurred.", status, _responseText, _headers, result400);
+            }));
+        } else if (status === 401) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result401: any = null;
+            let resultData401 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result401 = ErrorDetails.fromJS(resultData401);
+            return throwException("A server side error occurred.", status, _responseText, _headers, result401);
+            }));
+        } else if (status === 403) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result403: any = null;
+            let resultData403 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result403 = ErrorDetails.fromJS(resultData403);
+            return throwException("A server side error occurred.", status, _responseText, _headers, result403);
+            }));
+        } else if (status === 404) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result404: any = null;
+            let resultData404 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result404 = ErrorDetails.fromJS(resultData404);
+            return throwException("A server side error occurred.", status, _responseText, _headers, result404);
+            }));
+        } else {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let resultdefault: any = null;
+            let resultDatadefault = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            if (Array.isArray(resultDatadefault)) {
+                resultdefault = [] as any;
+                for (let item of resultDatadefault)
+                    resultdefault!.push(QueueDto.fromJS(item));
+            }
+            return _observableOf(resultdefault);
+            }));
+        }
+    }
+
     updateQueue(queueId: number, model: QueueModel): Observable<void> {
         let url_ = this.baseUrl + "/api/Queues/{queueId}";
         if (queueId === undefined || queueId === null)
@@ -1728,6 +1803,81 @@ export class SitesClient {
         }
         return _observableOf<void>(<any>null);
     }
+
+    getOwnEmployees(): Observable<ApplicationUserDto[]> {
+        let url_ = this.baseUrl + "/api/Sites/current/workers";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetOwnEmployees(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetOwnEmployees(<any>response_);
+                } catch (e) {
+                    return <Observable<ApplicationUserDto[]>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<ApplicationUserDto[]>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetOwnEmployees(response: HttpResponseBase): Observable<ApplicationUserDto[]> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 400) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result400: any = null;
+            let resultData400 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result400 = ErrorDetails.fromJS(resultData400);
+            return throwException("A server side error occurred.", status, _responseText, _headers, result400);
+            }));
+        } else if (status === 401) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result401: any = null;
+            let resultData401 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result401 = ErrorDetails.fromJS(resultData401);
+            return throwException("A server side error occurred.", status, _responseText, _headers, result401);
+            }));
+        } else if (status === 403) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result403: any = null;
+            let resultData403 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result403 = ErrorDetails.fromJS(resultData403);
+            return throwException("A server side error occurred.", status, _responseText, _headers, result403);
+            }));
+        } else if (status === 404) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result404: any = null;
+            let resultData404 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result404 = ErrorDetails.fromJS(resultData404);
+            return throwException("A server side error occurred.", status, _responseText, _headers, result404);
+            }));
+        } else {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let resultdefault: any = null;
+            let resultDatadefault = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            if (Array.isArray(resultDatadefault)) {
+                resultdefault = [] as any;
+                for (let item of resultDatadefault)
+                    resultdefault!.push(ApplicationUserDto.fromJS(item));
+            }
+            return _observableOf(resultdefault);
+            }));
+        }
+    }
 }
 
 @Injectable({
@@ -2861,6 +3011,7 @@ export interface ILoginModel {
 }
 
 export class QueueDto implements IQueueDto {
+    id?: number;
     queueType?: string | undefined;
     nextNumber?: number;
     worksite?: string | undefined;
@@ -2879,6 +3030,7 @@ export class QueueDto implements IQueueDto {
 
     init(_data?: any) {
         if (_data) {
+            this.id = _data["id"];
             this.queueType = _data["queueType"];
             this.nextNumber = _data["nextNumber"];
             this.worksite = _data["worksite"];
@@ -2897,6 +3049,7 @@ export class QueueDto implements IQueueDto {
 
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
         data["queueType"] = this.queueType;
         data["nextNumber"] = this.nextNumber;
         data["worksite"] = this.worksite;
@@ -2908,6 +3061,7 @@ export class QueueDto implements IQueueDto {
 }
 
 export interface IQueueDto {
+    id?: number;
     queueType?: string | undefined;
     nextNumber?: number;
     worksite?: string | undefined;
@@ -3245,7 +3399,6 @@ export class CreateUserModel implements ICreateUserModel {
     lastName?: string | undefined;
     address?: string | undefined;
     password?: string | undefined;
-    companyId?: number | undefined;
     gender?: Gender;
 
     constructor(data?: ICreateUserModel) {
@@ -3265,7 +3418,6 @@ export class CreateUserModel implements ICreateUserModel {
             this.lastName = _data["lastName"];
             this.address = _data["address"];
             this.password = _data["password"];
-            this.companyId = _data["companyId"];
             this.gender = _data["gender"];
         }
     }
@@ -3285,7 +3437,6 @@ export class CreateUserModel implements ICreateUserModel {
         data["lastName"] = this.lastName;
         data["address"] = this.address;
         data["password"] = this.password;
-        data["companyId"] = this.companyId;
         data["gender"] = this.gender;
         return data; 
     }
@@ -3298,7 +3449,6 @@ export interface ICreateUserModel {
     lastName?: string | undefined;
     address?: string | undefined;
     password?: string | undefined;
-    companyId?: number | undefined;
     gender?: Gender;
 }
 

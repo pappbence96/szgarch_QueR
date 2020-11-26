@@ -45,6 +45,21 @@ namespace QueR.BLL.Services.Site
             }
         }
 
+        private async Task<bool> IsCallerCurrentManager()
+        {
+            var callerWorksiteId = userAccessor.WorksiteId;
+            var site = (await context.Sites.FirstOrDefaultAsync(u => u.Id == callerWorksiteId))
+                   ?? throw new KeyNotFoundException($"Worksite not found with an id of {callerWorksiteId}");
+            if (!site.ManagerId.HasValue || (site.ManagerId.HasValue && site.ManagerId != userAccessor.UserId))
+            {
+                return false;
+            }
+            else
+            {
+                return true;
+            }
+        }
+
         public async Task AssignManagerToSite(int siteId, int managerId)
         {
             var manager = (await context.Users.Include(a => a.ManagedSite).FirstOrDefaultAsync(u => u.Id == managerId))
@@ -274,6 +289,26 @@ namespace QueR.BLL.Services.Site
         public Task DeleteSite(int siteId)
         {
             throw new NotImplementedException();
+        }
+
+        public async Task<IEnumerable<ApplicationUserDto>> GetOwnEmployees()
+        {
+            var callerWorksiteId = userAccessor.WorksiteId;
+            var site = (await context.Sites
+                .Include(c => c.Employees)
+                    .ThenInclude(e => e.Company)
+                .Include(c => c.Employees)
+                    .ThenInclude(e => e.AssignedQueue)
+                        .ThenInclude(q => q.Type)
+                .FirstOrDefaultAsync(u => u.Id == callerWorksiteId))
+                ?? throw new KeyNotFoundException($"Site not found with an id of {callerWorksiteId}");
+
+            if (!await IsCallerCurrentManager())
+            {
+                throw new InvalidOperationException("Only the current manager can view statistics");
+            }
+
+            return mapper.Map<IEnumerable<ApplicationUserDto>>(site.Employees);
         }
     }
 }

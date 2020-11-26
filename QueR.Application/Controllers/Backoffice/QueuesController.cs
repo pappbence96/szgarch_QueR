@@ -63,5 +63,12 @@ namespace QueR.Application.Controllers.Backoffice
         {
             return Ok(await queueService.GetEmployeesOfQueue(queueId));
         }
+
+        [HttpGet]
+        [ProducesDefaultResponseType(typeof(IEnumerable<QueueDto>))]
+        public async Task<ActionResult<IEnumerable<QueueDto>>> GetQueues()
+        {
+            return Ok(await queueService.GetQueues());
+        }
     }
 }

@@ -7,6 +7,7 @@ namespace QueR.BLL.Services.Queue.DTOs
 {
     public class QueueDto
     {
+        public int Id { get; set; }
         public string QueueType { get; set; }
         public int NextNumber { get; set; }
         public string Worksite { get; set; }

@@ -6,9 +6,6 @@ namespace QueR.BLL.Services.QueueType.DTOs
     public class QueueTypeModel
     {
         public string Name { get; set; }
-
-        [JsonIgnore]
-        public int CompanyId { get; set; }
     }
 
     public class QueueTypeValidator : AbstractValidator<QueueTypeModel>

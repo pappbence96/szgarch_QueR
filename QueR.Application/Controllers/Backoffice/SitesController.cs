@@ -12,7 +12,6 @@ namespace QueR.Application.Controllers.Backoffice
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize(Roles = "administrator")]
     [ApiExplorerSettings(GroupName = "backoffice")]
     [ProducesResponseType(typeof(ErrorDetails), StatusCodes.Status400BadRequest)]
     [ProducesResponseType(typeof(ErrorDetails), StatusCodes.Status401Unauthorized)]
@@ -28,6 +27,7 @@ namespace QueR.Application.Controllers.Backoffice
         }
 
         [HttpGet("{siteId}/manager/{managerId}")]
+        [Authorize(Roles = "administrator")]
         public async Task<ActionResult> AssignManagerToSite(int siteId, int managerId)
         {
             await siteService.AssignManagerToSite(siteId, managerId);
@@ -36,12 +36,14 @@ namespace QueR.Application.Controllers.Backoffice
 
         [HttpPost]
         [ProducesDefaultResponseType(typeof(SiteDto))]
+        [Authorize(Roles = "administrator")]
         public async Task<ActionResult> CreateSite([FromBody] SiteModel model)
         {
             return Ok(await siteService.CreateSite(model));
         }
 
         [HttpGet("{siteId}/workers/{employeeId}")]
+        [Authorize(Roles = "administrator")]
         public async Task<ActionResult> AssignWorkerToSite(int siteId, int employeeId)
         {
             await siteService.AssignEmployeeToSite(siteId, employeeId);
@@ -50,6 +52,7 @@ namespace QueR.Application.Controllers.Backoffice
 
         [HttpGet]
         [ProducesDefaultResponseType(typeof(IEnumerable<SiteDto>))]
+        [Authorize(Roles = "administrator")]
         public async Task<ActionResult<IEnumerable<SiteDto>>> GetSites()
         {
             return Ok(await siteService.GetSites());
@@ -57,12 +60,14 @@ namespace QueR.Application.Controllers.Backoffice
 
         [HttpGet("{siteId}")]
         [ProducesDefaultResponseType(typeof(IEnumerable<ApplicationUserDto>))]
+        [Authorize(Roles = "administrator")]
         public async Task<ActionResult<IEnumerable<ApplicationUserDto>>> GetEmployeesOfSite(int siteId)
         {
             return Ok(await siteService.GetEmployeesOfSite(siteId));
         }
 
         [HttpDelete("{siteId}/manager")]
+        [Authorize(Roles = "administrator")]
         public async Task<ActionResult> RemoveManagerFromSite(int siteId)
         {
             await siteService.RemoveManagerFromSite(siteId);
@@ -70,6 +75,7 @@ namespace QueR.Application.Controllers.Backoffice
         }
 
         [HttpDelete("{siteId}/workers/{employeeId}")]
+        [Authorize(Roles = "administrator")]
         public async Task<ActionResult> RemoveEmployeeOfSite(int siteId, int employeeId)
         {
             await siteService.RemoveEmployeeFromSite(siteId, employeeId);
@@ -77,10 +83,19 @@ namespace QueR.Application.Controllers.Backoffice
         }
 
         [HttpPut("{siteId}")]
+        [Authorize(Roles = "administrator")]
         public async Task<ActionResult> UpdateSite(int siteId, [FromBody] SiteModel model)
         {
             await siteService.UpdateSite(siteId, model);
             return Ok();
+        }
+
+        [HttpGet("current/workers")]
+        [ProducesDefaultResponseType(typeof(IEnumerable<ApplicationUserDto>))]
+        [Authorize(Roles = "manager")]
+        public async Task<ActionResult<IEnumerable<ApplicationUserDto>>> GetOwnEmployees()
+        {
+            return Ok(await siteService.GetOwnEmployees());
         }
 
     }

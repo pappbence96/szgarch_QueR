@@ -15,6 +15,8 @@ namespace QueR.BLL.Services.Site
         Task RemoveEmployeeFromSite(int siteId, int employeeId);
         Task<IEnumerable<SiteDto>> GetSites();
         Task<IEnumerable<ApplicationUserDto>> GetEmployeesOfSite(int siteId);
+        Task<IEnumerable<ApplicationUserDto>> GetOwnEmployees();
         Task DeleteSite(int siteId);
+
     }
 }
