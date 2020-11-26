@@ -7,9 +7,6 @@ namespace QueR.BLL.Services.Site.DTOs
     {
         public string Name { get; set; }
         public string Address { get; set; }
-
-        [JsonIgnore]
-        public int CompanyId { get; set; }
     }
 
     public class SiteValidator : AbstractValidator<SiteModel>

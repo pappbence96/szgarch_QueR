@@ -12,7 +12,6 @@ namespace QueR.BLL.Services.User.DTOs
         public string LastName { get; set; }
         public string Address { get; set; }
         public string Password { get; set; }
-        public int? CompanyId { get; set; }
         public Gender Gender { get; set; }
 
 

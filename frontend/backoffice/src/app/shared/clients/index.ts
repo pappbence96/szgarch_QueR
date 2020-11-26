@@ -2936,6 +2936,7 @@ export interface ILoginModel {
 }
 
 export class QueueDto implements IQueueDto {
+    id?: number;
     queueType?: string | undefined;
     nextNumber?: number;
     worksite?: string | undefined;
@@ -2954,6 +2955,7 @@ export class QueueDto implements IQueueDto {
 
     init(_data?: any) {
         if (_data) {
+            this.id = _data["id"];
             this.queueType = _data["queueType"];
             this.nextNumber = _data["nextNumber"];
             this.worksite = _data["worksite"];
@@ -2972,6 +2974,7 @@ export class QueueDto implements IQueueDto {
 
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
         data["queueType"] = this.queueType;
         data["nextNumber"] = this.nextNumber;
         data["worksite"] = this.worksite;
@@ -2983,6 +2986,7 @@ export class QueueDto implements IQueueDto {
 }
 
 export interface IQueueDto {
+    id?: number;
     queueType?: string | undefined;
     nextNumber?: number;
     worksite?: string | undefined;
@@ -3138,6 +3142,7 @@ export enum Gender {
 }
 
 export class QueueTypeDto implements IQueueTypeDto {
+    id?: number;
     name?: string | undefined;
     numOfQueues?: number;
 
@@ -3152,6 +3157,7 @@ export class QueueTypeDto implements IQueueTypeDto {
 
     init(_data?: any) {
         if (_data) {
+            this.id = _data["id"];
             this.name = _data["name"];
             this.numOfQueues = _data["numOfQueues"];
         }
@@ -3166,6 +3172,7 @@ export class QueueTypeDto implements IQueueTypeDto {
 
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
         data["name"] = this.name;
         data["numOfQueues"] = this.numOfQueues;
         return data; 
@@ -3173,6 +3180,7 @@ export class QueueTypeDto implements IQueueTypeDto {
 }
 
 export interface IQueueTypeDto {
+    id?: number;
     name?: string | undefined;
     numOfQueues?: number;
 }
@@ -3316,7 +3324,6 @@ export class CreateUserModel implements ICreateUserModel {
     lastName?: string | undefined;
     address?: string | undefined;
     password?: string | undefined;
-    companyId?: number | undefined;
     gender?: Gender;
 
     constructor(data?: ICreateUserModel) {
@@ -3336,7 +3343,6 @@ export class CreateUserModel implements ICreateUserModel {
             this.lastName = _data["lastName"];
             this.address = _data["address"];
             this.password = _data["password"];
-            this.companyId = _data["companyId"];
             this.gender = _data["gender"];
         }
     }
@@ -3356,7 +3362,6 @@ export class CreateUserModel implements ICreateUserModel {
         data["lastName"] = this.lastName;
         data["address"] = this.address;
         data["password"] = this.password;
-        data["companyId"] = this.companyId;
         data["gender"] = this.gender;
         return data; 
     }
@@ -3369,7 +3374,6 @@ export interface ICreateUserModel {
     lastName?: string | undefined;
     address?: string | undefined;
     password?: string | undefined;
-    companyId?: number | undefined;
     gender?: Gender;
 }
 

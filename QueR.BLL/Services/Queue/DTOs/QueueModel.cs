@@ -7,9 +7,6 @@ namespace QueR.BLL.Services.Queue.DTOs
     {
         public int TypeId { get; set; } 
         public int NextNumber { get; set; }
-
-        [JsonIgnore]
-        public int SiteId { get; set; }
     }
 
     public class QueueValidator : AbstractValidator<QueueModel>
