@@ -3063,6 +3063,7 @@ export enum Gender {
 }
 
 export class QueueTypeDto implements IQueueTypeDto {
+    id?: number;
     name?: string | undefined;
     numOfQueues?: number;
 
@@ -3077,6 +3078,7 @@ export class QueueTypeDto implements IQueueTypeDto {
 
     init(_data?: any) {
         if (_data) {
+            this.id = _data["id"];
             this.name = _data["name"];
             this.numOfQueues = _data["numOfQueues"];
         }
@@ -3091,6 +3093,7 @@ export class QueueTypeDto implements IQueueTypeDto {
 
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
         data["name"] = this.name;
         data["numOfQueues"] = this.numOfQueues;
         return data; 
@@ -3098,6 +3101,7 @@ export class QueueTypeDto implements IQueueTypeDto {
 }
 
 export interface IQueueTypeDto {
+    id?: number;
     name?: string | undefined;
     numOfQueues?: number;
 }

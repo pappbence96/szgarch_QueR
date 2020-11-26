@@ -152,4 +152,8 @@ export class SitesPageComponent implements OnInit {
       return site.name.toLowerCase().indexOf(filterText.toLocaleLowerCase()) === 0;
     };
   }
+
+  employeesOfSelectedSite(): ApplicationUserDto[] {
+    return this.employees.filter(e => !e.worksiteId || e.worksiteId === this.selected.id);
+  }
 }
