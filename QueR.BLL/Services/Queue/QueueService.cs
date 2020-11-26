@@ -190,7 +190,11 @@ namespace QueR.BLL.Services.Queue
 
         public async Task<IEnumerable<ApplicationUserDto>> GetEmployeesOfQueue(int queueId)
         {
-            var queue = (await context.Queues.Include(c => c.AssignedEmployees).FirstOrDefaultAsync(u => u.Id == queueId))
+            var queue = (await context.Queues
+                .Include(c => c.AssignedEmployees)
+                    .ThenInclude(e => e.Company)
+                .Include(q => q.Type)
+                .FirstOrDefaultAsync(u => u.Id == queueId))
                 ?? throw new KeyNotFoundException($"Queue not found with an id of {queueId}");
 
             if (!await IsCallerCurrentManager())
