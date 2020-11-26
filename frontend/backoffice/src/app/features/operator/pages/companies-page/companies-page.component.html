@@ -75,7 +75,7 @@
         <mat-form-field appearance="fill" class="full-width-input" *ngIf="selected && !isNew && !selected.adminId">
           <mat-label>Select administrator</mat-label>
           <mat-select [(ngModel)]="selectedAdmin">
-            <mat-option *ngFor="let a of admins" [value]="a"> {{a.userName}} </mat-option>
+            <mat-option *ngFor="let a of availableAdmins()" [value]="a"> {{a.userName}} </mat-option>
           </mat-select>
         </mat-form-field>
         <button *ngIf="selected && !isNew && !selected.adminId" mat-raised-button color="primary" class="form-btn" (click)="assignAdmin()" [disabled]="!selectedAdmin">Assign administrator</button>

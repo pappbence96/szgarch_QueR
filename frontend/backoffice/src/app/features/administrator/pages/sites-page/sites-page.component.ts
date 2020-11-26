@@ -122,6 +122,7 @@ export class SitesPageComponent implements OnInit {
         updated.managerName = this.selectedEmployee.userName;
         updated.managerId = this.selectedEmployee.id;
         this.selected = updated;
+        this.selectedEmployee.worksiteId = this.selected.id;
       },
       (error: ErrorDetails) => {
         this.snackbar.showSnackbar(error.message);
@@ -139,8 +140,8 @@ export class SitesPageComponent implements OnInit {
         const updated = this.sites.find((item: SiteDto) => item.id === this.selected.id);
         updated.managerName = '-';
         updated.managerId = null;
-        this.selectedEmployee = null;
         this.selected = updated;
+        this.selectedEmployee = null;
       },
       (error: ErrorDetails) => {
         this.snackbar.showSnackbar(error.message);

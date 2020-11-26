@@ -152,6 +152,7 @@ export class AdministratorsPageComponent implements OnInit {
         updated.administratedCompanyId = this.selectedCompany.id;
         updated.administratedCompany = this.selectedCompany.name;
         this.selected = updated;
+        this.selectedCompany.adminId = this.selected.id;
       },
       (error: ErrorDetails) => {
         this.snackbar.showSnackbar(error.message);
@@ -170,8 +171,9 @@ export class AdministratorsPageComponent implements OnInit {
         const updated = this.admins.find((item: ApplicationUserDto) => item.id === this.selected.id);
         updated.administratedCompanyId = null;
         updated.administratedCompany = '-';
-        this.selectedCompany = null;
         this.selected = updated;
+        this.selectedCompany.adminId = null;
+        this.selectedCompany = null;
       },
       (error: ErrorDetails) => {
         this.snackbar.showSnackbar(error.message);
@@ -184,4 +186,7 @@ export class AdministratorsPageComponent implements OnInit {
     };
   }
 
+  availableCompanies(): CompanyDto[] {
+    return this.companies.filter(c => c.adminId === null);
+  }
 }
