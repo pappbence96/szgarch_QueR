@@ -3013,8 +3013,11 @@ export interface ILoginModel {
 export class QueueDto implements IQueueDto {
     id?: number;
     queueType?: string | undefined;
+    queueTypeId?: number;
     nextNumber?: number;
     worksite?: string | undefined;
+    prefix?: string | undefined;
+    step?: number;
     worksiteId?: number;
     numOfAssignedEmployees?: number;
     numOfTickets?: number;
@@ -3032,8 +3035,11 @@ export class QueueDto implements IQueueDto {
         if (_data) {
             this.id = _data["id"];
             this.queueType = _data["queueType"];
+            this.queueTypeId = _data["queueTypeId"];
             this.nextNumber = _data["nextNumber"];
             this.worksite = _data["worksite"];
+            this.prefix = _data["prefix"];
+            this.step = _data["step"];
             this.worksiteId = _data["worksiteId"];
             this.numOfAssignedEmployees = _data["numOfAssignedEmployees"];
             this.numOfTickets = _data["numOfTickets"];
@@ -3051,8 +3057,11 @@ export class QueueDto implements IQueueDto {
         data = typeof data === 'object' ? data : {};
         data["id"] = this.id;
         data["queueType"] = this.queueType;
+        data["queueTypeId"] = this.queueTypeId;
         data["nextNumber"] = this.nextNumber;
         data["worksite"] = this.worksite;
+        data["prefix"] = this.prefix;
+        data["step"] = this.step;
         data["worksiteId"] = this.worksiteId;
         data["numOfAssignedEmployees"] = this.numOfAssignedEmployees;
         data["numOfTickets"] = this.numOfTickets;
@@ -3063,8 +3072,11 @@ export class QueueDto implements IQueueDto {
 export interface IQueueDto {
     id?: number;
     queueType?: string | undefined;
+    queueTypeId?: number;
     nextNumber?: number;
     worksite?: string | undefined;
+    prefix?: string | undefined;
+    step?: number;
     worksiteId?: number;
     numOfAssignedEmployees?: number;
     numOfTickets?: number;
@@ -3073,6 +3085,8 @@ export interface IQueueDto {
 export class QueueModel implements IQueueModel {
     typeId?: number;
     nextNumber?: number;
+    prefix?: string | undefined;
+    step?: number;
 
     constructor(data?: IQueueModel) {
         if (data) {
@@ -3087,6 +3101,8 @@ export class QueueModel implements IQueueModel {
         if (_data) {
             this.typeId = _data["typeId"];
             this.nextNumber = _data["nextNumber"];
+            this.prefix = _data["prefix"];
+            this.step = _data["step"];
         }
     }
 
@@ -3101,6 +3117,8 @@ export class QueueModel implements IQueueModel {
         data = typeof data === 'object' ? data : {};
         data["typeId"] = this.typeId;
         data["nextNumber"] = this.nextNumber;
+        data["prefix"] = this.prefix;
+        data["step"] = this.step;
         return data; 
     }
 }
@@ -3108,6 +3126,8 @@ export class QueueModel implements IQueueModel {
 export interface IQueueModel {
     typeId?: number;
     nextNumber?: number;
+    prefix?: string | undefined;
+    step?: number;
 }
 
 export class ApplicationUserDto implements IApplicationUserDto {
