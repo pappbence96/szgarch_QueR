@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Text;
 
 namespace QueR.Domain.Entities
@@ -10,6 +11,8 @@ namespace QueR.Domain.Entities
         public int TypeId { get; set; }
         public virtual Site Site { get; set; }
         public int? SiteId { get; set; }
+        
+        [ConcurrencyCheck]
         public int NextNumber { get; set; }
 
         public virtual ICollection<ApplicationUser> AssignedEmployees { get; set; }

@@ -1,11 +1,13 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using QueR.BLL.Services.Ticket.DTOs;
 using QueR.DAL;
 using QueR.Domain.Entities;
 using QueR.Domain.Services;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -27,8 +29,8 @@ namespace QueR.BLL.Services.Ticket
         }
 
         public Task CallNextTicket()
-        {
-            throw new NotImplementedException();
+        {  
+
         }
 
         public Task CallTicketByNumber(int ticketNumber)
@@ -36,19 +38,57 @@ namespace QueR.BLL.Services.Ticket
             throw new NotImplementedException();
         }
 
-        public Task<TicketDto> CreateTicket()
+        public async Task<UserTicketDto> CreateTicket(TicketModel model)
         {
-            throw new NotImplementedException();
+            var callerUserId = userAccessor.UserId;
+            var queue = (await context.Queues.FirstOrDefaultAsync(u => u.Id == model.queueId))
+                   ?? throw new KeyNotFoundException($"Queue not found with an id of {model.queueId}");
+
+            var ticket = new Domain.Entities.Ticket
+            {
+                Number = queue.NextNumber,
+                OwnerId = callerUserId,
+                Called = false,
+                QueueId = model.queueId,
+                Created = DateTime.Now
+             };
+
+            queue.NextNumber++;
+            context.Tickets.Add(ticket);
+            context.Queues.Update(queue);
+
+            await context.SaveChangesAsync();
+            return mapper.Map<UserTicketDto>(ticket);
         }
 
-        public Task<IEnumerable<TicketDto>> GetActiveTicketsForOwnQueue()
+        public async Task<IEnumerable<CompanyTicketDto>> GetActiveTicketsForOwnQueue()
         {
-            throw new NotImplementedException();
+            var callerUserId = userAccessor.UserId;
+            var user = await context.Users
+                .Include(u => u.AssignedQueue)
+                    .ThenInclude(q => q.Tickets)
+                        .ThenInclude(t => t.Owner)
+                .FirstOrDefaultAsync(u => u.Id == callerUserId);
+            var tickets = user.AssignedQueue.Tickets.Where(t => !t.Called).ToList();
+            
+            return mapper.Map<IEnumerable<CompanyTicketDto>>(tickets);
         }
 
-        public Task<IEnumerable<TicketDto>> GetOwnTicketsForUser()
+        public async Task<IEnumerable<UserTicketDto>> GetOwnTicketsForUser()
         {
-            throw new NotImplementedException();
+            var callerUserId = userAccessor.UserId;
+            var tickets = await context.Tickets
+                .Include(t => t.Queue)
+                    .ThenInclude(q => q.Tickets)
+                .Include(t => t.Queue)
+                    .ThenInclude(q => q.Type)
+                .Include(t => t.Queue)
+                    .ThenInclude(q => q.Site)
+                        .ThenInclude(s => s.Company)
+                .Where(t => t.OwnerId == callerUserId && !t.Called)
+                .ToListAsync();
+
+            return mapper.Map<IEnumerable<UserTicketDto>>(tickets);
         }
     }
 }

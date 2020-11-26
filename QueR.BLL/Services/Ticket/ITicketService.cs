@@ -8,9 +8,9 @@ namespace QueR.BLL.Services.Ticket
 {
     interface ITicketService
     {
-        Task<TicketDto> CreateTicket();
-        Task<IEnumerable<TicketDto>> GetOwnTicketsForUser();
-        Task<IEnumerable<TicketDto>> GetActiveTicketsForOwnQueue();
+        Task<UserTicketDto> CreateTicket(TicketModel ticketModel);
+        Task<IEnumerable<UserTicketDto>> GetOwnTicketsForUser();
+        Task<IEnumerable<CompanyTicketDto>> GetActiveTicketsForOwnQueue();
         Task CallNextTicket();
         Task CallTicketByNumber(int ticketNumber);
     }
