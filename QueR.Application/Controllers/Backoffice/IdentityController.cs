@@ -11,7 +11,7 @@ namespace QueR.Application.Controllers.Backoffice
 {
     [Route("api/[controller]")]
     [ApiController]
-    [ApiExplorerSettings(GroupName = "backoffice")]
+    [ApiExplorerSettings(GroupName = "common")]
     [ProducesResponseType(typeof(ErrorDetails), StatusCodes.Status400BadRequest)]
     [ProducesResponseType(typeof(ErrorDetails), StatusCodes.Status401Unauthorized)]
     [ProducesResponseType(typeof(ErrorDetails), StatusCodes.Status403Forbidden)]

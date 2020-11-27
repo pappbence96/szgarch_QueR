@@ -1,4 +1,4 @@
-{
+﻿{
   "runtime": "NetCore31",
   "defaultVariables": null,
   "documentGenerator": {
@@ -30,7 +30,7 @@
       "serviceHost": null,
       "serviceBasePath": null,
       "serviceSchemes": [],
-      "infoTitle": "Quer Backoffice API",
+      "infoTitle": "Quer Mobile API",
       "infoDescription": null,
       "infoVersion": "1.0.0",
       "documentTemplate": null,
@@ -41,12 +41,12 @@
       "contractResolverType": null,
       "serializerSettingsType": null,
       "useDocumentProvider": true,
-      "documentName": "Backoffice",
+      "documentName": "Mobile",
       "aspNetCoreEnvironment": "",
       "createWebHostBuilderMethod": null,
       "startupType": null,
       "allowNullableBodyParameters": true,
-      "output": "swagger-backoffice.json",
+      "output": "swagger-mobile.json",
       "outputType": "Swagger2",
       "newLineBehavior": "Auto",
       "assemblyPaths": [],
@@ -113,7 +113,7 @@
       "enumNameGeneratorType": null,
       "serviceHost": null,
       "serviceSchemes": null,
-      "output": "../frontend/backoffice/src/app/shared/clients/index.ts",
+      "output": "../frontend/mobile/src/app/clients/index.ts",
       "newLineBehavior": "Auto"
     }
   }
