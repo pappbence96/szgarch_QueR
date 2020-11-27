@@ -38,6 +38,7 @@ namespace QueR.BLL.Services.Ticket
 
             context.Tickets.Update(ticket);
             await context.SaveChangesAsync();
+            await notificationService.NotifyQueueTicketCalled(ticket.Queue.Id, ticket.Id);
         }
 
         public async Task CallNextTicket()
@@ -54,7 +55,6 @@ namespace QueR.BLL.Services.Ticket
             }
             var ticket = user.AssignedQueue.Tickets.Where(t => !t.Called).OrderBy(t => t.Number).First();
             await HandleTicket(ticket);
-            await notificationService.NotifyQueueTicketCalled(ticket.Queue.Id, ticket.Id);
 
         }
 
@@ -72,7 +72,6 @@ namespace QueR.BLL.Services.Ticket
             }
             var ticket = user.AssignedQueue.Tickets.Where(t => t.Number == ticketNumber && !t.Called).First();
             await HandleTicket(ticket);
-            await notificationService.NotifyQueueTicketCalled(ticket.Queue.Id, ticket.Id);
         }
 
         public async Task<UserTicketDto> CreateTicket(TicketModel model)
