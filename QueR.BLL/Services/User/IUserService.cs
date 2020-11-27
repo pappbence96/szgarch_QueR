@@ -8,14 +8,14 @@ namespace QueR.BLL.Services.User
 {
     public interface IUserService
     {
-        Task<ApplicationUserDto> CreateAdmin(CreateUserModel model);
-        Task<ApplicationUserDto> CreateManager(CreateUserModel model);
-        Task<ApplicationUserDto> CreateEmployee(CreateUserModel model);
+        Task<ApplicationUserDto> CreateAdmin(CreateWorkerModel model);
+        Task<ApplicationUserDto> CreateManager(CreateWorkerModel model);
+        Task<ApplicationUserDto> CreateEmployee(CreateWorkerModel model);
 
-        Task UpdateAdmin(int adminId, UpdateUserModel model);
-        Task UpdateManager(int managerId, UpdateUserModel model);
-        Task UpdateEmployee(int employeeId, UpdateUserModel model);
-        Task UpdateSimpleUser(int userId, UpdateUserModel model);
+        Task UpdateAdmin(int adminId, UpdateWorkerModel model);
+        Task UpdateManager(int managerId, UpdateWorkerModel model);
+        Task UpdateEmployee(int employeeId, UpdateWorkerModel model);
+        Task UpdateSimpleUser(int userId, UpdateWorkerModel model);
 
         Task DeleteWorker(int workerId);
 

@@ -29,7 +29,7 @@ namespace QueR.BLL.Services.User
             this.mapper = mapper;
         }
 
-        private async Task<ApplicationUser> CreateWorker(CreateUserModel model)
+        private async Task<ApplicationUser> CreateWorker(CreateWorkerModel model)
         {
             new WorkerValidator().ValidateAndThrow(model);
             new PasswordValidator().ValidateAndThrow(model);
@@ -62,8 +62,7 @@ namespace QueR.BLL.Services.User
             return user;
         }
 
-
-        public async Task<ApplicationUserDto> CreateAdmin(CreateUserModel model)
+        public async Task<ApplicationUserDto> CreateAdmin(CreateWorkerModel model)
         {
             new WorkerValidator().ValidateAndThrow(model);
             new PasswordValidator().ValidateAndThrow(model);
@@ -90,7 +89,7 @@ namespace QueR.BLL.Services.User
             return mapper.Map<ApplicationUserDto>(user);
         }
 
-        public async Task<ApplicationUserDto> CreateEmployee(CreateUserModel model)
+        public async Task<ApplicationUserDto> CreateEmployee(CreateWorkerModel model)
         {
             var user = await CreateWorker(model);
 
@@ -99,7 +98,7 @@ namespace QueR.BLL.Services.User
             return mapper.Map<ApplicationUserDto>(user);
         }
 
-        public async Task<ApplicationUserDto> CreateManager(CreateUserModel model)
+        public async Task<ApplicationUserDto> CreateManager(CreateWorkerModel model)
         {
             var user = await CreateWorker(model);
 
@@ -149,7 +148,7 @@ namespace QueR.BLL.Services.User
 
         }
 
-        public async Task UpdateAdmin(int adminId, UpdateUserModel model)
+        public async Task UpdateAdmin(int adminId, UpdateWorkerModel model)
         {
             var admin = (await userManager.FindByIdAsync(adminId.ToString()))
                 ?? throw new KeyNotFoundException($"Administrator not found with an id of { adminId }");
@@ -176,7 +175,7 @@ namespace QueR.BLL.Services.User
             }
         }
 
-        public async Task UpdateManager(int managerId, UpdateUserModel model)
+        public async Task UpdateManager(int managerId, UpdateWorkerModel model)
         {
             var manager = (await userManager.FindByIdAsync(managerId.ToString()))
                 ?? throw new KeyNotFoundException($"Manager not found with an id of { managerId }");
@@ -215,7 +214,7 @@ namespace QueR.BLL.Services.User
             }
         }
 
-        public async Task UpdateEmployee(int employeeId, UpdateUserModel model)
+        public async Task UpdateEmployee(int employeeId, UpdateWorkerModel model)
         {
             var employee = (await userManager.FindByIdAsync(employeeId.ToString()))
                 ?? throw new KeyNotFoundException($"Employee not found with an id of { employeeId }");
@@ -247,30 +246,6 @@ namespace QueR.BLL.Services.User
             employee.Gender = model.Gender;
 
             var result = await userManager.UpdateAsync(employee);
-
-            if (!result.Succeeded)
-            {
-                throw new InvalidOperationException(result.Errors.First().Description);
-            }
-        }
-
-        public async Task UpdateSimpleUser(int userId, UpdateUserModel model)
-        {
-            var user = (await userManager.FindByIdAsync(userId.ToString()))
-                ?? throw new KeyNotFoundException($"User not found with an id of { userId }");
-
-            var callerUserId = userAccessor.UserId;
-
-            if (callerUserId != userId)
-            {
-                throw new InvalidOperationException("A simple user cannot update other users");
-            }
-
-            new UpdateUserValidator().ValidateAndThrow(model);
-
-            user.Email = model.Email;
-
-            var result = await userManager.UpdateAsync(user);
 
             if (!result.Succeeded)
             {
