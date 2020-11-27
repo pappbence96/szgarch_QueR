@@ -11,7 +11,6 @@ namespace QueR.BLL.Services.User
         Task<ApplicationUserDto> CreateAdmin(CreateUserModel model);
         Task<ApplicationUserDto> CreateManager(CreateUserModel model);
         Task<ApplicationUserDto> CreateEmployee(CreateUserModel model);
-        Task<ApplicationUserDto> CreateSimpleUser(CreateUserModel model);
 
         Task UpdateAdmin(int adminId, UpdateUserModel model);
         Task UpdateManager(int managerId, UpdateUserModel model);

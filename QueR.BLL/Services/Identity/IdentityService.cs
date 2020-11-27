@@ -1,12 +1,15 @@
-﻿using FluentValidation;
+﻿using AutoMapper;
+using FluentValidation;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+using QueR.BLL.Services.Identity.DTOs;
 using QueR.DAL;
 using QueR.Domain.Entities;
 using System;
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
+using System.Linq;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
@@ -18,12 +21,14 @@ namespace QueR.BLL.Services.Identity
         private readonly AppDbContext context;
         private readonly UserManager<ApplicationUser> userManager;
         private readonly RoleManager<IdentityRole<int>> roleManager;
+        private readonly IMapper mapper;
 
-        public IdentityService(AppDbContext context, UserManager<ApplicationUser> userManager, RoleManager<IdentityRole<int>> roleManager)
+        public IdentityService(AppDbContext context, UserManager<ApplicationUser> userManager, RoleManager<IdentityRole<int>> roleManager, IMapper mapper)
         {
             this.context = context;
             this.userManager = userManager;
             this.roleManager = roleManager;
+            this.mapper = mapper;
         }
 
         public async Task<LoginResponse> CreateTokenForUser(LoginModel model)
@@ -85,6 +90,29 @@ namespace QueR.BLL.Services.Identity
             {
                 throw new ArgumentException("The provided password was incorrect.");
             }
+        }
+
+        public async Task<RegisterResponse> RegisterSimpleUser(RegisterModel model)
+        {
+            new RegisterValidator().ValidateAndThrow(model);
+            new RegisterPasswordValidator().ValidateAndThrow(model);
+
+            var user = new ApplicationUser
+            {
+                UserName = model.UserName,
+                Email = model.Email
+            };
+
+            var result = await userManager.CreateAsync(user, model.Password);
+
+            if (!result.Succeeded)
+            {
+                throw new InvalidOperationException(result.Errors.First().Description);
+            }
+
+            await userManager.AddToRoleAsync(user, "user");
+
+            return mapper.Map<RegisterResponse>(user);
         }
     }
 }

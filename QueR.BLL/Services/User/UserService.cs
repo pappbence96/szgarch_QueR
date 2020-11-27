@@ -108,29 +108,6 @@ namespace QueR.BLL.Services.User
             return mapper.Map<ApplicationUserDto>(user);
         }
 
-        public async Task<ApplicationUserDto> CreateSimpleUser(CreateUserModel model)
-        {
-            new UserValidator().ValidateAndThrow(model);
-            new PasswordValidator().ValidateAndThrow(model);
-
-            var user = new ApplicationUser
-            {
-                UserName = model.UserName,
-                Email = model.Email
-            };
-
-            var result = await userManager.CreateAsync(user, model.Password);
-
-            if (!result.Succeeded)
-            {
-                throw new InvalidOperationException(result.Errors.First().Description);
-            }
-
-            await userManager.AddToRoleAsync(user, "user");
-
-            return mapper.Map<ApplicationUserDto>(user);
-        }
-
         public async Task<IEnumerable<ApplicationUserDto>> GetAdministrators()
         {
             var users = await GetUsersInRole("administrator");

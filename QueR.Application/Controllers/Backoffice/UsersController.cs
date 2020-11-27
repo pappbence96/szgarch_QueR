@@ -50,13 +50,6 @@ namespace QueR.Application.Controllers.Backoffice
             return Ok(await userService.CreateManager(model));
         }
 
-        [HttpPost("users")]
-        [ProducesDefaultResponseType(typeof(ApplicationUserDto))]
-        public async Task<ActionResult<ApplicationUserDto>> CreateUser([FromBody] CreateUserModel model)
-        {
-            return Ok(await userService.CreateSimpleUser(model));
-        }
-
         [HttpGet("admins")]
         [Authorize(Roles = "operator")]
         [ProducesDefaultResponseType(typeof(IEnumerable<ApplicationUserDto>))]

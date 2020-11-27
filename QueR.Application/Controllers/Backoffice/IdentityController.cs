@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using QueR.Application.Middlewares.ExceptionHandling;
 using QueR.BLL.Services.Identity;
+using QueR.BLL.Services.Identity.DTOs;
 
 namespace QueR.Application.Controllers.Backoffice
 {
@@ -30,6 +31,13 @@ namespace QueR.Application.Controllers.Backoffice
         public async Task<ActionResult<LoginResponse>> Login([FromBody] LoginModel model)
         {
             return Ok(await identityService.CreateTokenForUser(model));
+        }
+
+        [ProducesDefaultResponseType(typeof(RegisterResponse))]
+        [HttpPost("register")]
+        public async Task<ActionResult<RegisterResponse>> Register([FromBody] RegisterModel model)
+        {
+            return Ok(await identityService.RegisterSimpleUser(model));
         }
     }
 }
