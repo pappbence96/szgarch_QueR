@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+using QueR.BLL.Extensions;
 using QueR.DAL;
 using QueR.Domain.Entities;
 using System;
@@ -34,16 +35,19 @@ namespace QueR.BLL.Services.Identity
                 ?? throw new ArgumentException("This user does not exist.");
             if (await userManager.CheckPasswordAsync(user, model.Password))
             {
+                // Common fields
                 var secretKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("D0n7_L34v3_M3_H3r3"));
                 var signinCredentials = new SigningCredentials(secretKey, SecurityAlgorithms.HmacSha256);
                 var claims = new List<Claim>
                 {
                     new Claim("userName", user.UserName),
                     new Claim("email", user.Email),
-                    new Claim("firstName", user.FirstName),
-                    new Claim("lastName", user.LastName),
                     new Claim("sub", user.Id.ToString())
-                };
+                }
+                    .TryAddClaim("firstName", user.FirstName)
+                    .TryAddClaim("lastName", user.LastName);
+
+                // Role claims
                 foreach (var role in roleManager.Roles)
                 {
                     if (await userManager.IsInRoleAsync(user, role.Name))
@@ -52,33 +56,32 @@ namespace QueR.BLL.Services.Identity
                         claims.Add(new Claim(ClaimTypes.Role, role.Name));
                     }
                 }
-                if(user.CompanyId != null)
+
+                // Only try adding this if it's not a regular end user
+                if (!await userManager.IsInRoleAsync(user, "user"))
                 {
-                    claims.Add(new Claim("company", user.CompanyId.Value.ToString()));
-                }
-                if(user.WorksiteId != null)
-                {
-                    claims.Add(new Claim("worksite", user.WorksiteId.Value.ToString()));
-                }
-                var administratedCompany = await context.Companies.FirstOrDefaultAsync(c => c.AdministratorId == user.Id);
-                if(administratedCompany != null)
-                {
-                    claims.Add(new Claim("administrated_company", administratedCompany.Id.ToString()));
-                }
-                var managedSite = await context.Sites.FirstOrDefaultAsync(c => c.ManagerId == user.Id);
-                if(managedSite != null)
-                {
-                    claims.Add(new Claim("managed_site", managedSite.Id.ToString()));
+                    // Load the navprops 
+                    user = await context.Users
+                        .Include(u => u.Company)
+                        .Include(u => u.Worksite)
+                        .Include(u => u.ManagedSite)
+                        .Include(u => u.AdministratedCompany)
+                        .SingleAsync(u => u.Id == user.Id);
+
+                    claims.TryAddClaim("company", user.Company?.Id)
+                        .TryAddClaim("worksite", user.Worksite?.Id)
+                        .TryAddClaim("managed_site", user.ManagedSite?.Id)
+                        .TryAddClaim("administrated_company", user.AdministratedCompany?.Id);
                 }
 
-                var tokeOptions = new JwtSecurityToken(
+                var tokenOptions = new JwtSecurityToken(
                    issuer: "http://localhost:5001",
                    audience: "http://localhost:4200",
                    claims: claims,
                    expires: DateTime.Now.AddMinutes(60),
                    signingCredentials: signinCredentials
                );
-                var tokenString = new JwtSecurityTokenHandler().WriteToken(tokeOptions);
+                var tokenString = new JwtSecurityTokenHandler().WriteToken(tokenOptions);
                 return new LoginResponse { Token = tokenString };
             }
             else
