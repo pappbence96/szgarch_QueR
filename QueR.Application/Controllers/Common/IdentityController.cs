@@ -7,11 +7,11 @@ using Microsoft.AspNetCore.Mvc;
 using QueR.Application.Middlewares.ExceptionHandling;
 using QueR.BLL.Services.Identity;
 
-namespace QueR.Application.Controllers.Backoffice
+namespace QueR.Application.Controllers.Common
 {
     [Route("api/[controller]")]
     [ApiController]
-    [ApiExplorerSettings(GroupName = "backoffice")]
+    [ApiExplorerSettings(GroupName = "common")]
     [ProducesResponseType(typeof(ErrorDetails), StatusCodes.Status400BadRequest)]
     [ProducesResponseType(typeof(ErrorDetails), StatusCodes.Status401Unauthorized)]
     [ProducesResponseType(typeof(ErrorDetails), StatusCodes.Status403Forbidden)]

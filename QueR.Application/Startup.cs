@@ -107,10 +107,26 @@ namespace QueR.Application
 
             services.AddOpenApiDocument(config =>
             {
-                config.Title = "QueR API";
-                config.Description = "QueR API documentation";
+                config.Title = "QueR Backoffice API";
+                config.Description = "QueR Backoffice API documentation for development purposes.";
                 config.DocumentName = "Backoffice";
-                config.ApiGroupNames = new[] { "backoffice" };
+                config.ApiGroupNames = new[] { "backoffice", "common" };
+                config.UseRouteNameAsOperationId = true;
+
+                config.AddSecurity("JWT", Enumerable.Empty<string>(), new OpenApiSecurityScheme
+                {
+                    Type = OpenApiSecuritySchemeType.ApiKey,
+                    Name = "Authorization",
+                    In = OpenApiSecurityApiKeyLocation.Header,
+                    Description = "Type into the textbox: Bearer {your JWT token}."
+                });
+            });
+            services.AddOpenApiDocument(config =>
+            {
+                config.Title = "QueR Mobile API";
+                config.Description = "QueR Mobile API documentation for development purposes.";
+                config.DocumentName = "Mobile";
+                config.ApiGroupNames = new[] { "mobile", "common" };
                 config.UseRouteNameAsOperationId = true;
 
                 config.AddSecurity("JWT", Enumerable.Empty<string>(), new OpenApiSecurityScheme
