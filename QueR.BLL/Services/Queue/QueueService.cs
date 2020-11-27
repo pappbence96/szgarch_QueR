@@ -1,7 +1,6 @@
 ﻿using AutoMapper;
 using FluentValidation;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.SignalR;
 using Microsoft.EntityFrameworkCore;
 using QueR.BLL.Services.Queue.DTOs;
 using QueR.BLL.Services.User.DTOs;
@@ -11,7 +10,6 @@ using QueR.Domain.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace QueR.BLL.Services.Queue

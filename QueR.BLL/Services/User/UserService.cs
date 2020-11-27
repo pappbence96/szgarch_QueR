@@ -145,7 +145,6 @@ namespace QueR.BLL.Services.User
                 .Include(u => u.Worksite)
                 .Where(u => userIds.Contains(u.Id))
                 .ToListAsync();
-
         }
 
         public async Task UpdateAdmin(int adminId, UpdateWorkerModel model)

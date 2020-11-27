@@ -13,8 +13,6 @@ namespace QueR.BLL.Services.User.DTOs
         public string Address { get; set; }
         public string Password { get; set; }
         public Gender Gender { get; set; }
-
-
     }
 
     public class WorkerValidator : AbstractValidator<CreateWorkerModel>
