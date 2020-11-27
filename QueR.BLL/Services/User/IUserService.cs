@@ -15,7 +15,6 @@ namespace QueR.BLL.Services.User
         Task UpdateAdmin(int adminId, UpdateWorkerModel model);
         Task UpdateManager(int managerId, UpdateWorkerModel model);
         Task UpdateEmployee(int employeeId, UpdateWorkerModel model);
-        Task UpdateSimpleUser(int userId, UpdateWorkerModel model);
 
         Task DeleteWorker(int workerId);
 

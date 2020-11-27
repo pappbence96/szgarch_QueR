@@ -105,13 +105,5 @@ namespace QueR.Application.Controllers.Backoffice
             await userService.UpdateEmployee(employeeId, model);
             return Ok();
         }
-
-        [HttpPut("users/{userId}")]
-        [Authorize(Roles = "user")]
-        public async Task<ActionResult> UpdateSimpleUser(int userId, [FromBody] UpdateWorkerModel model)
-        {
-            await userService.UpdateSimpleUser(userId, model);
-            return Ok();
-        }
     }
 }

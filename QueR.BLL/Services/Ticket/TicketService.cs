@@ -46,7 +46,7 @@ namespace QueR.BLL.Services.Ticket
                     .ThenInclude(q => q.Tickets)
                         .ThenInclude(t => t.Owner)
                 .FirstOrDefaultAsync(u => u.Id == callerUserId);
-            var ticket = user.AssignedQueue.Tickets.OrderBy(t => t.Number).First();
+            var ticket = user.AssignedQueue.Tickets.Where(t => !t.Called).OrderBy(t => t.Number).First();
             await HandleTicket(ticket);
 
         }
@@ -59,7 +59,7 @@ namespace QueR.BLL.Services.Ticket
                     .ThenInclude(q => q.Tickets)
                         .ThenInclude(t => t.Owner)
                 .FirstOrDefaultAsync(u => u.Id == callerUserId);
-            var ticket = user.AssignedQueue.Tickets.Where(t => t.Number == ticketNumber).First();
+            var ticket = user.AssignedQueue.Tickets.Where(t => t.Number == ticketNumber && !t.Called).First();
             await HandleTicket(ticket);
         }
 
@@ -78,7 +78,7 @@ namespace QueR.BLL.Services.Ticket
                 Created = DateTime.Now
              };
 
-            queue.NextNumber++;
+            queue.NextNumber += queue.Step;
             context.Tickets.Add(ticket);
             context.Queues.Update(queue);
 
