@@ -1,8 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { MatDialog } from '@angular/material/dialog';
 import { MatTableDataSource } from '@angular/material/table';
-import { ApplicationUserDto, ErrorDetails, QueueDto, QueueModel, QueuesClient, QueueTypeDto, QueueTypesClient, SitesClient, UsersClient } from 'src/app/shared/clients';
+import { ApplicationUserDto, ErrorDetails, QueueDto, QueueModel, QueuesClient, QueueTypeDto, QueueTypesClient, SitesClient } from 'src/app/shared/clients';
 import { SnackbarService } from 'src/app/shared/utilities/Snackbar.service';
 
 @Component({
@@ -25,15 +24,13 @@ export class QueuesPageComponent implements OnInit {
 
   constructor(
     private queuesClient: QueuesClient,
-    private sitesClient: SitesClient,
+    sitesClient: SitesClient,
     queueTypeClient: QueueTypesClient,
     private formBuilder: FormBuilder,
-    private dialog: MatDialog,
     private snackbar: SnackbarService
   ) {
     queueTypeClient.getQueueTypes().subscribe(data => {
       this.types = data;
-      console.log(this.types);
     },
     (error: ErrorDetails) => {
       snackbar.showSnackbar(error.message);
@@ -59,8 +56,7 @@ export class QueuesPageComponent implements OnInit {
   selectRow(row: QueueDto): void {
     this.selected = new QueueDto(row);
     this.isNew = false;
-
-    var type = this.types.find(t => t.id === this.selected.queueTypeId);
+    const type = this.types.find(t => t.id === this.selected.queueTypeId);
     this.queueForm = this.formBuilder.group({
       type: [{ value: type, disabled: true}],
       start: [{ value: this.selected.nextNumber, disabled: true}],
@@ -119,42 +115,34 @@ export class QueuesPageComponent implements OnInit {
     });
   }
 
-  promoteManager(): void {/*
-    const dialogRef = this.dialog.open(ConfirmDialogComponent);
-
-    dialogRef.afterClosed().pipe(
-      filter((result) => result),
-      switchMap(() => this.queuesClient.assignManagerToSite(this.selected.id, this.selectedEmployee.id))
-      ).subscribe(() => {
-        this.snackbar.showSnackbar('Manager successfully promoted');
-        const updated = this.queues.find((item: SiteDto) => item.id === this.selected.id);
-        updated.managerName = this.selectedEmployee.userName;
-        updated.managerId = this.selectedEmployee.id;
-        this.selected = updated;
-        this.selectedEmployee.worksiteId = this.selected.id;
-      },
-      (error: ErrorDetails) => {
-        this.snackbar.showSnackbar(error.message);
-      });*/
+  availableEmployees(): ApplicationUserDto[] {
+    return this.employees.filter(e => e.assignedQueueId === null || e.assignedQueueId === this.selected.id);
   }
 
-  demoteManager(): void {/*
-    const dialogRef = this.dialog.open(ConfirmDialogComponent);
+  assignEmployee(e: ApplicationUserDto): void {
+    this.queuesClient.assignEmployeeToQueue(this.selected.id, e.id)
+    .subscribe(() => {
+      this.snackbar.showSnackbar('Employee successfully assigned to queue');
+      const updated = this.queues.find((item: QueueDto) => item.id === this.selected.id);
+      updated.numOfAssignedEmployees++;
+      e.assignedQueueId = this.selected.id;
+    },
+    (error: ErrorDetails) => {
+      this.snackbar.showSnackbar(error.message);
+    });
+  }
 
-    dialogRef.afterClosed().pipe(
-      filter((result) => result),
-      switchMap(() => this.queuesClient.removeManagerFromSite(this.selected.id))
-      ).subscribe(() => {
-        this.snackbar.showSnackbar('Manager successfully demoted');
-        const updated = this.queues.find((item: SiteDto) => item.id === this.selected.id);
-        updated.managerName = '-';
-        updated.managerId = null;
-        this.selected = updated;
-        this.selectedEmployee = null;
-      },
-      (error: ErrorDetails) => {
-        this.snackbar.showSnackbar(error.message);
-      });*/
+  removeEmployee(e: ApplicationUserDto): void {
+    this.queuesClient.removeEmployeeFromQueue(this.selected.id, e.id)
+    .subscribe(() => {
+      this.snackbar.showSnackbar('Employee successfully removed from queue');
+      const updated = this.queues.find((item: QueueDto) => item.id === this.selected.id);
+      updated.numOfAssignedEmployees--;
+      e.assignedQueueId = null;
+    },
+    (error: ErrorDetails) => {
+      this.snackbar.showSnackbar(error.message);
+    });
   }
 }
 

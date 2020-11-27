@@ -54,7 +54,7 @@
               </mat-form-field>
               <mat-form-field class="full-width-input">
                 <mat-label>Prefix</mat-label>
-                <input matInput formControlName="prefix" required>
+                <input matInput formControlName="prefix">
                 <mat-error>
                     Prefix must be between 0-10 characters long.
                 </mat-error>
@@ -70,25 +70,27 @@
           </form>
         </mat-card-content>
       </mat-card>
-<!--
+
       <mat-card class="mat-elevation-z8 bottom-card">
         <mat-card-header>
-          <mat-card-title>Manager</mat-card-title>
+          <mat-card-title>Employees</mat-card-title>
         </mat-card-header>
         <mat-card-content>
-          <p *ngIf="!selected || isNew">Select a site to promote or demote its manager</p>
-          <p *ngIf="selected && !isNew && !!selected.managerId">The current manager is {{selected.managerName}}</p>
-          <mat-form-field appearance="fill" class="full-width-input" *ngIf="selected && !isNew && !selected.managerId">
-            <mat-label>Select an employee</mat-label>
-            <mat-select [(ngModel)]="selectedEmployee" >
-              <mat-option *ngFor="let e of employeesOfSelectedSite()" [value]="e"> {{e.userName}} </mat-option>
-            </mat-select>
-          </mat-form-field>
-          <button *ngIf="selected && !isNew && !selected.managerId" mat-raised-button color="primary" class="form-btn" (click)="promoteManager()" [disabled]="!selectedEmployee">Assign manager</button>
-          <button *ngIf="selected && !isNew && !!selected.managerId" mat-raised-button color="warn" class="form-btn" (click)="demoteManager()">Demote manager</button>
+          <p *ngIf="!selected || isNew">Select a queue</p>
+          <div *ngIf="selected && !isNew">
+            <div  *ngFor="let e of availableEmployees()">
+              <button mat-icon-button color="primary" aria-label="Assign employee to queue" *ngIf="e.assignedQueueId === null" (click)="assignEmployee(e)">
+                <mat-icon>add</mat-icon>
+              </button>
+              <button mat-icon-button color="primary" aria-label="Remove employee from queue" *ngIf="e.assignedQueueId !== null" (click)="removeEmployee(e)">
+                <mat-icon>remove</mat-icon>
+              </button>
+              {{e.userName}}
+            </div>
+        </div>
         </mat-card-content>
       </mat-card>
--->
+
     </div>
   </div>
   
