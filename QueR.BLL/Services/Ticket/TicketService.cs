@@ -16,12 +16,14 @@ namespace QueR.BLL.Services.Ticket
         private readonly IUserAccessor userAccessor;
         private readonly AppDbContext context;
         private readonly IMapper mapper;
+        private readonly INotificationService notificationService;
 
-        public TicketService(IUserAccessor userAccessor, AppDbContext context, IMapper mapper)
+        public TicketService(UserManager<ApplicationUser> userManager, IUserAccessor userAccessor, AppDbContext context, IMapper mapper)
         {
             this.userAccessor = userAccessor;
             this.context = context;
             this.mapper = mapper;
+            this.notificationService = notificationService;
         }
 
         private async Task HandleTicket(Domain.Entities.Ticket ticket)
@@ -32,6 +34,7 @@ namespace QueR.BLL.Services.Ticket
 
             context.Tickets.Update(ticket);
             await context.SaveChangesAsync();
+            await notificationService.NotifyQueueTicketCalled(ticket.Queue.Id, ticket.Id);
         }
 
         public async Task CallNextTicket()
@@ -101,6 +104,7 @@ namespace QueR.BLL.Services.Ticket
             context.Queues.Update(queue);
 
             await context.SaveChangesAsync();
+            await notificationService.NotifyQueueTicketAdded(ticket.Queue.Id, mapper.Map<CompanyTicketDto>(ticket));
             return mapper.Map<UserTicketDto>(ticket);
         }
 

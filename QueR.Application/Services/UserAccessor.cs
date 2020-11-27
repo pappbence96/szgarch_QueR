@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace QueR.Application.Services.UserAccessor
+namespace QueR.Application.Services
 {
     public class UserAccessor : IUserAccessor
     {
@@ -16,8 +16,10 @@ namespace QueR.Application.Services.UserAccessor
             this.httpContextAccessor = httpContextAccessor;
         }
 
-        public int UserId {
-            get {
+        public int UserId
+        {
+            get
+            {
                 var subClaim = httpContextAccessor.HttpContext.User.Claims.FirstOrDefault(c => c.Type == "sub");
                 if (subClaim == null)
                 {
@@ -39,7 +41,7 @@ namespace QueR.Application.Services.UserAccessor
             get
             {
                 var companyClaim = httpContextAccessor.HttpContext.User.Claims.FirstOrDefault(c => c.Type == "company");
-                if(companyClaim == null)
+                if (companyClaim == null)
                 {
                     return null;
                 }

@@ -2,6 +2,7 @@ using System;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Reflection;
+using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
@@ -15,7 +16,8 @@ using Microsoft.IdentityModel.Tokens;
 using Newtonsoft.Json.Converters;
 using NSwag;
 using QueR.Application.Middlewares.ExceptionHandling;
-using QueR.Application.Services.UserAccessor;
+using QueR.Application.Services;
+using QueR.BLL;
 using QueR.BLL.Services.Company;
 using QueR.BLL.Services.Identity;
 using QueR.BLL.Services.Queue;
@@ -47,9 +49,10 @@ namespace QueR.Application
             {
                 options.AddPolicy("EnableCORS", builder =>
                 {
-                    builder.AllowAnyOrigin()
+                    builder.WithOrigins("http://localhost:4200")
                        .AllowAnyHeader()
-                       .AllowAnyMethod();
+                       .AllowAnyMethod()
+                       .AllowCredentials();
                 });
             });
 
@@ -93,6 +96,22 @@ namespace QueR.Application
                         return jwt;
                     }
                 };
+                options.Events = new JwtBearerEvents
+                {
+                    OnMessageReceived = context =>
+                    {
+                        var accessToken = context.Request.Query["access_token"];
+
+                        // If the request is for our hub...
+                        var path = context.HttpContext.Request.Path;
+                        if (!string.IsNullOrEmpty(accessToken) && (path.StartsWithSegments("/hubs")))
+                        {
+                            // Read the token out of the query string
+                            context.Token = accessToken;
+                        }
+                        return Task.CompletedTask;
+                    }
+                };
             });
 
             services.AddHttpContextAccessor();
@@ -104,6 +123,7 @@ namespace QueR.Application
             services.AddTransient<IQueueTypeService, QueueTypeService>();
             services.AddTransient<IQueueService, QueueService>();
             services.AddTransient<ITicketService, TicketService>();
+            services.AddTransient<INotificationService, NotificationService>();
 
             services.AddOpenApiDocument(config =>
             {
