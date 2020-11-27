@@ -151,6 +151,68 @@
         }
       }
     },
+    "/api/Identity/update": {
+      "put": {
+        "tags": [
+          "Identity"
+        ],
+        "operationId": "Identity_UpdateUser",
+        "requestBody": {
+          "x-name": "model",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateUserModel"
+              }
+            }
+          },
+          "required": true,
+          "x-position": 1
+        },
+        "responses": {
+          "400": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorDetails"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorDetails"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorDetails"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorDetails"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/Companies": {
       "post": {
         "tags": [
@@ -702,7 +764,7 @@
         "tags": [
           "Queues"
         ],
-        "operationId": "Queues_GetEmployeesOfQueue",
+        "operationId": "Queues_GetDetailsOfQueue",
         "parameters": [
           {
             "name": "queueId",
@@ -761,10 +823,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/ApplicationUserDto"
-                  }
+                  "$ref": "#/components/schemas/QueueDto"
                 }
               }
             }
@@ -907,6 +966,141 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/ErrorDetails"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/Queues/{queueId}/employees": {
+      "get": {
+        "tags": [
+          "Queues"
+        ],
+        "operationId": "Queues_GetEmployeesOfQueue",
+        "parameters": [
+          {
+            "name": "queueId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "x-position": 1
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorDetails"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorDetails"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorDetails"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorDetails"
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ApplicationUserDto"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/Queues/own": {
+      "get": {
+        "tags": [
+          "Queues"
+        ],
+        "operationId": "Queues_GetDetailsOfAssignedQueue",
+        "responses": {
+          "400": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorDetails"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorDetails"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorDetails"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorDetails"
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/QueueDto"
                 }
               }
             }
@@ -2061,7 +2255,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/CreateUserModel"
+                "$ref": "#/components/schemas/CreateWorkerModel"
               }
             }
           },
@@ -2194,7 +2388,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/CreateUserModel"
+                "$ref": "#/components/schemas/CreateWorkerModel"
               }
             }
           },
@@ -2327,7 +2521,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/CreateUserModel"
+                "$ref": "#/components/schemas/CreateWorkerModel"
               }
             }
           },
@@ -2535,7 +2729,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/UpdateUserModel"
+                "$ref": "#/components/schemas/UpdateWorkerModel"
               }
             }
           },
@@ -2609,7 +2803,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/UpdateUserModel"
+                "$ref": "#/components/schemas/UpdateWorkerModel"
               }
             }
           },
@@ -2683,81 +2877,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/UpdateUserModel"
-              }
-            }
-          },
-          "required": true,
-          "x-position": 2
-        },
-        "responses": {
-          "400": {
-            "description": "",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorDetails"
-                }
-              }
-            }
-          },
-          "401": {
-            "description": "",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorDetails"
-                }
-              }
-            }
-          },
-          "403": {
-            "description": "",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorDetails"
-                }
-              }
-            }
-          },
-          "404": {
-            "description": "",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorDetails"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/api/Users/users/{userId}": {
-      "put": {
-        "tags": [
-          "Users"
-        ],
-        "operationId": "Users_UpdateSimpleUser",
-        "parameters": [
-          {
-            "name": "userId",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "integer",
-              "format": "int32"
-            },
-            "x-position": 1
-          }
-        ],
-        "requestBody": {
-          "x-name": "model",
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/UpdateUserModel"
+                "$ref": "#/components/schemas/UpdateWorkerModel"
               }
             }
           },
@@ -2880,6 +3000,16 @@
             "nullable": true
           },
           "password": {
+            "type": "string",
+            "nullable": true
+          }
+        }
+      },
+      "UpdateUserModel": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "email": {
             "type": "string",
             "nullable": true
           }
@@ -3179,6 +3309,10 @@
             "type": "integer",
             "format": "int32"
           },
+          "visibleNumber": {
+            "type": "string",
+            "nullable": true
+          },
           "queue": {
             "type": "string",
             "nullable": true
@@ -3219,6 +3353,10 @@
             "type": "integer",
             "format": "int32"
           },
+          "formattedNumber": {
+            "type": "string",
+            "nullable": true
+          },
           "ownerId": {
             "type": "integer",
             "format": "int32"
@@ -3233,7 +3371,7 @@
           }
         }
       },
-      "CreateUserModel": {
+      "CreateWorkerModel": {
         "type": "object",
         "additionalProperties": false,
         "properties": {
@@ -3266,7 +3404,7 @@
           }
         }
       },
-      "UpdateUserModel": {
+      "UpdateWorkerModel": {
         "type": "object",
         "additionalProperties": false,
         "properties": {

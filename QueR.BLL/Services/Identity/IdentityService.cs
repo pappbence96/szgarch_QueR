@@ -74,12 +74,14 @@ namespace QueR.BLL.Services.Identity
                         .Include(u => u.Worksite)
                         .Include(u => u.ManagedSite)
                         .Include(u => u.AdministratedCompany)
+                        .Include(u => u.AssignedQueue)
                         .SingleAsync(u => u.Id == user.Id);
 
                     claims.TryAddClaim("company", user.Company?.Id)
                         .TryAddClaim("worksite", user.Worksite?.Id)
                         .TryAddClaim("managed_site", user.ManagedSite?.Id)
-                        .TryAddClaim("administrated_company", user.AdministratedCompany?.Id);
+                        .TryAddClaim("administrated_company", user.AdministratedCompany?.Id)
+                        .TryAddClaim("assigned_queue", user.AssignedQueue   ?.Id);
                 }
 
                 var tokenOptions = new JwtSecurityToken(

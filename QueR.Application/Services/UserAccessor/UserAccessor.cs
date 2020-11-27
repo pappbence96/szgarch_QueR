@@ -73,5 +73,25 @@ namespace QueR.Application.Services.UserAccessor
                 }
             }
         }
+
+        public int? AssignedQueueId
+        {
+            get
+            {
+                var assignedQueueClaim = httpContextAccessor.HttpContext.User.Claims.FirstOrDefault(c => c.Type == "assigned_queue");
+                if (assignedQueueClaim == null)
+                {
+                    return null;
+                }
+                if (int.TryParse(assignedQueueClaim.Value, out int id))
+                {
+                    return id;
+                }
+                else
+                {
+                    throw new InvalidOperationException($"Assigned queue claim is invalid. Was {assignedQueueClaim.Value}, should be an integer.");
+                }
+            }
+        }
     }
 }

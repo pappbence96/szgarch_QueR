@@ -14,7 +14,6 @@ namespace QueR.Application.Controllers.Backoffice
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize(Roles = "manager")]
     [ApiExplorerSettings(GroupName = "backoffice")]
     [ProducesResponseType(typeof(ErrorDetails), StatusCodes.Status400BadRequest)]
     [ProducesResponseType(typeof(ErrorDetails), StatusCodes.Status401Unauthorized)]
@@ -29,6 +28,7 @@ namespace QueR.Application.Controllers.Backoffice
             this.queueService = queueService;
         }
 
+        [Authorize(Roles = "manager")]
         [HttpPost]
         [ProducesDefaultResponseType(typeof(QueueDto))]
         public async Task<ActionResult<QueueDto>> CreateQueue([FromBody] QueueModel model)
@@ -36,6 +36,7 @@ namespace QueR.Application.Controllers.Backoffice
             return Ok(await queueService.CreateQueue(model));
         }
 
+        [Authorize(Roles = "manager")]
         [HttpPut("{queueId}")]
         public async Task<ActionResult> UpdateQueue(int queueId, [FromBody] QueueModel model)
         {
@@ -43,6 +44,7 @@ namespace QueR.Application.Controllers.Backoffice
             return Ok();
         }
 
+        [Authorize(Roles = "manager")]
         [HttpGet("{queueId}/workers/{workerId}")]
         public async Task<ActionResult> AssignEmployeeToQueue(int queueId, int workerId)
         {
@@ -50,6 +52,7 @@ namespace QueR.Application.Controllers.Backoffice
             return Ok();
         }
 
+        [Authorize(Roles = "manager")]
         [HttpDelete("{queueId}/workers/{workerId}")]
         public async Task<ActionResult> RemoveEmployeeFromQueue(int queueId, int workerId)
         {
@@ -57,13 +60,31 @@ namespace QueR.Application.Controllers.Backoffice
             return Ok();
         }
 
-        [HttpGet("{queueId}")]
+        [Authorize(Roles = "manager")]
+        [HttpGet("{queueId}/employees")]
         [ProducesDefaultResponseType(typeof(IEnumerable<ApplicationUserDto>))]
         public async Task<ActionResult<IEnumerable<ApplicationUserDto>>> GetEmployeesOfQueue(int queueId)
         {
             return Ok(await queueService.GetEmployeesOfQueue(queueId));
         }
 
+        [Authorize(Roles = "manager")]
+        [HttpGet("{queueId}")]
+        [ProducesDefaultResponseType(typeof(QueueDto))]
+        public async Task<ActionResult<QueueDto>> GetDetailsOfQueue(int queueId)
+        {
+            return Ok(await queueService.GetDetailsOfQueue(queueId));
+        }
+
+        [Authorize(Roles = "employee")]
+        [HttpGet("own")]
+        [ProducesDefaultResponseType(typeof(QueueDto))]
+        public async Task<ActionResult<QueueDto>> GetDetailsOfAssignedQueue()
+        {
+            return Ok(await queueService.GetDetailsOfAssignedQueue());
+        }
+
+        [Authorize(Roles = "manager")]
         [HttpGet]
         [ProducesDefaultResponseType(typeof(IEnumerable<QueueDto>))]
         public async Task<ActionResult<IEnumerable<QueueDto>>> GetQueues()

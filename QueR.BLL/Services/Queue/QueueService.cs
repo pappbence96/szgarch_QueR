@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using FluentValidation;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.SignalR;
 using Microsoft.EntityFrameworkCore;
 using QueR.BLL.Services.Queue.DTOs;
 using QueR.BLL.Services.User.DTOs;
@@ -174,6 +175,42 @@ namespace QueR.BLL.Services.Queue
                 .Where(u => u.SiteId == callerWorksiteId)
                 .ToListAsync();
             return mapper.Map<IEnumerable<QueueDto>>(queues);
+        }
+
+        public async Task<QueueDto> GetDetailsOfQueue(int queueId)
+        {
+            var queue = (await context.Queues
+                .Include(q => q.Site)
+                .Include(q => q.Type)
+                .Include(q => q.AssignedEmployees)
+                .Include(q => q.Tickets)
+                .FirstOrDefaultAsync(u => u.SiteId == userAccessor.WorksiteId && u.Id == queueId))
+                ?? throw new KeyNotFoundException($"Queue not found with the id of {queueId}");
+
+            return mapper.Map<QueueDto>(queue);
+        }
+
+        public async Task<QueueDto> GetDetailsOfAssignedQueue()
+        {
+            var queue = (await context.Queues
+                .Include(q => q.Site)
+                .Include(q => q.Type)
+                .Include(q => q.AssignedEmployees)
+                .Include(q => q.Tickets)
+                .FirstOrDefaultAsync(u => u.Id == userAccessor.AssignedQueueId))
+                ?? throw new InvalidOperationException($"You are not assigned to any queues currently.");
+
+            return mapper.Map<QueueDto>(queue);
+        }
+
+        public Task SubscribeToCurrentQueue()
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task UnsubscribeFromCurrentQueue()
+        {
+            throw new NotImplementedException();
         }
     }
 }
