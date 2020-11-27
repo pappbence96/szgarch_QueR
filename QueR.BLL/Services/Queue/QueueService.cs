@@ -80,9 +80,9 @@ namespace QueR.BLL.Services.Queue
                 throw new InvalidOperationException("QueueType is not part of the company");
             }
 
-            if (await context.Queues.AnyAsync(c => c.TypeId == model.TypeId))
+            if (queueType.Queues.Any(q => q.SiteId == callerWorksiteId))
             {
-                throw new ArgumentException($"Queue already exists with type Id: \"{model.TypeId}\"");
+                throw new ArgumentException($"Queue already exists with type Id: \"{model.TypeId}\" at this worksite.");
             }
 
             var queue = new Domain.Entities.Queue

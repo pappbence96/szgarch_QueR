@@ -50,7 +50,7 @@ namespace QueR.Application.Controllers.Backoffice
             return Ok();
         }
 
-        [HttpDelete("{queueId}/workers/{employeeId}")]
+        [HttpDelete("{queueId}/workers/{workerId}")]
         public async Task<ActionResult> RemoveEmployeeFromQueue(int queueId, int workerId)
         {
             await queueService.RemoveEmployeeFromQueue(queueId, workerId);
