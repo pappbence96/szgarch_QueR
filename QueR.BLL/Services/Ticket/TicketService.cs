@@ -1,8 +1,10 @@
 ﻿using AutoMapper;
 using FluentValidation;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using QueR.BLL.Services.Ticket.DTOs;
 using QueR.DAL;
+using QueR.Domain.Entities;
 using QueR.Domain.Services;
 using System;
 using System.Collections.Generic;
@@ -18,7 +20,7 @@ namespace QueR.BLL.Services.Ticket
         private readonly IMapper mapper;
         private readonly INotificationService notificationService;
 
-        public TicketService(UserManager<ApplicationUser> userManager, IUserAccessor userAccessor, AppDbContext context, IMapper mapper)
+        public TicketService(UserManager<ApplicationUser> userManager, IUserAccessor userAccessor, AppDbContext context, IMapper mapper, INotificationService notificationService)
         {
             this.userAccessor = userAccessor;
             this.context = context;
