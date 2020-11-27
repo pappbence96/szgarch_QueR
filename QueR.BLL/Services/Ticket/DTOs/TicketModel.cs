@@ -4,7 +4,7 @@ using System.Text;
 
 namespace QueR.BLL.Services.Ticket.DTOs
 {
-    class TicketModel
+    public class TicketModel
     {
         public int queueId { get; set; }
 

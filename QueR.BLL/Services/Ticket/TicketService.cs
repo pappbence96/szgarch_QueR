@@ -13,7 +13,7 @@ using System.Threading.Tasks;
 
 namespace QueR.BLL.Services.Ticket
 {
-    class TicketService : ITicketService
+    public class TicketService : ITicketService
     {
         private readonly UserManager<ApplicationUser> userManager;
         private readonly IUserAccessor userAccessor;
@@ -28,14 +28,39 @@ namespace QueR.BLL.Services.Ticket
             this.mapper = mapper;
         }
 
-        public Task CallNextTicket()
-        {  
+        private async Task HandleTicket(Domain.Entities.Ticket ticket)
+        {
+            var callerUserId = userAccessor.UserId;
+            ticket.Called = true;
+            ticket.HandlerId = callerUserId;
+
+            context.Tickets.Update(ticket);
+            await context.SaveChangesAsync();
+        }
+
+        public async Task CallNextTicket()
+        {
+            var callerUserId = userAccessor.UserId;
+            var user = await context.Users
+                .Include(u => u.AssignedQueue)
+                    .ThenInclude(q => q.Tickets)
+                        .ThenInclude(t => t.Owner)
+                .FirstOrDefaultAsync(u => u.Id == callerUserId);
+            var ticket = user.AssignedQueue.Tickets.OrderBy(t => t.Number).First();
+            await HandleTicket(ticket);
 
         }
 
-        public Task CallTicketByNumber(int ticketNumber)
+        public async Task CallTicketByNumber(int ticketNumber)
         {
-            throw new NotImplementedException();
+            var callerUserId = userAccessor.UserId;
+            var user = await context.Users
+                .Include(u => u.AssignedQueue)
+                    .ThenInclude(q => q.Tickets)
+                        .ThenInclude(t => t.Owner)
+                .FirstOrDefaultAsync(u => u.Id == callerUserId);
+            var ticket = user.AssignedQueue.Tickets.Where(t => t.Number == ticketNumber).First();
+            await HandleTicket(ticket);
         }
 
         public async Task<UserTicketDto> CreateTicket(TicketModel model)

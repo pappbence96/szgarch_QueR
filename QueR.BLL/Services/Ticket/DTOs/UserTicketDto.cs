@@ -6,7 +6,7 @@ using System.Text;
 
 namespace QueR.BLL.Services.Ticket.DTOs
 {
-    class UserTicketDto
+    public class UserTicketDto
     {
         public int Id { get; set; }
         public int Number { get; set; }

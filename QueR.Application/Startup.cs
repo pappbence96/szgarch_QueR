@@ -21,6 +21,7 @@ using QueR.BLL.Services.Identity;
 using QueR.BLL.Services.Queue;
 using QueR.BLL.Services.QueueType;
 using QueR.BLL.Services.Site;
+using QueR.BLL.Services.Ticket;
 using QueR.BLL.Services.User;
 using QueR.DAL;
 using QueR.Domain.Entities;
@@ -102,6 +103,7 @@ namespace QueR.Application
             services.AddTransient<ISiteService, SiteService>();
             services.AddTransient<IQueueTypeService, QueueTypeService>();
             services.AddTransient<IQueueService, QueueService>();
+            services.AddTransient<ITicketService, TicketService>();
 
             services.AddOpenApiDocument(config =>
             {

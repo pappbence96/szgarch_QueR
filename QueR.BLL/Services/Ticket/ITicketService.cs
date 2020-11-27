@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace QueR.BLL.Services.Ticket
 {
-    interface ITicketService
+    public interface ITicketService
     {
         Task<UserTicketDto> CreateTicket(TicketModel ticketModel);
         Task<IEnumerable<UserTicketDto>> GetOwnTicketsForUser();
