@@ -8,7 +8,7 @@ using QueR.Application.Middlewares.ExceptionHandling;
 using QueR.BLL.Services.Identity;
 using QueR.BLL.Services.Identity.DTOs;
 
-namespace QueR.Application.Controllers.Backoffice
+namespace QueR.Application.Controllers.Common
 {
     [Route("api/[controller]")]
     [ApiController]
