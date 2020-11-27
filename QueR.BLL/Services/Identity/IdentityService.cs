@@ -7,6 +7,7 @@ using QueR.BLL.Extensions;
 using QueR.BLL.Services.Identity.DTOs;
 using QueR.DAL;
 using QueR.Domain.Entities;
+using QueR.Domain.Services;
 using System;
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
@@ -23,13 +24,15 @@ namespace QueR.BLL.Services.Identity
         private readonly UserManager<ApplicationUser> userManager;
         private readonly RoleManager<IdentityRole<int>> roleManager;
         private readonly IMapper mapper;
+        private readonly IUserAccessor userAccessor;
 
-        public IdentityService(AppDbContext context, UserManager<ApplicationUser> userManager, RoleManager<IdentityRole<int>> roleManager, IMapper mapper)
+        public IdentityService(AppDbContext context, UserManager<ApplicationUser> userManager, RoleManager<IdentityRole<int>> roleManager, IMapper mapper, IUserAccessor userAccessor)
         {
             this.context = context;
             this.userManager = userManager;
             this.roleManager = roleManager;
             this.mapper = mapper;
+            this.userAccessor = userAccessor;
         }
 
         public async Task<LoginResponse> CreateTokenForUser(LoginModel model)
@@ -116,6 +119,24 @@ namespace QueR.BLL.Services.Identity
             await userManager.AddToRoleAsync(user, "user");
 
             return mapper.Map<RegisterResponse>(user);
+        }
+
+        public async Task UpdateSimpleUser(UpdateUserModel model)
+        {
+            var callerUserId = userAccessor.UserId;
+            var user = (await userManager.FindByIdAsync(callerUserId.ToString()))
+                ?? throw new KeyNotFoundException($"User not found with an id of { callerUserId }");
+
+            new UpdateUserValidator().ValidateAndThrow(model);
+
+            user.Email = model.Email;
+
+            var result = await userManager.UpdateAsync(user);
+
+            if (!result.Succeeded)
+            {
+                throw new InvalidOperationException(result.Errors.First().Description);
+            }
         }
     }
 }

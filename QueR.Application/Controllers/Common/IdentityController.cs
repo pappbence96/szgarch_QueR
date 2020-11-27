@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using QueR.Application.Middlewares.ExceptionHandling;
@@ -38,6 +39,14 @@ namespace QueR.Application.Controllers.Common
         public async Task<ActionResult<RegisterResponse>> Register([FromBody] RegisterModel model)
         {
             return Ok(await identityService.RegisterSimpleUser(model));
+        }
+
+        [HttpPut("update")]
+        [Authorize(Roles = "user")]
+        public async Task<ActionResult> UpdateUser([FromBody] UpdateUserModel model)
+        {
+            await identityService.UpdateSimpleUser(model);
+            return Ok();
         }
     }
 }

@@ -29,7 +29,7 @@ namespace QueR.Application.Controllers.Backoffice
         [HttpPost("admins")]
         [Authorize(Roles = "operator")]
         [ProducesDefaultResponseType(typeof(ApplicationUserDto))]
-        public async Task<ActionResult<ApplicationUserDto>> CreateAdmin([FromBody] CreateUserModel model)
+        public async Task<ActionResult<ApplicationUserDto>> CreateAdmin([FromBody] CreateWorkerModel model)
         {
             return Ok(await userService.CreateAdmin(model));
         }
@@ -37,7 +37,7 @@ namespace QueR.Application.Controllers.Backoffice
         [HttpPost("employees")]
         [Authorize(Roles = "administrator")]
         [ProducesDefaultResponseType(typeof(ApplicationUserDto))]
-        public async Task<ActionResult<ApplicationUserDto>> CreateEmployee([FromBody] CreateUserModel model)
+        public async Task<ActionResult<ApplicationUserDto>> CreateEmployee([FromBody] CreateWorkerModel model)
         {
             return Ok(await userService.CreateEmployee(model));
         }
@@ -45,7 +45,7 @@ namespace QueR.Application.Controllers.Backoffice
         [HttpPost("managers")]
         [Authorize(Roles = "administrator")]
         [ProducesDefaultResponseType(typeof(ApplicationUserDto))]
-        public async Task<ActionResult<ApplicationUserDto>> CreateManager([FromBody] CreateUserModel model)
+        public async Task<ActionResult<ApplicationUserDto>> CreateManager([FromBody] CreateWorkerModel model)
         {
             return Ok(await userService.CreateManager(model));
         }
@@ -84,7 +84,7 @@ namespace QueR.Application.Controllers.Backoffice
 
         [HttpPut("admins/{adminId}")]
         [Authorize(Roles = "operator")]
-        public async Task<ActionResult> UpdateAdmin(int adminId, [FromBody] UpdateUserModel model)
+        public async Task<ActionResult> UpdateAdmin(int adminId, [FromBody] UpdateWorkerModel model)
         {
             await userService.UpdateAdmin(adminId, model);
             return Ok();
@@ -92,7 +92,7 @@ namespace QueR.Application.Controllers.Backoffice
 
         [HttpPut("managers/{managerId}")]
         [Authorize(Roles = "administrator")]
-        public async Task<ActionResult> UpdateManager(int managerId, [FromBody] UpdateUserModel model)
+        public async Task<ActionResult> UpdateManager(int managerId, [FromBody] UpdateWorkerModel model)
         {
             await userService.UpdateManager(managerId, model);
             return Ok();
@@ -100,17 +100,9 @@ namespace QueR.Application.Controllers.Backoffice
 
         [HttpPut("employees/{employeeId}")]
         [Authorize(Roles = "administrator")]
-        public async Task<ActionResult> UpdateEmployee(int employeeId, [FromBody] UpdateUserModel model)
+        public async Task<ActionResult> UpdateEmployee(int employeeId, [FromBody] UpdateWorkerModel model)
         {
             await userService.UpdateEmployee(employeeId, model);
-            return Ok();
-        }
-
-        [HttpPut("users/{userId}")]
-        [Authorize(Roles = "user")]
-        public async Task<ActionResult> UpdateSimpleUser(int userId, [FromBody] UpdateUserModel model)
-        {
-            await userService.UpdateSimpleUser(userId, model);
             return Ok();
         }
     }

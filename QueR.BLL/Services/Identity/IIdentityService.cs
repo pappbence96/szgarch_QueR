@@ -7,5 +7,6 @@ namespace QueR.BLL.Services.Identity
     {
         Task<LoginResponse> CreateTokenForUser(LoginModel model);
         Task<RegisterResponse> RegisterSimpleUser(RegisterModel model);
+        Task UpdateSimpleUser(UpdateUserModel model);
     }
 }

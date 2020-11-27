@@ -64,7 +64,10 @@ namespace QueR.BLL.Services.Site
             }
 
             site.Manager = manager;
-            site.Employees.Add(manager);
+            if (!site.Employees.Contains(manager))
+            {
+                site.Employees.Add(manager);
+            }
             await userManager.AddToRoleAsync(manager, "manager");
             
             await context.SaveChangesAsync();
