@@ -45,18 +45,18 @@ namespace QueR.Application.Controllers.Backoffice
         }
 
         [Authorize(Roles = "manager")]
-        [HttpGet("{queueId}/workers/{workerId}")]
-        public async Task<ActionResult> AssignEmployeeToQueue(int queueId, int workerId)
+        [HttpGet("{queueId}/employees/{employeeId}")]
+        public async Task<ActionResult> AssignEmployeeToQueue(int queueId, int employeeId)
         {
-            await queueService.AssignEmployeeToQueue(queueId, workerId);
+            await queueService.AssignEmployeeToQueue(queueId, employeeId);
             return Ok();
         }
 
         [Authorize(Roles = "manager")]
-        [HttpDelete("{queueId}/workers/{workerId}")]
-        public async Task<ActionResult> RemoveEmployeeFromQueue(int queueId, int workerId)
+        [HttpDelete("{queueId}/employees/{employeesId}")]
+        public async Task<ActionResult> RemoveEmployeeFromQueue(int queueId, int employeesId)
         {
-            await queueService.RemoveEmployeeFromQueue(queueId, workerId);
+            await queueService.RemoveEmployeeFromQueue(queueId, employeesId);
             return Ok();
         }
 

@@ -98,15 +98,6 @@ namespace QueR.BLL.Services.User
             return mapper.Map<ApplicationUserDto>(user);
         }
 
-        public async Task<ApplicationUserDto> CreateManager(CreateWorkerModel model)
-        {
-            var user = await CreateWorker(model);
-
-            await userManager.AddToRolesAsync(user, new List<string> { "employee", "manager" });
-
-            return mapper.Map<ApplicationUserDto>(user);
-        }
-
         public async Task<IEnumerable<ApplicationUserDto>> GetAdministrators()
         {
             var users = await GetUsersInRole("administrator");
@@ -142,6 +133,7 @@ namespace QueR.BLL.Services.User
                 .Include(u => u.AdministratedCompany)
                 .Include(u => u.Company)
                 .Include(u => u.AssignedQueue)
+                    .ThenInclude(q => q.Type)
                 .Include(u => u.Worksite)
                 .Where(u => userIds.Contains(u.Id))
                 .ToListAsync();
@@ -167,45 +159,6 @@ namespace QueR.BLL.Services.User
             admin.Gender = model.Gender;
             
             var result = await userManager.UpdateAsync(admin);
-
-            if (!result.Succeeded)
-            {
-                throw new InvalidOperationException(result.Errors.First().Description);
-            }
-        }
-
-        public async Task UpdateManager(int managerId, UpdateWorkerModel model)
-        {
-            var manager = (await userManager.FindByIdAsync(managerId.ToString()))
-                ?? throw new KeyNotFoundException($"Manager not found with an id of { managerId }");
-
-            var callerCompanyId = userAccessor.CompanyId;
-
-            if (callerCompanyId == null)
-            {
-                throw new InvalidOperationException("Only an assigned administrator can make changes");
-            }
-
-            if (manager.CompanyId != callerCompanyId)
-            {
-                throw new InvalidOperationException("Manager is not part of the company");
-            }
-
-            if (!await userManager.IsInRoleAsync(manager, "manager"))
-            {
-                throw new InvalidOperationException("User is not a manager");
-            }
-
-            new UpdateWorkerValidator().ValidateAndThrow(model);
-
-            manager.Address = model.Address;
-            manager.Email = model.Email;
-            manager.FirstName = model.FirstName;
-            manager.LastName = model.LastName;
-            manager.Address = model.Address;
-            manager.Gender = model.Gender;
-
-            var result = await userManager.UpdateAsync(manager);
 
             if (!result.Succeeded)
             {

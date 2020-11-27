@@ -42,14 +42,6 @@ namespace QueR.Application.Controllers.Backoffice
             return Ok(await userService.CreateEmployee(model));
         }
 
-        [HttpPost("managers")]
-        [Authorize(Roles = "administrator")]
-        [ProducesDefaultResponseType(typeof(ApplicationUserDto))]
-        public async Task<ActionResult<ApplicationUserDto>> CreateManager([FromBody] CreateWorkerModel model)
-        {
-            return Ok(await userService.CreateManager(model));
-        }
-
         [HttpGet("admins")]
         [Authorize(Roles = "operator")]
         [ProducesDefaultResponseType(typeof(IEnumerable<ApplicationUserDto>))]
@@ -87,14 +79,6 @@ namespace QueR.Application.Controllers.Backoffice
         public async Task<ActionResult> UpdateAdmin(int adminId, [FromBody] UpdateWorkerModel model)
         {
             await userService.UpdateAdmin(adminId, model);
-            return Ok();
-        }
-
-        [HttpPut("managers/{managerId}")]
-        [Authorize(Roles = "administrator")]
-        public async Task<ActionResult> UpdateManager(int managerId, [FromBody] UpdateWorkerModel model)
-        {
-            await userService.UpdateManager(managerId, model);
             return Ok();
         }
 
