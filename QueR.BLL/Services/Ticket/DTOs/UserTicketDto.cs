@@ -25,7 +25,7 @@ namespace QueR.BLL.Services.Ticket.DTOs
                 .ForMember(dest => dest.Queue, opt => opt.MapFrom(src => src.Queue != null ? src.Queue.Type.Name : "-"))
                 .ForMember(dest => dest.Worksite, opt => opt.MapFrom(src => src.Queue.Site != null ? src.Queue.Site.Name : "-"))
                 .ForMember(dest => dest.Company, opt => opt.MapFrom(src => src.Queue.Site.Company != null ? src.Queue.Site.Company.Name : "-"))
-                .ForMember(dest => dest.NumOfTicketsBeforeThis, opt => opt.MapFrom(src => src.Queue.Tickets.Count(t => t.Number < src.Number)))
+                .ForMember(dest => dest.NumOfTicketsBeforeThis, opt => opt.MapFrom(src => src.Queue.Tickets.Count(t => t.Number < src.Number && !t.Called)))
                 .ForMember(dest => dest.VisibleNumber, opt => opt.MapFrom(src => src.Queue.Prefix + src.Number));
         }
     }

@@ -46,6 +46,10 @@ namespace QueR.BLL.Services.Ticket
                     .ThenInclude(q => q.Tickets)
                         .ThenInclude(t => t.Owner)
                 .FirstOrDefaultAsync(u => u.Id == callerUserId);
+            if (user.AssignedQueue == null)
+            {
+                throw new InvalidOperationException("Employee must have an assigned queue to call a ticket");
+            }
             var ticket = user.AssignedQueue.Tickets.Where(t => !t.Called).OrderBy(t => t.Number).First();
             await HandleTicket(ticket);
 
@@ -59,6 +63,10 @@ namespace QueR.BLL.Services.Ticket
                     .ThenInclude(q => q.Tickets)
                         .ThenInclude(t => t.Owner)
                 .FirstOrDefaultAsync(u => u.Id == callerUserId);
+            if (user.AssignedQueue == null)
+            {
+                throw new InvalidOperationException("Employee must have an assigned queue to call a ticket");
+            }
             var ticket = user.AssignedQueue.Tickets.Where(t => t.Number == ticketNumber && !t.Called).First();
             await HandleTicket(ticket);
         }
@@ -66,8 +74,13 @@ namespace QueR.BLL.Services.Ticket
         public async Task<UserTicketDto> CreateTicket(TicketModel model)
         {
             var callerUserId = userAccessor.UserId;
-            var queue = (await context.Queues.FirstOrDefaultAsync(u => u.Id == model.queueId))
-                   ?? throw new KeyNotFoundException($"Queue not found with an id of {model.queueId}");
+            var queue = (await context.Queues
+                .Include(q => q.Site)
+                    .ThenInclude(s => s.Company)
+                .Include(q => q.Type)
+                .Include(q => q.Tickets)
+                .FirstOrDefaultAsync(u => u.Id == model.queueId))
+                ?? throw new KeyNotFoundException($"Queue not found with an id of {model.queueId}");
 
             var ticket = new Domain.Entities.Ticket
             {
@@ -94,6 +107,10 @@ namespace QueR.BLL.Services.Ticket
                     .ThenInclude(q => q.Tickets)
                         .ThenInclude(t => t.Owner)
                 .FirstOrDefaultAsync(u => u.Id == callerUserId);
+            if (user.AssignedQueue == null)
+            {
+                throw new InvalidOperationException("Employee must have an assigned queue to view active tickets");
+            }
             var tickets = user.AssignedQueue.Tickets.Where(t => !t.Called).ToList();
             
             return mapper.Map<IEnumerable<CompanyTicketDto>>(tickets);
