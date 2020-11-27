@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using QueR.BLL.Extensions;
+using QueR.BLL.Services.Identity.DTOs;
 using QueR.DAL;
 using QueR.Domain.Entities;
 using System;
