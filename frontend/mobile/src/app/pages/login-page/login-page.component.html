@@ -1,0 +1,33 @@
+<div class="d-flex h-100 flex-column justify-content-center">
+<mat-card>
+  <mat-card-content>
+      <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+          <h2 color="primary">Log In</h2>
+          <mat-form-field class="full-width-input">
+              <input matInput placeholder="Username" formControlName="username" required>
+              <mat-error>
+                  Please provide a valid username address
+              </mat-error>
+          </mat-form-field>
+          <mat-form-field class="full-width-input">
+              <input matInput type="password" placeholder="Password" formControlName="password" required>
+              <mat-error>
+                  Please provide a valid password
+              </mat-error>
+          </mat-form-field>
+              
+          <div class="alert alert-warning" role="alert" #loginError *ngIf="error">
+              {{error}}
+          </div>
+
+          <div class="form-group d-flex flex-column justify-content-between align-items-center">
+              <button [disabled]="loading" mat-raised-button color="primary">
+                  <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>
+                  Login
+              </button>
+          </div>
+      </form>
+      <a routerLink="/register" class="link">I'm not yet a member</a>
+  </mat-card-content>
+</mat-card>
+</div>
