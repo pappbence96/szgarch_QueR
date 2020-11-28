@@ -19,6 +19,8 @@ import { RegisterPageComponent } from './pages/register-page/register-page.compo
 import { LoginPageComponent } from './pages/login-page/login-page.component';
 import { MenuPageComponent } from './pages/menu-page/menu-page.component';
 import { HeaderComponent } from './components/header/header.component';
+import { OwnTicketsComponent } from './components/own-tickets/own-tickets.component';
+import {MatListModule} from '@angular/material/list';
 
 @NgModule({
   declarations: [
@@ -26,7 +28,8 @@ import { HeaderComponent } from './components/header/header.component';
     HeaderComponent,
     RegisterPageComponent,
     LoginPageComponent,
-    MenuPageComponent
+    MenuPageComponent,
+    OwnTicketsComponent
   ],
   imports: [
     HttpClientModule,
@@ -41,7 +44,8 @@ import { HeaderComponent } from './components/header/header.component';
     MatCardModule,
     MatFormFieldModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    MatListModule
   ],
   providers: [
     {
