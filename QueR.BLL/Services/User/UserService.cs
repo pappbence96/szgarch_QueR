@@ -2,6 +2,7 @@
 using FluentValidation;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using QueR.BLL.Services.Identity.DTOs;
 using QueR.BLL.Services.User.DTOs;
 using QueR.DAL;
 using QueR.Domain.Entities;
@@ -62,7 +63,7 @@ namespace QueR.BLL.Services.User
             return user;
         }
 
-        public async Task<ApplicationUserDto> CreateAdmin(CreateWorkerModel model)
+        public async Task<AdministratorDto> CreateAdmin(CreateWorkerModel model)
         {
             new WorkerValidator().ValidateAndThrow(model);
             new PasswordValidator().ValidateAndThrow(model);
@@ -86,42 +87,42 @@ namespace QueR.BLL.Services.User
 
             await userManager.AddToRoleAsync(user, "administrator");
 
-            return mapper.Map<ApplicationUserDto>(user);
+            return mapper.Map<AdministratorDto>(user);
         }
 
-        public async Task<ApplicationUserDto> CreateEmployee(CreateWorkerModel model)
+        public async Task<EmployeeDto> CreateEmployee(CreateWorkerModel model)
         {
             var user = await CreateWorker(model);
 
             await userManager.AddToRoleAsync(user, "employee");
 
-            return mapper.Map<ApplicationUserDto>(user);
+            return mapper.Map<EmployeeDto>(user);
         }
 
-        public async Task<IEnumerable<ApplicationUserDto>> GetAdministrators()
+        public async Task<IEnumerable<AdministratorDto>> GetAdministrators()
         {
             var users = await GetUsersInRole("administrator");
-            return mapper.Map<IEnumerable<ApplicationUserDto>>(users);
+            return mapper.Map<IEnumerable<AdministratorDto>>(users);
         }
 
-        public async Task<IEnumerable<ApplicationUserDto>> GetManagers()
+        public async Task<IEnumerable<ManagerDto>> GetManagersOfOwnCompany()
         {
             var callerCompanyId = userAccessor.CompanyId;
             var users = await GetUsersInRole("manager");
-            return mapper.Map<IEnumerable<ApplicationUserDto>>(users.Where(u => u.CompanyId == callerCompanyId));
+            return mapper.Map<IEnumerable<ManagerDto>>(users.Where(u => u.CompanyId == callerCompanyId));
         }
 
-        public async Task<IEnumerable<ApplicationUserDto>> GetEmployees()
+        public async Task<IEnumerable<EmployeeDto>> GetEmployeesOfOwnCompany()
         {
             var callerCompanyId = userAccessor.CompanyId;
             var users = await GetUsersInRole("employee");
-            return mapper.Map<IEnumerable<ApplicationUserDto>>(users.Where(u => u.CompanyId == callerCompanyId));
+            return mapper.Map<IEnumerable<EmployeeDto>>(users.Where(u => u.CompanyId == callerCompanyId));
         }
 
-        public async Task<IEnumerable<ApplicationUserDto>> GetSimpleUsers()
+        public async Task<IEnumerable<RegisterResponse>> GetSimpleUsers()
         {
             var users = await GetUsersInRole("user");
-            return mapper.Map<IEnumerable<ApplicationUserDto>>(users);
+            return mapper.Map<IEnumerable<RegisterResponse>>(users);
         }
 
         private async Task<IEnumerable<ApplicationUser>> GetUsersInRole(string role) 

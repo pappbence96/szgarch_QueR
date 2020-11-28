@@ -1094,7 +1094,7 @@ export class QueuesClient {
         return _observableOf<void>(<any>null);
     }
 
-    getEmployeesOfQueue(queueId: number): Observable<ApplicationUserDto[]> {
+    getEmployeesOfQueue(queueId: number): Observable<EmployeeDto[]> {
         let url_ = this.baseUrl + "/api/backoffice/Queues/{queueId}/employees";
         if (queueId === undefined || queueId === null)
             throw new Error("The parameter 'queueId' must be defined.");
@@ -1116,14 +1116,14 @@ export class QueuesClient {
                 try {
                     return this.processGetEmployeesOfQueue(<any>response_);
                 } catch (e) {
-                    return <Observable<ApplicationUserDto[]>><any>_observableThrow(e);
+                    return <Observable<EmployeeDto[]>><any>_observableThrow(e);
                 }
             } else
-                return <Observable<ApplicationUserDto[]>><any>_observableThrow(response_);
+                return <Observable<EmployeeDto[]>><any>_observableThrow(response_);
         }));
     }
 
-    protected processGetEmployeesOfQueue(response: HttpResponseBase): Observable<ApplicationUserDto[]> {
+    protected processGetEmployeesOfQueue(response: HttpResponseBase): Observable<EmployeeDto[]> {
         const status = response.status;
         const responseBlob =
             response instanceof HttpResponse ? response.body :
@@ -1165,7 +1165,7 @@ export class QueuesClient {
             if (Array.isArray(resultDatadefault)) {
                 resultdefault = [] as any;
                 for (let item of resultDatadefault)
-                    resultdefault!.push(ApplicationUserDto.fromJS(item));
+                    resultdefault!.push(EmployeeDto.fromJS(item));
             }
             return _observableOf(resultdefault);
             }));
@@ -1173,7 +1173,7 @@ export class QueuesClient {
     }
 
     getDetailsOfAssignedQueue(): Observable<QueueDto> {
-        let url_ = this.baseUrl + "/api/backoffice/Queues/own";
+        let url_ = this.baseUrl + "/api/backoffice/Queues/current";
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ : any = {
@@ -1868,7 +1868,7 @@ export class SitesClient {
         return _observableOf<void>(<any>null);
     }
 
-    getEmployeesOfSite(siteId: number): Observable<ApplicationUserDto[]> {
+    getEmployeesOfSite(siteId: number): Observable<EmployeeDto[]> {
         let url_ = this.baseUrl + "/api/backoffice/Sites/{siteId}/employees";
         if (siteId === undefined || siteId === null)
             throw new Error("The parameter 'siteId' must be defined.");
@@ -1890,14 +1890,14 @@ export class SitesClient {
                 try {
                     return this.processGetEmployeesOfSite(<any>response_);
                 } catch (e) {
-                    return <Observable<ApplicationUserDto[]>><any>_observableThrow(e);
+                    return <Observable<EmployeeDto[]>><any>_observableThrow(e);
                 }
             } else
-                return <Observable<ApplicationUserDto[]>><any>_observableThrow(response_);
+                return <Observable<EmployeeDto[]>><any>_observableThrow(response_);
         }));
     }
 
-    protected processGetEmployeesOfSite(response: HttpResponseBase): Observable<ApplicationUserDto[]> {
+    protected processGetEmployeesOfSite(response: HttpResponseBase): Observable<EmployeeDto[]> {
         const status = response.status;
         const responseBlob =
             response instanceof HttpResponse ? response.body :
@@ -1939,7 +1939,7 @@ export class SitesClient {
             if (Array.isArray(resultDatadefault)) {
                 resultdefault = [] as any;
                 for (let item of resultDatadefault)
-                    resultdefault!.push(ApplicationUserDto.fromJS(item));
+                    resultdefault!.push(EmployeeDto.fromJS(item));
             }
             return _observableOf(resultdefault);
             }));
@@ -2092,7 +2092,7 @@ export class SitesClient {
         return _observableOf<void>(<any>null);
     }
 
-    getOwnEmployees(): Observable<ApplicationUserDto[]> {
+    getOwnEmployees(): Observable<EmployeeDto[]> {
         let url_ = this.baseUrl + "/api/backoffice/Sites/current/employees";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -2111,14 +2111,14 @@ export class SitesClient {
                 try {
                     return this.processGetOwnEmployees(<any>response_);
                 } catch (e) {
-                    return <Observable<ApplicationUserDto[]>><any>_observableThrow(e);
+                    return <Observable<EmployeeDto[]>><any>_observableThrow(e);
                 }
             } else
-                return <Observable<ApplicationUserDto[]>><any>_observableThrow(response_);
+                return <Observable<EmployeeDto[]>><any>_observableThrow(response_);
         }));
     }
 
-    protected processGetOwnEmployees(response: HttpResponseBase): Observable<ApplicationUserDto[]> {
+    protected processGetOwnEmployees(response: HttpResponseBase): Observable<EmployeeDto[]> {
         const status = response.status;
         const responseBlob =
             response instanceof HttpResponse ? response.body :
@@ -2160,7 +2160,7 @@ export class SitesClient {
             if (Array.isArray(resultDatadefault)) {
                 resultdefault = [] as any;
                 for (let item of resultDatadefault)
-                    resultdefault!.push(ApplicationUserDto.fromJS(item));
+                    resultdefault!.push(EmployeeDto.fromJS(item));
             }
             return _observableOf(resultdefault);
             }));
@@ -2409,7 +2409,7 @@ export class UsersClient {
         this.baseUrl = baseUrl !== undefined && baseUrl !== null ? baseUrl : "";
     }
 
-    createAdmin(model: CreateWorkerModel): Observable<ApplicationUserDto> {
+    createAdmin(model: CreateWorkerModel): Observable<AdministratorDto> {
         let url_ = this.baseUrl + "/api/backoffice/Users/admins";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -2432,14 +2432,14 @@ export class UsersClient {
                 try {
                     return this.processCreateAdmin(<any>response_);
                 } catch (e) {
-                    return <Observable<ApplicationUserDto>><any>_observableThrow(e);
+                    return <Observable<AdministratorDto>><any>_observableThrow(e);
                 }
             } else
-                return <Observable<ApplicationUserDto>><any>_observableThrow(response_);
+                return <Observable<AdministratorDto>><any>_observableThrow(response_);
         }));
     }
 
-    protected processCreateAdmin(response: HttpResponseBase): Observable<ApplicationUserDto> {
+    protected processCreateAdmin(response: HttpResponseBase): Observable<AdministratorDto> {
         const status = response.status;
         const responseBlob =
             response instanceof HttpResponse ? response.body :
@@ -2478,13 +2478,13 @@ export class UsersClient {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             let resultdefault: any = null;
             let resultDatadefault = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            resultdefault = ApplicationUserDto.fromJS(resultDatadefault);
+            resultdefault = AdministratorDto.fromJS(resultDatadefault);
             return _observableOf(resultdefault);
             }));
         }
     }
 
-    getAdmins(): Observable<ApplicationUserDto[]> {
+    getAdmins(): Observable<AdministratorDto[]> {
         let url_ = this.baseUrl + "/api/backoffice/Users/admins";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -2503,14 +2503,14 @@ export class UsersClient {
                 try {
                     return this.processGetAdmins(<any>response_);
                 } catch (e) {
-                    return <Observable<ApplicationUserDto[]>><any>_observableThrow(e);
+                    return <Observable<AdministratorDto[]>><any>_observableThrow(e);
                 }
             } else
-                return <Observable<ApplicationUserDto[]>><any>_observableThrow(response_);
+                return <Observable<AdministratorDto[]>><any>_observableThrow(response_);
         }));
     }
 
-    protected processGetAdmins(response: HttpResponseBase): Observable<ApplicationUserDto[]> {
+    protected processGetAdmins(response: HttpResponseBase): Observable<AdministratorDto[]> {
         const status = response.status;
         const responseBlob =
             response instanceof HttpResponse ? response.body :
@@ -2552,14 +2552,14 @@ export class UsersClient {
             if (Array.isArray(resultDatadefault)) {
                 resultdefault = [] as any;
                 for (let item of resultDatadefault)
-                    resultdefault!.push(ApplicationUserDto.fromJS(item));
+                    resultdefault!.push(AdministratorDto.fromJS(item));
             }
             return _observableOf(resultdefault);
             }));
         }
     }
 
-    createEmployee(model: CreateWorkerModel): Observable<ApplicationUserDto> {
+    createEmployee(model: CreateWorkerModel): Observable<EmployeeDto> {
         let url_ = this.baseUrl + "/api/backoffice/Users/employees";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -2582,14 +2582,14 @@ export class UsersClient {
                 try {
                     return this.processCreateEmployee(<any>response_);
                 } catch (e) {
-                    return <Observable<ApplicationUserDto>><any>_observableThrow(e);
+                    return <Observable<EmployeeDto>><any>_observableThrow(e);
                 }
             } else
-                return <Observable<ApplicationUserDto>><any>_observableThrow(response_);
+                return <Observable<EmployeeDto>><any>_observableThrow(response_);
         }));
     }
 
-    protected processCreateEmployee(response: HttpResponseBase): Observable<ApplicationUserDto> {
+    protected processCreateEmployee(response: HttpResponseBase): Observable<EmployeeDto> {
         const status = response.status;
         const responseBlob =
             response instanceof HttpResponse ? response.body :
@@ -2628,14 +2628,14 @@ export class UsersClient {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             let resultdefault: any = null;
             let resultDatadefault = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            resultdefault = ApplicationUserDto.fromJS(resultDatadefault);
+            resultdefault = EmployeeDto.fromJS(resultDatadefault);
             return _observableOf(resultdefault);
             }));
         }
     }
 
-    getEmployees(): Observable<ApplicationUserDto[]> {
-        let url_ = this.baseUrl + "/api/backoffice/Users/employees";
+    getEmployeesOfOwnCompany(): Observable<EmployeeDto[]> {
+        let url_ = this.baseUrl + "/api/backoffice/Users/current/employees";
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ : any = {
@@ -2647,20 +2647,20 @@ export class UsersClient {
         };
 
         return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
-            return this.processGetEmployees(response_);
+            return this.processGetEmployeesOfOwnCompany(response_);
         })).pipe(_observableCatch((response_: any) => {
             if (response_ instanceof HttpResponseBase) {
                 try {
-                    return this.processGetEmployees(<any>response_);
+                    return this.processGetEmployeesOfOwnCompany(<any>response_);
                 } catch (e) {
-                    return <Observable<ApplicationUserDto[]>><any>_observableThrow(e);
+                    return <Observable<EmployeeDto[]>><any>_observableThrow(e);
                 }
             } else
-                return <Observable<ApplicationUserDto[]>><any>_observableThrow(response_);
+                return <Observable<EmployeeDto[]>><any>_observableThrow(response_);
         }));
     }
 
-    protected processGetEmployees(response: HttpResponseBase): Observable<ApplicationUserDto[]> {
+    protected processGetEmployeesOfOwnCompany(response: HttpResponseBase): Observable<EmployeeDto[]> {
         const status = response.status;
         const responseBlob =
             response instanceof HttpResponse ? response.body :
@@ -2702,15 +2702,15 @@ export class UsersClient {
             if (Array.isArray(resultDatadefault)) {
                 resultdefault = [] as any;
                 for (let item of resultDatadefault)
-                    resultdefault!.push(ApplicationUserDto.fromJS(item));
+                    resultdefault!.push(EmployeeDto.fromJS(item));
             }
             return _observableOf(resultdefault);
             }));
         }
     }
 
-    getManagers(): Observable<ApplicationUserDto[]> {
-        let url_ = this.baseUrl + "/api/backoffice/Users/managers";
+    getManagersOfOwnCompany(): Observable<ManagerDto[]> {
+        let url_ = this.baseUrl + "/api/backoffice/Users/current/managers";
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ : any = {
@@ -2722,20 +2722,20 @@ export class UsersClient {
         };
 
         return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
-            return this.processGetManagers(response_);
+            return this.processGetManagersOfOwnCompany(response_);
         })).pipe(_observableCatch((response_: any) => {
             if (response_ instanceof HttpResponseBase) {
                 try {
-                    return this.processGetManagers(<any>response_);
+                    return this.processGetManagersOfOwnCompany(<any>response_);
                 } catch (e) {
-                    return <Observable<ApplicationUserDto[]>><any>_observableThrow(e);
+                    return <Observable<ManagerDto[]>><any>_observableThrow(e);
                 }
             } else
-                return <Observable<ApplicationUserDto[]>><any>_observableThrow(response_);
+                return <Observable<ManagerDto[]>><any>_observableThrow(response_);
         }));
     }
 
-    protected processGetManagers(response: HttpResponseBase): Observable<ApplicationUserDto[]> {
+    protected processGetManagersOfOwnCompany(response: HttpResponseBase): Observable<ManagerDto[]> {
         const status = response.status;
         const responseBlob =
             response instanceof HttpResponse ? response.body :
@@ -2777,14 +2777,14 @@ export class UsersClient {
             if (Array.isArray(resultDatadefault)) {
                 resultdefault = [] as any;
                 for (let item of resultDatadefault)
-                    resultdefault!.push(ApplicationUserDto.fromJS(item));
+                    resultdefault!.push(ManagerDto.fromJS(item));
             }
             return _observableOf(resultdefault);
             }));
         }
     }
 
-    getSimpleUsers(): Observable<ApplicationUserDto[]> {
+    getSimpleUsers(): Observable<RegisterResponse[]> {
         let url_ = this.baseUrl + "/api/backoffice/Users/users";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -2803,14 +2803,14 @@ export class UsersClient {
                 try {
                     return this.processGetSimpleUsers(<any>response_);
                 } catch (e) {
-                    return <Observable<ApplicationUserDto[]>><any>_observableThrow(e);
+                    return <Observable<RegisterResponse[]>><any>_observableThrow(e);
                 }
             } else
-                return <Observable<ApplicationUserDto[]>><any>_observableThrow(response_);
+                return <Observable<RegisterResponse[]>><any>_observableThrow(response_);
         }));
     }
 
-    protected processGetSimpleUsers(response: HttpResponseBase): Observable<ApplicationUserDto[]> {
+    protected processGetSimpleUsers(response: HttpResponseBase): Observable<RegisterResponse[]> {
         const status = response.status;
         const responseBlob =
             response instanceof HttpResponse ? response.body :
@@ -2852,7 +2852,7 @@ export class UsersClient {
             if (Array.isArray(resultDatadefault)) {
                 resultdefault = [] as any;
                 for (let item of resultDatadefault)
-                    resultdefault!.push(ApplicationUserDto.fromJS(item));
+                    resultdefault!.push(RegisterResponse.fromJS(item));
             }
             return _observableOf(resultdefault);
             }));
@@ -3478,7 +3478,7 @@ export interface IQueueModel {
     maxActiveTicketsPerUser?: number;
 }
 
-export class ApplicationUserDto implements IApplicationUserDto {
+export class EmployeeDto implements IEmployeeDto {
     id?: number;
     userName?: string | undefined;
     firstName?: string | undefined;
@@ -3486,18 +3486,14 @@ export class ApplicationUserDto implements IApplicationUserDto {
     email?: string | undefined;
     gender?: Gender;
     address?: string | undefined;
-    assignedQueue?: string | undefined;
-    assignedQueueId?: number | undefined;
-    administratedCompany?: string | undefined;
-    administratedCompanyId?: number | undefined;
-    managedWorksite?: string | undefined;
-    managedWorksiteId?: number | undefined;
     company?: string | undefined;
     companyId?: number | undefined;
     worksite?: string | undefined;
     worksiteId?: number | undefined;
+    assignedQueue?: string | undefined;
+    assignedQueueId?: number | undefined;
 
-    constructor(data?: IApplicationUserDto) {
+    constructor(data?: IEmployeeDto) {
         if (data) {
             for (var property in data) {
                 if (data.hasOwnProperty(property))
@@ -3515,22 +3511,18 @@ export class ApplicationUserDto implements IApplicationUserDto {
             this.email = _data["email"];
             this.gender = _data["gender"];
             this.address = _data["address"];
-            this.assignedQueue = _data["assignedQueue"];
-            this.assignedQueueId = _data["assignedQueueId"];
-            this.administratedCompany = _data["administratedCompany"];
-            this.administratedCompanyId = _data["administratedCompanyId"];
-            this.managedWorksite = _data["managedWorksite"];
-            this.managedWorksiteId = _data["managedWorksiteId"];
             this.company = _data["company"];
             this.companyId = _data["companyId"];
             this.worksite = _data["worksite"];
             this.worksiteId = _data["worksiteId"];
+            this.assignedQueue = _data["assignedQueue"];
+            this.assignedQueueId = _data["assignedQueueId"];
         }
     }
 
-    static fromJS(data: any): ApplicationUserDto {
+    static fromJS(data: any): EmployeeDto {
         data = typeof data === 'object' ? data : {};
-        let result = new ApplicationUserDto();
+        let result = new EmployeeDto();
         result.init(data);
         return result;
     }
@@ -3544,21 +3536,17 @@ export class ApplicationUserDto implements IApplicationUserDto {
         data["email"] = this.email;
         data["gender"] = this.gender;
         data["address"] = this.address;
-        data["assignedQueue"] = this.assignedQueue;
-        data["assignedQueueId"] = this.assignedQueueId;
-        data["administratedCompany"] = this.administratedCompany;
-        data["administratedCompanyId"] = this.administratedCompanyId;
-        data["managedWorksite"] = this.managedWorksite;
-        data["managedWorksiteId"] = this.managedWorksiteId;
         data["company"] = this.company;
         data["companyId"] = this.companyId;
         data["worksite"] = this.worksite;
         data["worksiteId"] = this.worksiteId;
+        data["assignedQueue"] = this.assignedQueue;
+        data["assignedQueueId"] = this.assignedQueueId;
         return data; 
     }
 }
 
-export interface IApplicationUserDto {
+export interface IEmployeeDto {
     id?: number;
     userName?: string | undefined;
     firstName?: string | undefined;
@@ -3566,16 +3554,12 @@ export interface IApplicationUserDto {
     email?: string | undefined;
     gender?: Gender;
     address?: string | undefined;
-    assignedQueue?: string | undefined;
-    assignedQueueId?: number | undefined;
-    administratedCompany?: string | undefined;
-    administratedCompanyId?: number | undefined;
-    managedWorksite?: string | undefined;
-    managedWorksiteId?: number | undefined;
     company?: string | undefined;
     companyId?: number | undefined;
     worksite?: string | undefined;
     worksiteId?: number | undefined;
+    assignedQueue?: string | undefined;
+    assignedQueueId?: number | undefined;
 }
 
 export enum Gender {
@@ -3816,6 +3800,74 @@ export interface ICompanyTicketDto {
     created?: Date;
 }
 
+export class AdministratorDto implements IAdministratorDto {
+    id?: number;
+    userName?: string | undefined;
+    firstName?: string | undefined;
+    lastName?: string | undefined;
+    email?: string | undefined;
+    gender?: Gender;
+    address?: string | undefined;
+    administratedCompany?: string | undefined;
+    administratedCompanyId?: number | undefined;
+
+    constructor(data?: IAdministratorDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.id = _data["id"];
+            this.userName = _data["userName"];
+            this.firstName = _data["firstName"];
+            this.lastName = _data["lastName"];
+            this.email = _data["email"];
+            this.gender = _data["gender"];
+            this.address = _data["address"];
+            this.administratedCompany = _data["administratedCompany"];
+            this.administratedCompanyId = _data["administratedCompanyId"];
+        }
+    }
+
+    static fromJS(data: any): AdministratorDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new AdministratorDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
+        data["userName"] = this.userName;
+        data["firstName"] = this.firstName;
+        data["lastName"] = this.lastName;
+        data["email"] = this.email;
+        data["gender"] = this.gender;
+        data["address"] = this.address;
+        data["administratedCompany"] = this.administratedCompany;
+        data["administratedCompanyId"] = this.administratedCompanyId;
+        return data; 
+    }
+}
+
+export interface IAdministratorDto {
+    id?: number;
+    userName?: string | undefined;
+    firstName?: string | undefined;
+    lastName?: string | undefined;
+    email?: string | undefined;
+    gender?: Gender;
+    address?: string | undefined;
+    administratedCompany?: string | undefined;
+    administratedCompanyId?: number | undefined;
+}
+
 export class CreateWorkerModel implements ICreateWorkerModel {
     userName?: string | undefined;
     email?: string | undefined;
@@ -3874,6 +3926,82 @@ export interface ICreateWorkerModel {
     address?: string | undefined;
     password?: string | undefined;
     gender?: Gender;
+}
+
+export class ManagerDto implements IManagerDto {
+    id?: number;
+    userName?: string | undefined;
+    firstName?: string | undefined;
+    lastName?: string | undefined;
+    email?: string | undefined;
+    gender?: Gender;
+    address?: string | undefined;
+    company?: string | undefined;
+    companyId?: number | undefined;
+    managedWorksite?: string | undefined;
+    managedWorksiteId?: number | undefined;
+
+    constructor(data?: IManagerDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.id = _data["id"];
+            this.userName = _data["userName"];
+            this.firstName = _data["firstName"];
+            this.lastName = _data["lastName"];
+            this.email = _data["email"];
+            this.gender = _data["gender"];
+            this.address = _data["address"];
+            this.company = _data["company"];
+            this.companyId = _data["companyId"];
+            this.managedWorksite = _data["managedWorksite"];
+            this.managedWorksiteId = _data["managedWorksiteId"];
+        }
+    }
+
+    static fromJS(data: any): ManagerDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new ManagerDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
+        data["userName"] = this.userName;
+        data["firstName"] = this.firstName;
+        data["lastName"] = this.lastName;
+        data["email"] = this.email;
+        data["gender"] = this.gender;
+        data["address"] = this.address;
+        data["company"] = this.company;
+        data["companyId"] = this.companyId;
+        data["managedWorksite"] = this.managedWorksite;
+        data["managedWorksiteId"] = this.managedWorksiteId;
+        return data; 
+    }
+}
+
+export interface IManagerDto {
+    id?: number;
+    userName?: string | undefined;
+    firstName?: string | undefined;
+    lastName?: string | undefined;
+    email?: string | undefined;
+    gender?: Gender;
+    address?: string | undefined;
+    company?: string | undefined;
+    companyId?: number | undefined;
+    managedWorksite?: string | undefined;
+    managedWorksiteId?: number | undefined;
 }
 
 export class UpdateWorkerModel implements IUpdateWorkerModel {

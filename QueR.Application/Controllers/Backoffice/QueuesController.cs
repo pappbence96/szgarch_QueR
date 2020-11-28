@@ -62,8 +62,8 @@ namespace QueR.Application.Controllers.Backoffice
 
         [Authorize(Roles = "manager")]
         [HttpGet("{queueId}/employees")]
-        [ProducesDefaultResponseType(typeof(IEnumerable<ApplicationUserDto>))]
-        public async Task<ActionResult<IEnumerable<ApplicationUserDto>>> GetEmployeesOfQueue(int queueId)
+        [ProducesDefaultResponseType(typeof(IEnumerable<EmployeeDto>))]
+        public async Task<ActionResult<IEnumerable<EmployeeDto>>> GetEmployeesOfQueue(int queueId)
         {
             return Ok(await queueService.GetEmployeesOfQueue(queueId));
         }
@@ -77,7 +77,7 @@ namespace QueR.Application.Controllers.Backoffice
         }
 
         [Authorize(Roles = "employee")]
-        [HttpGet("own")]
+        [HttpGet("current")]
         [ProducesDefaultResponseType(typeof(QueueDto))]
         public async Task<ActionResult<QueueDto>> GetDetailsOfAssignedQueue()
         {

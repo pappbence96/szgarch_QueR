@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using QueR.Application.Middlewares.ExceptionHandling;
+using QueR.BLL.Services.Identity.DTOs;
 using QueR.BLL.Services.User;
 using QueR.BLL.Services.User.DTOs;
 
@@ -28,48 +29,48 @@ namespace QueR.Application.Controllers.Backoffice
 
         [HttpPost("admins")]
         [Authorize(Roles = "operator")]
-        [ProducesDefaultResponseType(typeof(ApplicationUserDto))]
-        public async Task<ActionResult<ApplicationUserDto>> CreateAdmin([FromBody] CreateWorkerModel model)
+        [ProducesDefaultResponseType(typeof(AdministratorDto))]
+        public async Task<ActionResult<AdministratorDto>> CreateAdmin([FromBody] CreateWorkerModel model)
         {
             return Ok(await userService.CreateAdmin(model));
         }
 
         [HttpPost("employees")]
         [Authorize(Roles = "administrator")]
-        [ProducesDefaultResponseType(typeof(ApplicationUserDto))]
-        public async Task<ActionResult<ApplicationUserDto>> CreateEmployee([FromBody] CreateWorkerModel model)
+        [ProducesDefaultResponseType(typeof(EmployeeDto))]
+        public async Task<ActionResult<EmployeeDto>> CreateEmployee([FromBody] CreateWorkerModel model)
         {
             return Ok(await userService.CreateEmployee(model));
         }
 
         [HttpGet("admins")]
         [Authorize(Roles = "operator")]
-        [ProducesDefaultResponseType(typeof(IEnumerable<ApplicationUserDto>))]
-        public async Task<ActionResult<IEnumerable<ApplicationUserDto>>> GetAdmins()
+        [ProducesDefaultResponseType(typeof(IEnumerable<AdministratorDto>))]
+        public async Task<ActionResult<IEnumerable<AdministratorDto>>> GetAdmins()
         {
             return Ok(await userService.GetAdministrators());
         }
 
-        [HttpGet("employees")]
-        [Authorize(Roles = "manager,administrator")]
-        [ProducesDefaultResponseType(typeof(IEnumerable<ApplicationUserDto>))]
-        public async Task<ActionResult<IEnumerable<ApplicationUserDto>>> GetEmployees()
+        [HttpGet("current/employees")]
+        [Authorize(Roles = "administrator")]
+        [ProducesDefaultResponseType(typeof(IEnumerable<EmployeeDto>))]
+        public async Task<ActionResult<IEnumerable<EmployeeDto>>> GetEmployeesOfOwnCompany()
         {
-            return Ok(await userService.GetEmployees());
+            return Ok(await userService.GetEmployeesOfOwnCompany());
         }
 
-        [HttpGet("managers")]
+        [HttpGet("current/managers")]
         [Authorize(Roles = "administrator")]
-        [ProducesDefaultResponseType(typeof(IEnumerable<ApplicationUserDto>))]
-        public async Task<ActionResult<IEnumerable<ApplicationUserDto>>> GetManagers()
+        [ProducesDefaultResponseType(typeof(IEnumerable<ManagerDto>))]
+        public async Task<ActionResult<IEnumerable<ManagerDto>>> GetManagersOfOwnCompany()
         {
-            return Ok(await userService.GetManagers());
+            return Ok(await userService.GetManagersOfOwnCompany());
         }
 
         [HttpGet("users")]
         [Authorize(Roles = "operator")]
-        [ProducesDefaultResponseType(typeof(IEnumerable<ApplicationUserDto>))]
-        public async Task<ActionResult<IEnumerable<ApplicationUserDto>>> GetSimpleUsers()
+        [ProducesDefaultResponseType(typeof(IEnumerable<RegisterResponse>))]
+        public async Task<ActionResult<IEnumerable<RegisterResponse>>> GetSimpleUsers()
         {
             return Ok(await userService.GetSimpleUsers());
         }

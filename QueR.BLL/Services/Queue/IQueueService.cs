@@ -11,7 +11,7 @@ namespace QueR.BLL.Services.Queue
         Task UpdateQueue(int queueId, QueueModel model);
         Task AssignEmployeeToQueue(int queueId, int workerId);
         Task RemoveEmployeeFromQueue(int queueId, int workerId);
-        Task<IEnumerable<ApplicationUserDto>> GetEmployeesOfQueue(int queueId);
+        Task<IEnumerable<EmployeeDto>> GetEmployeesOfQueue(int queueId);
         Task<IEnumerable<QueueDto>> GetQueues();
         Task<IEnumerable<UserQueueDto>> GetQueuesOfSiteForUser(int worksiteId);
         Task<QueueDto> GetDetailsOfQueue(int queueId);

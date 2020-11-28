@@ -151,7 +151,7 @@ namespace QueR.BLL.Services.Queue
             await context.SaveChangesAsync();
         }
 
-        public async Task<IEnumerable<ApplicationUserDto>> GetEmployeesOfQueue(int queueId)
+        public async Task<IEnumerable<EmployeeDto>> GetEmployeesOfQueue(int queueId)
         {
             var queue = (await context.Queues
                 .Include(c => c.AssignedEmployees)
@@ -162,7 +162,7 @@ namespace QueR.BLL.Services.Queue
                 .FirstOrDefaultAsync(u => u.Id == queueId))
                 ?? throw new KeyNotFoundException($"Queue not found with an id of {queueId}");
 
-            return mapper.Map<IEnumerable<ApplicationUserDto>>(queue.AssignedEmployees);
+            return mapper.Map<IEnumerable<EmployeeDto>>(queue.AssignedEmployees);
         }
 
         public async Task<IEnumerable<QueueDto>> GetQueues()
