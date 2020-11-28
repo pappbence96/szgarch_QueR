@@ -18,10 +18,12 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RegisterPageComponent } from './pages/register-page/register-page.component';
 import { LoginPageComponent } from './pages/login-page/login-page.component';
 import { MenuPageComponent } from './pages/menu-page/menu-page.component';
+import { HeaderComponent } from './components/header/header.component';
 
 @NgModule({
   declarations: [
     AppComponent,
+    HeaderComponent,
     RegisterPageComponent,
     LoginPageComponent,
     MenuPageComponent

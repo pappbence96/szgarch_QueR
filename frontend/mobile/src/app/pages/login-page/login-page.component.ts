@@ -48,7 +48,13 @@ export class LoginPageComponent implements OnInit {
         data => {
           this.loading = false;
           console.log(data);
-          this.router.navigate( [''] );
+          if (this.authService.isInRole('user')) {
+            this.router.navigate( [''] );
+          } else {
+            this.error = 'You are not a regular user. Are you looking for the Backoffice application?';
+            this.authService.logout();
+            return;
+          }
         },
         error => {
           this.loading = false;
