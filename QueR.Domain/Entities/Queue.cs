@@ -16,6 +16,7 @@ namespace QueR.Domain.Entities
         public int NextNumber { get; set; }
         public string Prefix { get; set; }
         public int Step { get; set; }
+        public int MaxActiveTicketsPerUser { get; set; }
 
         public virtual ICollection<ApplicationUser> AssignedEmployees { get; set; }
         public virtual ICollection<Ticket> Tickets { get; set; }

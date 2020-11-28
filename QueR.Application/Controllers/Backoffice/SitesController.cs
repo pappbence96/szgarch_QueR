@@ -10,7 +10,7 @@ using QueR.BLL.Services.User.DTOs;
 
 namespace QueR.Application.Controllers.Backoffice
 {
-    [Route("api/[controller]")]
+    [Route("api/backoffice/[controller]")]
     [ApiController]
     [ApiExplorerSettings(GroupName = "backoffice")]
     [ProducesResponseType(typeof(ErrorDetails), StatusCodes.Status400BadRequest)]
@@ -42,7 +42,7 @@ namespace QueR.Application.Controllers.Backoffice
             return Ok(await siteService.CreateSite(model));
         }
 
-        [HttpGet("{siteId}/workers/{employeeId}")]
+        [HttpGet("{siteId}/employees/{employeeId}")]
         [Authorize(Roles = "administrator")]
         public async Task<ActionResult> AssignWorkerToSite(int siteId, int employeeId)
         {
@@ -58,7 +58,7 @@ namespace QueR.Application.Controllers.Backoffice
             return Ok(await siteService.GetSites());
         }
 
-        [HttpGet("{siteId}")]
+        [HttpGet("{siteId}/employees")]
         [ProducesDefaultResponseType(typeof(IEnumerable<ApplicationUserDto>))]
         [Authorize(Roles = "administrator")]
         public async Task<ActionResult<IEnumerable<ApplicationUserDto>>> GetEmployeesOfSite(int siteId)
@@ -74,7 +74,7 @@ namespace QueR.Application.Controllers.Backoffice
             return Ok();
         }
 
-        [HttpDelete("{siteId}/workers/{employeeId}")]
+        [HttpDelete("{siteId}/employees/{employeeId}")]
         [Authorize(Roles = "administrator")]
         public async Task<ActionResult> RemoveEmployeeOfSite(int siteId, int employeeId)
         {
@@ -90,7 +90,7 @@ namespace QueR.Application.Controllers.Backoffice
             return Ok();
         }
 
-        [HttpGet("current/workers")]
+        [HttpGet("current/employees")]
         [ProducesDefaultResponseType(typeof(IEnumerable<ApplicationUserDto>))]
         [Authorize(Roles = "manager")]
         public async Task<ActionResult<IEnumerable<ApplicationUserDto>>> GetOwnEmployees()

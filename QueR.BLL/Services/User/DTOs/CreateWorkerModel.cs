@@ -13,8 +13,6 @@ namespace QueR.BLL.Services.User.DTOs
         public string Address { get; set; }
         public string Password { get; set; }
         public Gender Gender { get; set; }
-
-
     }
 
     public class WorkerValidator : AbstractValidator<CreateWorkerModel>
@@ -31,6 +29,7 @@ namespace QueR.BLL.Services.User.DTOs
             RuleFor(u => u.LastName).MaximumLength(30).WithMessage("Last name must not be longer than 30 characters");
             RuleFor(u => u.Address).NotEmpty().WithMessage("Address must not be empty.");
             RuleFor(u => u.Address).MinimumLength(5).MaximumLength(75).WithMessage("Address must be between 5 and 75 characters");
+            RuleFor(u => u.Gender).NotEmpty().WithMessage("Gender must not be empty.");
         }
     }
 

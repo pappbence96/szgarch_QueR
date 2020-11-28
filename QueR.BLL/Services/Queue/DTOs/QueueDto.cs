@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace QueR.BLL.Services.Queue.DTOs
@@ -16,7 +17,8 @@ namespace QueR.BLL.Services.Queue.DTOs
         public int Step { get; set; }
         public int WorksiteId { get; set; }
         public int NumOfAssignedEmployees { get; set; }
-        public int NumOfTickets { get; set; }
+        public int NumOfActiveTickets { get; set; }
+        public int MaxActiveTicketsPerUser { get; set; }
     }
 
     public class QueueDtoProfile : Profile
@@ -29,7 +31,7 @@ namespace QueR.BLL.Services.Queue.DTOs
                 .ForMember(dest => dest.Worksite, opt => opt.MapFrom(src => src.Site != null ? src.Site.Name : "-"))
                 .ForMember(dest => dest.WorksiteId, opt => opt.MapFrom(src => src.SiteId))
                 .ForMember(dest => dest.NumOfAssignedEmployees, opt => opt.MapFrom(src => src.AssignedEmployees.Count))
-                .ForMember(dest => dest.NumOfTickets, opt => opt.MapFrom(src => src.Tickets.Count));
+                .ForMember(dest => dest.NumOfActiveTickets, opt => opt.MapFrom(src => src.Tickets.Where(t => !t.Called).ToList().Count));
         }
     }
 }

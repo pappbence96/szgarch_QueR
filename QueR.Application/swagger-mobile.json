@@ -7,6 +7,154 @@
     "version": "1.0.0"
   },
   "paths": {
+    "/api/mobile/Companies": {
+      "get": {
+        "tags": [
+          "Companies"
+        ],
+        "operationId": "Companies_GetCompaniesForUser",
+        "responses": {
+          "default": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/UserCompanyDto"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/mobile/Queues/{worksiteId}": {
+      "get": {
+        "tags": [
+          "Queues"
+        ],
+        "operationId": "Queues_GetQueuesOfSiteForUser",
+        "parameters": [
+          {
+            "name": "worksiteId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "x-position": 1
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/UserQueueDto"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/mobile/Sites/{companyId}": {
+      "get": {
+        "tags": [
+          "Sites"
+        ],
+        "operationId": "Sites_GetSitesOfCompanyForUser",
+        "parameters": [
+          {
+            "name": "companyId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "x-position": 1
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/UserSiteDto"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/mobile/Tickets": {
+      "post": {
+        "tags": [
+          "Tickets"
+        ],
+        "operationId": "Tickets_CreateTicket",
+        "requestBody": {
+          "x-name": "model",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/TicketModel"
+              }
+            }
+          },
+          "required": true,
+          "x-position": 1
+        },
+        "responses": {
+          "default": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserTicketDto"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/mobile/Tickets/user": {
+      "get": {
+        "tags": [
+          "Tickets"
+        ],
+        "operationId": "Tickets_GetOwnTicketsForUser",
+        "responses": {
+          "default": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/UserTicketDto"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/Identity/login": {
       "post": {
         "tags": [
@@ -216,6 +364,104 @@
   },
   "components": {
     "schemas": {
+      "UserCompanyDto": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "name": {
+            "type": "string",
+            "nullable": true
+          },
+          "address": {
+            "type": "string",
+            "nullable": true
+          }
+        }
+      },
+      "UserQueueDto": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "queueType": {
+            "type": "string",
+            "nullable": true
+          },
+          "numOfActiveTickets": {
+            "type": "integer",
+            "format": "int32"
+          }
+        }
+      },
+      "UserSiteDto": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "name": {
+            "type": "string",
+            "nullable": true
+          },
+          "address": {
+            "type": "string",
+            "nullable": true
+          }
+        }
+      },
+      "UserTicketDto": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "number": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "visibleNumber": {
+            "type": "string",
+            "nullable": true
+          },
+          "queue": {
+            "type": "string",
+            "nullable": true
+          },
+          "worksite": {
+            "type": "string",
+            "nullable": true
+          },
+          "company": {
+            "type": "string",
+            "nullable": true
+          },
+          "numOfTicketsBeforeThis": {
+            "type": "integer",
+            "format": "int32"
+          }
+        }
+      },
+      "TicketModel": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "queueId": {
+            "type": "integer",
+            "format": "int32"
+          }
+        }
+      },
       "ErrorDetails": {
         "type": "object",
         "additionalProperties": false,

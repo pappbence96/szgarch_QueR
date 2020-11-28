@@ -12,7 +12,7 @@ using QueR.BLL.Services.Company.DTOs;
 
 namespace QueR.Application.Controllers.Backoffice
 {
-    [Route("api/[controller]")]
+    [Route("api/backoffice/[controller]")]
     [ApiController]
     [Authorize(Roles = "operator")]
     [ApiExplorerSettings(GroupName = "backoffice")]

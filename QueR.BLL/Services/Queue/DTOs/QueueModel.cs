@@ -10,6 +10,7 @@ namespace QueR.BLL.Services.Queue.DTOs
         public int NextNumber { get; set; }
         public string Prefix { get; set; }
         public int Step { get; set; }
+        public int MaxActiveTicketsPerUser { get; set; }
     }
 
     public class CreateQueueValidator : AbstractValidator<QueueModel>
@@ -21,6 +22,7 @@ namespace QueR.BLL.Services.Queue.DTOs
             RuleFor(u => u.Prefix).MaximumLength(10).WithMessage("Ticket number prefixes cannot be longer than 10 characters.");
             RuleFor(u => u.Prefix).Matches(new Regex("[a-zA-Z0-9]*")).WithMessage("Ticket number prefix can only contain characters and digits.");
             RuleFor(u => u.Step).InclusiveBetween(1, 10).WithMessage("Ticket step must be positive and a maximum of 10.");
+            RuleFor(u => u.MaxActiveTicketsPerUser).InclusiveBetween(1, 10).WithMessage("Max ticket number per user must be between 1 and 10.");
         }
     }
 
@@ -31,6 +33,8 @@ namespace QueR.BLL.Services.Queue.DTOs
             RuleFor(u => u.Prefix).MaximumLength(10).WithMessage("Ticket number prefixes cannot be longer than 10 characters.");
             RuleFor(u => u.Prefix).Matches(new Regex("[a-zA-Z0-9]*")).WithMessage("Ticket number prefix can only contain characters and digits.");
             RuleFor(u => u.Step).InclusiveBetween(1, 10).WithMessage("Ticket step must be positive and a maximum of 10.");
+            RuleFor(u => u.MaxActiveTicketsPerUser).InclusiveBetween(1, 10).WithMessage("Max ticket number per user must be between 1 and 10.");
+
         }
     }
 }

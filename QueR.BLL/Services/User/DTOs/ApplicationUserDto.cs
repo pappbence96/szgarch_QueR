@@ -33,17 +33,14 @@ namespace QueR.BLL.Services.User.DTOs
     {
         public ApplicationUserDtoProfile()
         {
-            CreateMap<Domain.Entities.ApplicationUser, ApplicationUserDto>()
+            CreateMap<ApplicationUser, ApplicationUserDto>()
                 .ForMember(dest => dest.AssignedQueue, opt => opt.MapFrom(src => src.AssignedQueue != null ? src.AssignedQueue.Type.Name : "-"))
-                .ForMember(dest => dest.AssignedQueueId, opt => opt.MapFrom(src => src.AssignedQueueId))
                 .ForMember(dest => dest.AdministratedCompany, opt => opt.MapFrom(src => src.AdministratedCompany != null ? src.AdministratedCompany.Name : "-"))
                 .ForMember(dest => dest.AdministratedCompanyId, opt => opt.MapFrom(src => src.AdministratedCompany != null ? src.AdministratedCompany.Id : (int?)null))
                 .ForMember(dest => dest.ManagedWorksite, opt => opt.MapFrom(src => src.ManagedSite != null ? src.ManagedSite.Name : "-"))
-                .ForMember(dest => dest.ManagedWorksiteId, opt => opt.MapFrom(src => src.ManagedSite != null ? src.ManagedSite.Id : (int?) null))
+                .ForMember(dest => dest.ManagedWorksiteId, opt => opt.MapFrom(src => src.ManagedSite != null ? src.ManagedSite.Id : (int?)null))
                 .ForMember(dest => dest.Company, opt => opt.MapFrom(src => src.Company != null ? src.Company.Name : "-"))
-                .ForMember(dest => dest.CompanyId, opt => opt.MapFrom(src => src.CompanyId))
-                .ForMember(dest => dest.Worksite, opt => opt.MapFrom(src => src.Worksite != null ? src.Worksite.Name : "-"))
-                .ForMember(dest => dest.WorksiteId, opt => opt.MapFrom(src => src.Worksite.Id));
+                .ForMember(dest => dest.Worksite, opt => opt.MapFrom(src => src.Worksite != null ? src.Worksite.Name : "-"));
         }
     }
 }

@@ -9,6 +9,7 @@ namespace QueR.BLL.Services.Company
         Task AssignAdminToCompany(int adminId, int companyId);
         Task<CompanyDto> CreateCompany(CompanyModel model);
         Task<IEnumerable<CompanyDto>> GetCompanies();
+        Task<IEnumerable<UserCompanyDto>> GetCompaniesForUser();
         Task RemoveAdminOfCompany(int companyId);
         Task UpdateCompany(int companyId, CompanyModel model);
     }
