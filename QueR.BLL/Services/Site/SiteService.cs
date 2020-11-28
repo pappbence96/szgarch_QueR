@@ -158,7 +158,7 @@ namespace QueR.BLL.Services.Site
             return mapper.Map<IEnumerable<SiteDto>>(sites);
         }
 
-        public async Task<IEnumerable<ApplicationUserDto>> GetEmployeesOfSite(int siteId)
+        public async Task<IEnumerable<EmployeeDto>> GetEmployeesOfSite(int siteId)
         {
             var site = (await context.Sites
                 .Include(c => c.Employees)
@@ -177,8 +177,8 @@ namespace QueR.BLL.Services.Site
             {
                 throw new InvalidOperationException("Site is not part of the company");
             }
-            return mapper.Map<IEnumerable<ApplicationUserDto>>(site.Employees);
-            // return site.Employees;
+
+            return mapper.Map<IEnumerable<EmployeeDto>>(site.Employees);
         }
 
         public async Task RemoveManagerFromSite(int siteId)
@@ -271,7 +271,7 @@ namespace QueR.BLL.Services.Site
             throw new NotImplementedException();
         }
 
-        public async Task<IEnumerable<ApplicationUserDto>> GetOwnEmployees()
+        public async Task<IEnumerable<EmployeeDto>> GetOwnEmployees()
         {
             var callerWorksiteId = userAccessor.WorksiteId;
 
@@ -284,7 +284,7 @@ namespace QueR.BLL.Services.Site
                 .FirstOrDefaultAsync(u => u.Id == callerWorksiteId))
                 ?? throw new KeyNotFoundException($"Site not found with an id of {callerWorksiteId}");
 
-            return mapper.Map<IEnumerable<ApplicationUserDto>>(site.Employees);
+            return mapper.Map<IEnumerable<EmployeeDto>>(site.Employees);
         }
 
         public async Task<IEnumerable<UserSiteDto>> GetSitesOfCompanyForUser(int companyId)

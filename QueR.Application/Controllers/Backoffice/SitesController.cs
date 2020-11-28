@@ -59,9 +59,9 @@ namespace QueR.Application.Controllers.Backoffice
         }
 
         [HttpGet("{siteId}/employees")]
-        [ProducesDefaultResponseType(typeof(IEnumerable<ApplicationUserDto>))]
+        [ProducesDefaultResponseType(typeof(IEnumerable<EmployeeDto>))]
         [Authorize(Roles = "administrator")]
-        public async Task<ActionResult<IEnumerable<ApplicationUserDto>>> GetEmployeesOfSite(int siteId)
+        public async Task<ActionResult<IEnumerable<EmployeeDto>>> GetEmployeesOfSite(int siteId)
         {
             return Ok(await siteService.GetEmployeesOfSite(siteId));
         }
@@ -91,9 +91,9 @@ namespace QueR.Application.Controllers.Backoffice
         }
 
         [HttpGet("current/employees")]
-        [ProducesDefaultResponseType(typeof(IEnumerable<ApplicationUserDto>))]
+        [ProducesDefaultResponseType(typeof(IEnumerable<EmployeeDto>))]
         [Authorize(Roles = "manager")]
-        public async Task<ActionResult<IEnumerable<ApplicationUserDto>>> GetOwnEmployees()
+        public async Task<ActionResult<IEnumerable<EmployeeDto>>> GetOwnEmployees()
         {
             return Ok(await siteService.GetOwnEmployees());
         }
