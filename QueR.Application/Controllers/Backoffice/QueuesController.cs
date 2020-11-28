@@ -77,7 +77,7 @@ namespace QueR.Application.Controllers.Backoffice
         }
 
         [Authorize(Roles = "employee")]
-        [HttpGet("own")]
+        [HttpGet("current")]
         [ProducesDefaultResponseType(typeof(QueueDto))]
         public async Task<ActionResult<QueueDto>> GetDetailsOfAssignedQueue()
         {

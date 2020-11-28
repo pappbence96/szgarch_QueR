@@ -51,20 +51,20 @@ namespace QueR.Application.Controllers.Backoffice
             return Ok(await userService.GetAdministrators());
         }
 
-        [HttpGet("employees")]
-        [Authorize(Roles = "manager,administrator")]
+        [HttpGet("current/employees")]
+        [Authorize(Roles = "administrator")]
         [ProducesDefaultResponseType(typeof(IEnumerable<EmployeeDto>))]
-        public async Task<ActionResult<IEnumerable<EmployeeDto>>> GetEmployees()
+        public async Task<ActionResult<IEnumerable<EmployeeDto>>> GetEmployeesOfOwnCompany()
         {
-            return Ok(await userService.GetEmployees());
+            return Ok(await userService.GetEmployeesOfOwnCompany());
         }
 
-        [HttpGet("managers")]
+        [HttpGet("current/managers")]
         [Authorize(Roles = "administrator")]
         [ProducesDefaultResponseType(typeof(IEnumerable<ManagerDto>))]
-        public async Task<ActionResult<IEnumerable<ManagerDto>>> GetManagers()
+        public async Task<ActionResult<IEnumerable<ManagerDto>>> GetManagersOfOwnCompany()
         {
-            return Ok(await userService.GetManagers());
+            return Ok(await userService.GetManagersOfOwnCompany());
         }
 
         [HttpGet("users")]

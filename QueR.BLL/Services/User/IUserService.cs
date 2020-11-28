@@ -18,8 +18,8 @@ namespace QueR.BLL.Services.User
         Task DeleteWorker(int workerId);
 
         Task<IEnumerable<AdministratorDto>> GetAdministrators();
-        Task<IEnumerable<ManagerDto>> GetManagers();
-        Task<IEnumerable<EmployeeDto>> GetEmployees();
+        Task<IEnumerable<ManagerDto>> GetManagersOfOwnCompany();
+        Task<IEnumerable<EmployeeDto>> GetEmployeesOfOwnCompany();
         Task<IEnumerable<RegisterResponse>> GetSimpleUsers();
     }
 }

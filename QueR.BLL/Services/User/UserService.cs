@@ -105,14 +105,14 @@ namespace QueR.BLL.Services.User
             return mapper.Map<IEnumerable<AdministratorDto>>(users);
         }
 
-        public async Task<IEnumerable<ManagerDto>> GetManagers()
+        public async Task<IEnumerable<ManagerDto>> GetManagersOfOwnCompany()
         {
             var callerCompanyId = userAccessor.CompanyId;
             var users = await GetUsersInRole("manager");
             return mapper.Map<IEnumerable<ManagerDto>>(users.Where(u => u.CompanyId == callerCompanyId));
         }
 
-        public async Task<IEnumerable<EmployeeDto>> GetEmployees()
+        public async Task<IEnumerable<EmployeeDto>> GetEmployeesOfOwnCompany()
         {
             var callerCompanyId = userAccessor.CompanyId;
             var users = await GetUsersInRole("employee");
