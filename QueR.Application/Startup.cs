@@ -15,6 +15,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Tokens;
 using Newtonsoft.Json.Converters;
 using NSwag;
+using QueR.Application.Hubs;
 using QueR.Application.Middlewares.ExceptionHandling;
 using QueR.Application.Services;
 using QueR.BLL;
@@ -193,6 +194,7 @@ namespace QueR.Application
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
+                endpoints.MapHub<QueueHub>("hubs/queue");
             });
         }
     }

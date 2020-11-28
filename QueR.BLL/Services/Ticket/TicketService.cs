@@ -129,6 +129,7 @@ namespace QueR.BLL.Services.Ticket
             }
             var tickets = await context.Tickets
                 .Include(t => t.Owner)
+                .Include(t => t.Queue)
                 .Where(t => t.QueueId == callerAssignedQueueId && !t.Called)
                 .ToListAsync();
             
