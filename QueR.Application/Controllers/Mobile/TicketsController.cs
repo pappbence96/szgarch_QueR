@@ -30,12 +30,5 @@ namespace QueR.Application.Controllers.Mobile
             return Ok(await ticketService.CreateTicket(model));
         }
 
-        [HttpGet("user")]
-        [ProducesDefaultResponseType(typeof(IEnumerable<UserTicketDto>))]
-        public async Task<ActionResult<IEnumerable<UserTicketDto>>> GetOwnTicketsForUser()
-        {
-            return Ok(await ticketService.GetOwnTicketsForUser());
-        }
-
     }
 }

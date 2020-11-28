@@ -141,7 +141,7 @@ namespace QueR.BLL.Services.Site
             return mapper.Map<SiteDto>(site);
         }
 
-        public async Task<IEnumerable<SiteDto>> GetSites()
+        public async Task<IEnumerable<SiteDto>> GetSitesForOwnCompany()
         {
             var callerCompanyId = userAccessor.CompanyId;
            

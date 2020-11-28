@@ -43,13 +43,5 @@ namespace QueR.Application.Controllers.Backoffice
             await queueTypeService.UpdateQueueType(queueTypeId, model);
             return Ok();
         }
-
-        [HttpGet]
-        [Authorize(Roles = "administrator,manager")]
-        [ProducesDefaultResponseType(typeof(IEnumerable<QueueTypeDto>))]
-        public async Task<ActionResult<IEnumerable<QueueTypeDto>>> GetQueueTypes()
-        {
-            return Ok(await queueTypeService.GetQueueTypes());
-        }
     }
 }

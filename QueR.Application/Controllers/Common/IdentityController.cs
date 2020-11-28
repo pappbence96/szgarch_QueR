@@ -8,6 +8,8 @@ using Microsoft.AspNetCore.Mvc;
 using QueR.Application.Middlewares.ExceptionHandling;
 using QueR.BLL.Services.Identity;
 using QueR.BLL.Services.Identity.DTOs;
+using QueR.BLL.Services.Ticket;
+using QueR.BLL.Services.Ticket.DTOs;
 
 namespace QueR.Application.Controllers.Common
 {
@@ -21,10 +23,12 @@ namespace QueR.Application.Controllers.Common
     public class IdentityController : ControllerBase
     {
         private readonly IIdentityService identityService;
+        private readonly ITicketService ticketService;
 
-        public IdentityController(IIdentityService identityService)
+        public IdentityController(IIdentityService identityService, ITicketService ticketService)
         {
             this.identityService = identityService;
+            this.ticketService = ticketService;
         }
 
         [ProducesDefaultResponseType(typeof(LoginResponse))]
@@ -47,6 +51,14 @@ namespace QueR.Application.Controllers.Common
         {
             await identityService.UpdateSimpleUser(model);
             return Ok();
+        }
+
+        [HttpGet("tickets")]
+        [Authorize(Roles = "user")]
+        [ProducesDefaultResponseType(typeof(IEnumerable<UserTicketDto>))]
+        public async Task<ActionResult<IEnumerable<UserTicketDto>>> GetOwnTicketsForUser()
+        {
+            return Ok(await ticketService.GetOwnTicketsForUser());
         }
     }
 }

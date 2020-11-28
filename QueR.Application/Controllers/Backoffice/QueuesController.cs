@@ -4,6 +4,8 @@ using Microsoft.AspNetCore.Mvc;
 using QueR.Application.Middlewares.ExceptionHandling;
 using QueR.BLL.Services.Queue;
 using QueR.BLL.Services.Queue.DTOs;
+using QueR.BLL.Services.Ticket;
+using QueR.BLL.Services.Ticket.DTOs;
 using QueR.BLL.Services.User.DTOs;
 using System;
 using System.Collections.Generic;
@@ -22,10 +24,12 @@ namespace QueR.Application.Controllers.Backoffice
     public class QueuesController : ControllerBase
     {
         private readonly IQueueService queueService;
+        private readonly ITicketService ticketService;
 
-        public QueuesController(IQueueService queueService)
+        public QueuesController(IQueueService queueService, ITicketService ticketService)
         {
             this.queueService = queueService;
+            this.ticketService = ticketService;
         }
 
         [Authorize(Roles = "manager")]
@@ -84,12 +88,29 @@ namespace QueR.Application.Controllers.Backoffice
             return Ok(await queueService.GetDetailsOfAssignedQueue());
         }
 
-        [Authorize(Roles = "manager")]
-        [HttpGet]
-        [ProducesDefaultResponseType(typeof(IEnumerable<QueueDto>))]
-        public async Task<ActionResult<IEnumerable<QueueDto>>> GetQueues()
+        [HttpGet("current/tickets")]
+        [Authorize(Roles = "manager,employee")]
+        [ProducesDefaultResponseType(typeof(IEnumerable<CompanyTicketDto>))]
+        public async Task<ActionResult<IEnumerable<CompanyTicketDto>>> GetActiveTicketsForOwnQueue()
         {
-            return Ok(await queueService.GetQueues());
+            return Ok(await ticketService.GetActiveTicketsForOwnQueue());
         }
+
+        [HttpGet("current/tickets/next")]
+        [Authorize(Roles = "manager,employee")]
+        public async Task<ActionResult> CallNextTicket()
+        {
+            await ticketService.CallNextTicket();
+            return Ok();
+        }
+
+        [HttpGet("current/tickets/{ticketNumber}")]
+        [Authorize(Roles = "manager,employee")]
+        public async Task<ActionResult> CallTicketByNumber(int ticketNumber)
+        {
+            await ticketService.CallTicketByNumber(ticketNumber);
+            return Ok();
+        }
+
     }
 }

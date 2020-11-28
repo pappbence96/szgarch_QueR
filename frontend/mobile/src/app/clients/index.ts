@@ -73,87 +73,9 @@ export class CompaniesClient {
             }));
         }
     }
-}
-
-@Injectable({
-    providedIn: 'root'
-})
-export class QueuesClient {
-    private http: HttpClient;
-    private baseUrl: string;
-    protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
-
-    constructor(@Inject(HttpClient) http: HttpClient, @Optional() @Inject(API_BASE_URL) baseUrl?: string) {
-        this.http = http;
-        this.baseUrl = baseUrl !== undefined && baseUrl !== null ? baseUrl : "";
-    }
-
-    getQueuesOfSiteForUser(worksiteId: number): Observable<UserQueueDto[]> {
-        let url_ = this.baseUrl + "/api/mobile/Queues/{worksiteId}";
-        if (worksiteId === undefined || worksiteId === null)
-            throw new Error("The parameter 'worksiteId' must be defined.");
-        url_ = url_.replace("{worksiteId}", encodeURIComponent("" + worksiteId));
-        url_ = url_.replace(/[?&]$/, "");
-
-        let options_ : any = {
-            observe: "response",
-            responseType: "blob",
-            headers: new HttpHeaders({
-                "Accept": "application/json"
-            })
-        };
-
-        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
-            return this.processGetQueuesOfSiteForUser(response_);
-        })).pipe(_observableCatch((response_: any) => {
-            if (response_ instanceof HttpResponseBase) {
-                try {
-                    return this.processGetQueuesOfSiteForUser(<any>response_);
-                } catch (e) {
-                    return <Observable<UserQueueDto[]>><any>_observableThrow(e);
-                }
-            } else
-                return <Observable<UserQueueDto[]>><any>_observableThrow(response_);
-        }));
-    }
-
-    protected processGetQueuesOfSiteForUser(response: HttpResponseBase): Observable<UserQueueDto[]> {
-        const status = response.status;
-        const responseBlob =
-            response instanceof HttpResponse ? response.body :
-            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
-
-        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
-        {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            let resultdefault: any = null;
-            let resultDatadefault = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            if (Array.isArray(resultDatadefault)) {
-                resultdefault = [] as any;
-                for (let item of resultDatadefault)
-                    resultdefault!.push(UserQueueDto.fromJS(item));
-            }
-            return _observableOf(resultdefault);
-            }));
-        }
-    }
-}
-
-@Injectable({
-    providedIn: 'root'
-})
-export class SitesClient {
-    private http: HttpClient;
-    private baseUrl: string;
-    protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
-
-    constructor(@Inject(HttpClient) http: HttpClient, @Optional() @Inject(API_BASE_URL) baseUrl?: string) {
-        this.http = http;
-        this.baseUrl = baseUrl !== undefined && baseUrl !== null ? baseUrl : "";
-    }
 
     getSitesOfCompanyForUser(companyId: number): Observable<UserSiteDto[]> {
-        let url_ = this.baseUrl + "/api/mobile/Sites/{companyId}";
+        let url_ = this.baseUrl + "/api/mobile/Companies/{companyId}/sites";
         if (companyId === undefined || companyId === null)
             throw new Error("The parameter 'companyId' must be defined.");
         url_ = url_.replace("{companyId}", encodeURIComponent("" + companyId));
@@ -196,6 +118,70 @@ export class SitesClient {
                 resultdefault = [] as any;
                 for (let item of resultDatadefault)
                     resultdefault!.push(UserSiteDto.fromJS(item));
+            }
+            return _observableOf(resultdefault);
+            }));
+        }
+    }
+}
+
+@Injectable({
+    providedIn: 'root'
+})
+export class SitesClient {
+    private http: HttpClient;
+    private baseUrl: string;
+    protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
+
+    constructor(@Inject(HttpClient) http: HttpClient, @Optional() @Inject(API_BASE_URL) baseUrl?: string) {
+        this.http = http;
+        this.baseUrl = baseUrl !== undefined && baseUrl !== null ? baseUrl : "";
+    }
+
+    getQueuesOfSiteForUser(worksiteId: number): Observable<UserQueueDto[]> {
+        let url_ = this.baseUrl + "/api/mobile/Sites/{worksiteId}/queues";
+        if (worksiteId === undefined || worksiteId === null)
+            throw new Error("The parameter 'worksiteId' must be defined.");
+        url_ = url_.replace("{worksiteId}", encodeURIComponent("" + worksiteId));
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetQueuesOfSiteForUser(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetQueuesOfSiteForUser(<any>response_);
+                } catch (e) {
+                    return <Observable<UserQueueDto[]>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<UserQueueDto[]>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetQueuesOfSiteForUser(response: HttpResponseBase): Observable<UserQueueDto[]> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let resultdefault: any = null;
+            let resultDatadefault = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            if (Array.isArray(resultDatadefault)) {
+                resultdefault = [] as any;
+                for (let item of resultDatadefault)
+                    resultdefault!.push(UserQueueDto.fromJS(item));
             }
             return _observableOf(resultdefault);
             }));
@@ -258,53 +244,6 @@ export class TicketsClient {
             let resultdefault: any = null;
             let resultDatadefault = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
             resultdefault = UserTicketDto.fromJS(resultDatadefault);
-            return _observableOf(resultdefault);
-            }));
-        }
-    }
-
-    getOwnTicketsForUser(): Observable<UserTicketDto[]> {
-        let url_ = this.baseUrl + "/api/mobile/Tickets/user";
-        url_ = url_.replace(/[?&]$/, "");
-
-        let options_ : any = {
-            observe: "response",
-            responseType: "blob",
-            headers: new HttpHeaders({
-                "Accept": "application/json"
-            })
-        };
-
-        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
-            return this.processGetOwnTicketsForUser(response_);
-        })).pipe(_observableCatch((response_: any) => {
-            if (response_ instanceof HttpResponseBase) {
-                try {
-                    return this.processGetOwnTicketsForUser(<any>response_);
-                } catch (e) {
-                    return <Observable<UserTicketDto[]>><any>_observableThrow(e);
-                }
-            } else
-                return <Observable<UserTicketDto[]>><any>_observableThrow(response_);
-        }));
-    }
-
-    protected processGetOwnTicketsForUser(response: HttpResponseBase): Observable<UserTicketDto[]> {
-        const status = response.status;
-        const responseBlob =
-            response instanceof HttpResponse ? response.body :
-            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
-
-        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
-        {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            let resultdefault: any = null;
-            let resultDatadefault = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            if (Array.isArray(resultDatadefault)) {
-                resultdefault = [] as any;
-                for (let item of resultDatadefault)
-                    resultdefault!.push(UserTicketDto.fromJS(item));
-            }
             return _observableOf(resultdefault);
             }));
         }
@@ -545,6 +484,81 @@ export class IdentityClient {
         }
         return _observableOf<void>(<any>null);
     }
+
+    getOwnTicketsForUser(): Observable<UserTicketDto[]> {
+        let url_ = this.baseUrl + "/api/Identity/tickets";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetOwnTicketsForUser(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetOwnTicketsForUser(<any>response_);
+                } catch (e) {
+                    return <Observable<UserTicketDto[]>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<UserTicketDto[]>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetOwnTicketsForUser(response: HttpResponseBase): Observable<UserTicketDto[]> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 400) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result400: any = null;
+            let resultData400 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result400 = ErrorDetails.fromJS(resultData400);
+            return throwException("A server side error occurred.", status, _responseText, _headers, result400);
+            }));
+        } else if (status === 401) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result401: any = null;
+            let resultData401 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result401 = ErrorDetails.fromJS(resultData401);
+            return throwException("A server side error occurred.", status, _responseText, _headers, result401);
+            }));
+        } else if (status === 403) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result403: any = null;
+            let resultData403 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result403 = ErrorDetails.fromJS(resultData403);
+            return throwException("A server side error occurred.", status, _responseText, _headers, result403);
+            }));
+        } else if (status === 404) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result404: any = null;
+            let resultData404 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result404 = ErrorDetails.fromJS(resultData404);
+            return throwException("A server side error occurred.", status, _responseText, _headers, result404);
+            }));
+        } else {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let resultdefault: any = null;
+            let resultDatadefault = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            if (Array.isArray(resultDatadefault)) {
+                resultdefault = [] as any;
+                for (let item of resultDatadefault)
+                    resultdefault!.push(UserTicketDto.fromJS(item));
+            }
+            return _observableOf(resultdefault);
+            }));
+        }
+    }
 }
 
 export class UserCompanyDto implements IUserCompanyDto {
@@ -586,6 +600,50 @@ export class UserCompanyDto implements IUserCompanyDto {
 }
 
 export interface IUserCompanyDto {
+    id?: number;
+    name?: string | undefined;
+    address?: string | undefined;
+}
+
+export class UserSiteDto implements IUserSiteDto {
+    id?: number;
+    name?: string | undefined;
+    address?: string | undefined;
+
+    constructor(data?: IUserSiteDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.id = _data["id"];
+            this.name = _data["name"];
+            this.address = _data["address"];
+        }
+    }
+
+    static fromJS(data: any): UserSiteDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new UserSiteDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
+        data["name"] = this.name;
+        data["address"] = this.address;
+        return data; 
+    }
+}
+
+export interface IUserSiteDto {
     id?: number;
     name?: string | undefined;
     address?: string | undefined;
@@ -633,50 +691,6 @@ export interface IUserQueueDto {
     id?: number;
     queueType?: string | undefined;
     numOfActiveTickets?: number;
-}
-
-export class UserSiteDto implements IUserSiteDto {
-    id?: number;
-    name?: string | undefined;
-    address?: string | undefined;
-
-    constructor(data?: IUserSiteDto) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-        }
-    }
-
-    init(_data?: any) {
-        if (_data) {
-            this.id = _data["id"];
-            this.name = _data["name"];
-            this.address = _data["address"];
-        }
-    }
-
-    static fromJS(data: any): UserSiteDto {
-        data = typeof data === 'object' ? data : {};
-        let result = new UserSiteDto();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["id"] = this.id;
-        data["name"] = this.name;
-        data["address"] = this.address;
-        return data; 
-    }
-}
-
-export interface IUserSiteDto {
-    id?: number;
-    name?: string | undefined;
-    address?: string | undefined;
 }
 
 export class UserTicketDto implements IUserTicketDto {

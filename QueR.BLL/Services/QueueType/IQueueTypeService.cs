@@ -11,6 +11,6 @@ namespace QueR.BLL.Services.QueueType
         Task<QueueTypeDto> CreateQueueType(QueueTypeModel model);
         Task DeactivateQueueType(int queueId);
         Task UpdateQueueType(int queueId, QueueTypeModel model);
-        Task<IEnumerable<QueueTypeDto>> GetQueueTypes();
+        Task<IEnumerable<QueueTypeDto>> GetQueueTypesOfOwnCompany();
     }
 }

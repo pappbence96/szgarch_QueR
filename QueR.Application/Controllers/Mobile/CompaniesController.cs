@@ -3,6 +3,8 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using QueR.BLL.Services.Company;
 using QueR.BLL.Services.Company.DTOs;
+using QueR.BLL.Services.Site;
+using QueR.BLL.Services.Site.DTOs;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,10 +19,12 @@ namespace QueR.Application.Controllers.Mobile
     public class CompaniesController : ControllerBase
     {
         private readonly ICompanyService companyService;
+        private readonly ISiteService siteService;
 
-        public CompaniesController(ICompanyService companyService)
+        public CompaniesController(ICompanyService companyService, ISiteService siteService)
         {
             this.companyService = companyService;
+            this.siteService = siteService;
         }
 
         [HttpGet]
@@ -28,6 +32,13 @@ namespace QueR.Application.Controllers.Mobile
         public async Task<ActionResult<IEnumerable<UserCompanyDto>>> GetCompaniesForUser()
         {
             return Ok(await companyService.GetCompaniesForUser());
+        }
+
+        [HttpGet("{companyId}/sites")]
+        [ProducesDefaultResponseType(typeof(IEnumerable<UserSiteDto>))]
+        public async Task<ActionResult<IEnumerable<UserSiteDto>>> GetSitesOfCompanyForUser(int companyId)
+        {
+            return Ok(await siteService.GetSitesOfCompanyForUser(companyId));
         }
     }
 }

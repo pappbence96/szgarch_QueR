@@ -213,6 +213,69 @@
         }
       }
     },
+    "/api/Identity/tickets": {
+      "get": {
+        "tags": [
+          "Identity"
+        ],
+        "operationId": "Identity_GetOwnTicketsForUser",
+        "responses": {
+          "400": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorDetails"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorDetails"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorDetails"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorDetails"
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/UserTicketDto"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/backoffice/Companies": {
       "post": {
         "tags": [
@@ -554,6 +617,258 @@
         }
       }
     },
+    "/api/backoffice/Companies/current/employees": {
+      "get": {
+        "tags": [
+          "Companies"
+        ],
+        "operationId": "Companies_GetEmployeesOfOwnCompany",
+        "responses": {
+          "400": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorDetails"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorDetails"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorDetails"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorDetails"
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/EmployeeDto"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/backoffice/Companies/current/managers": {
+      "get": {
+        "tags": [
+          "Companies"
+        ],
+        "operationId": "Companies_GetManagersOfOwnCompany",
+        "responses": {
+          "400": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorDetails"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorDetails"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorDetails"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorDetails"
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ManagerDto"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/backoffice/Companies/current/queuetypes": {
+      "get": {
+        "tags": [
+          "Companies"
+        ],
+        "operationId": "Companies_GetQueueTypes",
+        "responses": {
+          "400": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorDetails"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorDetails"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorDetails"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorDetails"
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/QueueTypeDto"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/backoffice/Companies/current/sites": {
+      "get": {
+        "tags": [
+          "Companies"
+        ],
+        "operationId": "Companies_GetSitesForOwnCompany",
+        "responses": {
+          "400": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorDetails"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorDetails"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorDetails"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorDetails"
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/SiteDto"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/backoffice/Queues": {
       "post": {
         "tags": [
@@ -619,67 +934,6 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/QueueDto"
-                }
-              }
-            }
-          }
-        }
-      },
-      "get": {
-        "tags": [
-          "Queues"
-        ],
-        "operationId": "Queues_GetQueues",
-        "responses": {
-          "400": {
-            "description": "",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorDetails"
-                }
-              }
-            }
-          },
-          "401": {
-            "description": "",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorDetails"
-                }
-              }
-            }
-          },
-          "403": {
-            "description": "",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorDetails"
-                }
-              }
-            }
-          },
-          "404": {
-            "description": "",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorDetails"
-                }
-              }
-            }
-          },
-          "default": {
-            "description": "",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/QueueDto"
-                  }
                 }
               }
             }
@@ -1110,6 +1364,181 @@
         }
       }
     },
+    "/api/backoffice/Queues/current/tickets": {
+      "get": {
+        "tags": [
+          "Queues"
+        ],
+        "operationId": "Queues_GetActiveTicketsForOwnQueue",
+        "responses": {
+          "400": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorDetails"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorDetails"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorDetails"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorDetails"
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/CompanyTicketDto"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/backoffice/Queues/current/tickets/next": {
+      "get": {
+        "tags": [
+          "Queues"
+        ],
+        "operationId": "Queues_CallNextTicket",
+        "responses": {
+          "400": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorDetails"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorDetails"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorDetails"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorDetails"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/backoffice/Queues/current/tickets/{ticketNumber}": {
+      "get": {
+        "tags": [
+          "Queues"
+        ],
+        "operationId": "Queues_CallTicketByNumber",
+        "parameters": [
+          {
+            "name": "ticketNumber",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "x-position": 1
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorDetails"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorDetails"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorDetails"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorDetails"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/backoffice/QueueTypes": {
       "post": {
         "tags": [
@@ -1175,67 +1604,6 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/QueueTypeDto"
-                }
-              }
-            }
-          }
-        }
-      },
-      "get": {
-        "tags": [
-          "QueueTypes"
-        ],
-        "operationId": "QueueTypes_GetQueueTypes",
-        "responses": {
-          "400": {
-            "description": "",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorDetails"
-                }
-              }
-            }
-          },
-          "401": {
-            "description": "",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorDetails"
-                }
-              }
-            }
-          },
-          "403": {
-            "description": "",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorDetails"
-                }
-              }
-            }
-          },
-          "404": {
-            "description": "",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorDetails"
-                }
-              }
-            }
-          },
-          "default": {
-            "description": "",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/QueueTypeDto"
-                  }
                 }
               }
             }
@@ -1454,67 +1822,6 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/SiteDto"
-                }
-              }
-            }
-          }
-        }
-      },
-      "get": {
-        "tags": [
-          "Sites"
-        ],
-        "operationId": "Sites_GetSites",
-        "responses": {
-          "400": {
-            "description": "",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorDetails"
-                }
-              }
-            }
-          },
-          "401": {
-            "description": "",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorDetails"
-                }
-              }
-            }
-          },
-          "403": {
-            "description": "",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorDetails"
-                }
-              }
-            }
-          },
-          "404": {
-            "description": "",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorDetails"
-                }
-              }
-            }
-          },
-          "default": {
-            "description": "",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/SiteDto"
-                  }
                 }
               }
             }
@@ -1938,124 +2245,12 @@
         }
       }
     },
-    "/api/backoffice/Tickets/next": {
+    "/api/backoffice/Sites/current/queues": {
       "get": {
         "tags": [
-          "Tickets"
+          "Sites"
         ],
-        "operationId": "Tickets_CallNextTicket",
-        "responses": {
-          "400": {
-            "description": "",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorDetails"
-                }
-              }
-            }
-          },
-          "401": {
-            "description": "",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorDetails"
-                }
-              }
-            }
-          },
-          "403": {
-            "description": "",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorDetails"
-                }
-              }
-            }
-          },
-          "404": {
-            "description": "",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorDetails"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/api/backoffice/Tickets/{ticketNumber}": {
-      "get": {
-        "tags": [
-          "Tickets"
-        ],
-        "operationId": "Tickets_CallTicketByNumber",
-        "parameters": [
-          {
-            "name": "ticketNumber",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "integer",
-              "format": "int32"
-            },
-            "x-position": 1
-          }
-        ],
-        "responses": {
-          "400": {
-            "description": "",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorDetails"
-                }
-              }
-            }
-          },
-          "401": {
-            "description": "",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorDetails"
-                }
-              }
-            }
-          },
-          "403": {
-            "description": "",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorDetails"
-                }
-              }
-            }
-          },
-          "404": {
-            "description": "",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorDetails"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/api/backoffice/Tickets/employee": {
-      "get": {
-        "tags": [
-          "Tickets"
-        ],
-        "operationId": "Tickets_GetActiveTicketsForOwnQueue",
+        "operationId": "Sites_GetQueuesForOwnWorksite",
         "responses": {
           "400": {
             "description": "",
@@ -2104,7 +2299,7 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/CompanyTicketDto"
+                    "$ref": "#/components/schemas/QueueDto"
                   }
                 }
               }
@@ -2311,132 +2506,6 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/EmployeeDto"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/api/backoffice/Users/current/employees": {
-      "get": {
-        "tags": [
-          "Users"
-        ],
-        "operationId": "Users_GetEmployeesOfOwnCompany",
-        "responses": {
-          "400": {
-            "description": "",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorDetails"
-                }
-              }
-            }
-          },
-          "401": {
-            "description": "",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorDetails"
-                }
-              }
-            }
-          },
-          "403": {
-            "description": "",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorDetails"
-                }
-              }
-            }
-          },
-          "404": {
-            "description": "",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorDetails"
-                }
-              }
-            }
-          },
-          "default": {
-            "description": "",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/EmployeeDto"
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/api/backoffice/Users/current/managers": {
-      "get": {
-        "tags": [
-          "Users"
-        ],
-        "operationId": "Users_GetManagersOfOwnCompany",
-        "responses": {
-          "400": {
-            "description": "",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorDetails"
-                }
-              }
-            }
-          },
-          "401": {
-            "description": "",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorDetails"
-                }
-              }
-            }
-          },
-          "403": {
-            "description": "",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorDetails"
-                }
-              }
-            }
-          },
-          "404": {
-            "description": "",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorDetails"
-                }
-              }
-            }
-          },
-          "default": {
-            "description": "",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/ManagerDto"
-                  }
                 }
               }
             }
@@ -2742,6 +2811,40 @@
           }
         }
       },
+      "UserTicketDto": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "number": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "visibleNumber": {
+            "type": "string",
+            "nullable": true
+          },
+          "queue": {
+            "type": "string",
+            "nullable": true
+          },
+          "worksite": {
+            "type": "string",
+            "nullable": true
+          },
+          "company": {
+            "type": "string",
+            "nullable": true
+          },
+          "numOfTicketsBeforeThis": {
+            "type": "integer",
+            "format": "int32"
+          }
+        }
+      },
       "CompanyDto": {
         "type": "object",
         "additionalProperties": false,
@@ -2788,6 +2891,180 @@
           "address": {
             "type": "string",
             "nullable": true
+          }
+        }
+      },
+      "EmployeeDto": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "userName": {
+            "type": "string",
+            "nullable": true
+          },
+          "firstName": {
+            "type": "string",
+            "nullable": true
+          },
+          "lastName": {
+            "type": "string",
+            "nullable": true
+          },
+          "email": {
+            "type": "string",
+            "nullable": true
+          },
+          "gender": {
+            "$ref": "#/components/schemas/Gender"
+          },
+          "address": {
+            "type": "string",
+            "nullable": true
+          },
+          "company": {
+            "type": "string",
+            "nullable": true
+          },
+          "companyId": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "worksite": {
+            "type": "string",
+            "nullable": true
+          },
+          "worksiteId": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "assignedQueue": {
+            "type": "string",
+            "nullable": true
+          },
+          "assignedQueueId": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          }
+        }
+      },
+      "Gender": {
+        "type": "string",
+        "description": "",
+        "x-enumNames": [
+          "Male",
+          "Female",
+          "Other"
+        ],
+        "enum": [
+          "Male",
+          "Female",
+          "Other"
+        ]
+      },
+      "ManagerDto": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "userName": {
+            "type": "string",
+            "nullable": true
+          },
+          "firstName": {
+            "type": "string",
+            "nullable": true
+          },
+          "lastName": {
+            "type": "string",
+            "nullable": true
+          },
+          "email": {
+            "type": "string",
+            "nullable": true
+          },
+          "gender": {
+            "$ref": "#/components/schemas/Gender"
+          },
+          "address": {
+            "type": "string",
+            "nullable": true
+          },
+          "company": {
+            "type": "string",
+            "nullable": true
+          },
+          "companyId": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "managedWorksite": {
+            "type": "string",
+            "nullable": true
+          },
+          "managedWorksiteId": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          }
+        }
+      },
+      "QueueTypeDto": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "name": {
+            "type": "string",
+            "nullable": true
+          },
+          "numOfQueues": {
+            "type": "integer",
+            "format": "int32"
+          }
+        }
+      },
+      "SiteDto": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "name": {
+            "type": "string",
+            "nullable": true
+          },
+          "address": {
+            "type": "string",
+            "nullable": true
+          },
+          "managerName": {
+            "type": "string",
+            "nullable": true
+          },
+          "managerId": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "numberOfEmployees": {
+            "type": "integer",
+            "format": "int32"
           }
         }
       },
@@ -2867,153 +3144,6 @@
           }
         }
       },
-      "EmployeeDto": {
-        "type": "object",
-        "additionalProperties": false,
-        "properties": {
-          "id": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "userName": {
-            "type": "string",
-            "nullable": true
-          },
-          "firstName": {
-            "type": "string",
-            "nullable": true
-          },
-          "lastName": {
-            "type": "string",
-            "nullable": true
-          },
-          "email": {
-            "type": "string",
-            "nullable": true
-          },
-          "gender": {
-            "$ref": "#/components/schemas/Gender"
-          },
-          "address": {
-            "type": "string",
-            "nullable": true
-          },
-          "company": {
-            "type": "string",
-            "nullable": true
-          },
-          "companyId": {
-            "type": "integer",
-            "format": "int32",
-            "nullable": true
-          },
-          "worksite": {
-            "type": "string",
-            "nullable": true
-          },
-          "worksiteId": {
-            "type": "integer",
-            "format": "int32",
-            "nullable": true
-          },
-          "assignedQueue": {
-            "type": "string",
-            "nullable": true
-          },
-          "assignedQueueId": {
-            "type": "integer",
-            "format": "int32",
-            "nullable": true
-          }
-        }
-      },
-      "Gender": {
-        "type": "string",
-        "description": "",
-        "x-enumNames": [
-          "Male",
-          "Female",
-          "Other"
-        ],
-        "enum": [
-          "Male",
-          "Female",
-          "Other"
-        ]
-      },
-      "QueueTypeDto": {
-        "type": "object",
-        "additionalProperties": false,
-        "properties": {
-          "id": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "name": {
-            "type": "string",
-            "nullable": true
-          },
-          "numOfQueues": {
-            "type": "integer",
-            "format": "int32"
-          }
-        }
-      },
-      "QueueTypeModel": {
-        "type": "object",
-        "additionalProperties": false,
-        "properties": {
-          "name": {
-            "type": "string",
-            "nullable": true
-          }
-        }
-      },
-      "SiteDto": {
-        "type": "object",
-        "additionalProperties": false,
-        "properties": {
-          "id": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "name": {
-            "type": "string",
-            "nullable": true
-          },
-          "address": {
-            "type": "string",
-            "nullable": true
-          },
-          "managerName": {
-            "type": "string",
-            "nullable": true
-          },
-          "managerId": {
-            "type": "integer",
-            "format": "int32",
-            "nullable": true
-          },
-          "numberOfEmployees": {
-            "type": "integer",
-            "format": "int32"
-          }
-        }
-      },
-      "SiteModel": {
-        "type": "object",
-        "additionalProperties": false,
-        "properties": {
-          "name": {
-            "type": "string",
-            "nullable": true
-          },
-          "address": {
-            "type": "string",
-            "nullable": true
-          }
-        }
-      },
       "CompanyTicketDto": {
         "type": "object",
         "additionalProperties": false,
@@ -3041,6 +3171,30 @@
           "created": {
             "type": "string",
             "format": "date-time"
+          }
+        }
+      },
+      "QueueTypeModel": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "name": {
+            "type": "string",
+            "nullable": true
+          }
+        }
+      },
+      "SiteModel": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "name": {
+            "type": "string",
+            "nullable": true
+          },
+          "address": {
+            "type": "string",
+            "nullable": true
           }
         }
       },
@@ -3116,57 +3270,6 @@
           },
           "gender": {
             "$ref": "#/components/schemas/Gender"
-          }
-        }
-      },
-      "ManagerDto": {
-        "type": "object",
-        "additionalProperties": false,
-        "properties": {
-          "id": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "userName": {
-            "type": "string",
-            "nullable": true
-          },
-          "firstName": {
-            "type": "string",
-            "nullable": true
-          },
-          "lastName": {
-            "type": "string",
-            "nullable": true
-          },
-          "email": {
-            "type": "string",
-            "nullable": true
-          },
-          "gender": {
-            "$ref": "#/components/schemas/Gender"
-          },
-          "address": {
-            "type": "string",
-            "nullable": true
-          },
-          "company": {
-            "type": "string",
-            "nullable": true
-          },
-          "companyId": {
-            "type": "integer",
-            "format": "int32",
-            "nullable": true
-          },
-          "managedWorksite": {
-            "type": "string",
-            "nullable": true
-          },
-          "managedWorksiteId": {
-            "type": "integer",
-            "format": "int32",
-            "nullable": true
           }
         }
       },

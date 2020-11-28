@@ -165,7 +165,7 @@ namespace QueR.BLL.Services.Queue
             return mapper.Map<IEnumerable<EmployeeDto>>(queue.AssignedEmployees);
         }
 
-        public async Task<IEnumerable<QueueDto>> GetQueues()
+        public async Task<IEnumerable<QueueDto>> GetQueuesForOwnWorksite()
         {
             var callerWorksiteId = userAccessor.WorksiteId;
 

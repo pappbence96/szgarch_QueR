@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using QueR.BLL.Services.Queue;
+using QueR.BLL.Services.Queue.DTOs;
 using QueR.BLL.Services.Site;
 using QueR.BLL.Services.Site.DTOs;
 using System;
@@ -16,18 +18,18 @@ namespace QueR.Application.Controllers.Mobile
     [ApiController]
     public class SitesController : ControllerBase
     {
-        private readonly ISiteService siteService;
+        private readonly IQueueService queueService;
 
-        public SitesController(ISiteService siteService)
+        public SitesController(IQueueService queueService)
         {
-            this.siteService = siteService;
+            this.queueService = queueService;
         }
 
-        [HttpGet("{companyId}")]
-        [ProducesDefaultResponseType(typeof(IEnumerable<UserSiteDto>))]
-        public async Task<ActionResult<IEnumerable<UserSiteDto>>> GetSitesOfCompanyForUser(int companyId)
+        [HttpGet("{worksiteId}/queues")]
+        [ProducesDefaultResponseType(typeof(IEnumerable<UserQueueDto>))]
+        public async Task<ActionResult<IEnumerable<UserQueueDto>>> GetQueuesOfSiteForUser(int worksiteId)
         {
-            return Ok(await siteService.GetSitesOfCompanyForUser(companyId));
+            return Ok(await queueService.GetQueuesOfSiteForUser(worksiteId));
         }
     }
 }

@@ -52,7 +52,7 @@ namespace QueR.BLL.Services.QueueType
             throw new NotImplementedException();
         }
 
-        public async Task<IEnumerable<QueueTypeDto>> GetQueueTypes()
+        public async Task<IEnumerable<QueueTypeDto>> GetQueueTypesOfOwnCompany()
         {
             var queueTypes = await context.QueueTypes
                 .Where(qt => qt.CompanyId == userAccessor.CompanyId)

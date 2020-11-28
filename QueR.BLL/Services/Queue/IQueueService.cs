@@ -12,7 +12,7 @@ namespace QueR.BLL.Services.Queue
         Task AssignEmployeeToQueue(int queueId, int workerId);
         Task RemoveEmployeeFromQueue(int queueId, int workerId);
         Task<IEnumerable<EmployeeDto>> GetEmployeesOfQueue(int queueId);
-        Task<IEnumerable<QueueDto>> GetQueues();
+        Task<IEnumerable<QueueDto>> GetQueuesForOwnWorksite();
         Task<IEnumerable<UserQueueDto>> GetQueuesOfSiteForUser(int worksiteId);
         Task<QueueDto> GetDetailsOfQueue(int queueId);
         Task<QueueDto> GetDetailsOfAssignedQueue();

@@ -51,22 +51,6 @@ namespace QueR.Application.Controllers.Backoffice
             return Ok(await userService.GetAdministrators());
         }
 
-        [HttpGet("current/employees")]
-        [Authorize(Roles = "administrator")]
-        [ProducesDefaultResponseType(typeof(IEnumerable<EmployeeDto>))]
-        public async Task<ActionResult<IEnumerable<EmployeeDto>>> GetEmployeesOfOwnCompany()
-        {
-            return Ok(await userService.GetEmployeesOfOwnCompany());
-        }
-
-        [HttpGet("current/managers")]
-        [Authorize(Roles = "administrator")]
-        [ProducesDefaultResponseType(typeof(IEnumerable<ManagerDto>))]
-        public async Task<ActionResult<IEnumerable<ManagerDto>>> GetManagersOfOwnCompany()
-        {
-            return Ok(await userService.GetManagersOfOwnCompany());
-        }
-
         [HttpGet("users")]
         [Authorize(Roles = "operator")]
         [ProducesDefaultResponseType(typeof(IEnumerable<RegisterResponse>))]

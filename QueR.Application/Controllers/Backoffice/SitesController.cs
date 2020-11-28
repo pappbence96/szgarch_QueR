@@ -4,6 +4,8 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using QueR.Application.Middlewares.ExceptionHandling;
+using QueR.BLL.Services.Queue;
+using QueR.BLL.Services.Queue.DTOs;
 using QueR.BLL.Services.Site;
 using QueR.BLL.Services.Site.DTOs;
 using QueR.BLL.Services.User.DTOs;
@@ -20,10 +22,12 @@ namespace QueR.Application.Controllers.Backoffice
     public class SitesController : ControllerBase
     {
         private readonly ISiteService siteService;
+        private readonly IQueueService queueService;
 
-        public SitesController(ISiteService siteService)
+        public SitesController(ISiteService siteService, IQueueService queueService)
         {
             this.siteService = siteService;
+            this.queueService = queueService;
         }
 
         [HttpGet("{siteId}/manager/{managerId}")]
@@ -48,14 +52,6 @@ namespace QueR.Application.Controllers.Backoffice
         {
             await siteService.AssignEmployeeToSite(siteId, employeeId);
             return Ok();
-        }
-
-        [HttpGet]
-        [ProducesDefaultResponseType(typeof(IEnumerable<SiteDto>))]
-        [Authorize(Roles = "administrator")]
-        public async Task<ActionResult<IEnumerable<SiteDto>>> GetSites()
-        {
-            return Ok(await siteService.GetSites());
         }
 
         [HttpGet("{siteId}/employees")]
@@ -96,6 +92,14 @@ namespace QueR.Application.Controllers.Backoffice
         public async Task<ActionResult<IEnumerable<EmployeeDto>>> GetOwnEmployees()
         {
             return Ok(await siteService.GetOwnEmployees());
+        }
+
+        [Authorize(Roles = "manager")]
+        [HttpGet("current/queues")]
+        [ProducesDefaultResponseType(typeof(IEnumerable<QueueDto>))]
+        public async Task<ActionResult<IEnumerable<QueueDto>>> GetQueuesForOwnWorksite()
+        {
+            return Ok(await queueService.GetQueuesForOwnWorksite());
         }
 
     }

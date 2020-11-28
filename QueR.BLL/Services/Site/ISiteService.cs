@@ -13,7 +13,7 @@ namespace QueR.BLL.Services.Site
         Task RemoveManagerFromSite(int siteId);
         Task AssignEmployeeToSite(int siteId, int employeeId);
         Task RemoveEmployeeFromSite(int siteId, int employeeId);
-        Task<IEnumerable<SiteDto>> GetSites();
+        Task<IEnumerable<SiteDto>> GetSitesForOwnCompany();
         Task<IEnumerable<UserSiteDto>> GetSitesOfCompanyForUser(int companyId);
         Task<IEnumerable<EmployeeDto>> GetEmployeesOfSite(int siteId);
         Task<IEnumerable<EmployeeDto>> GetOwnEmployees();

@@ -30,47 +30,12 @@
         }
       }
     },
-    "/api/mobile/Queues/{worksiteId}": {
+    "/api/mobile/Companies/{companyId}/sites": {
       "get": {
         "tags": [
-          "Queues"
+          "Companies"
         ],
-        "operationId": "Queues_GetQueuesOfSiteForUser",
-        "parameters": [
-          {
-            "name": "worksiteId",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "integer",
-              "format": "int32"
-            },
-            "x-position": 1
-          }
-        ],
-        "responses": {
-          "default": {
-            "description": "",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/UserQueueDto"
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/api/mobile/Sites/{companyId}": {
-      "get": {
-        "tags": [
-          "Sites"
-        ],
-        "operationId": "Sites_GetSitesOfCompanyForUser",
+        "operationId": "Companies_GetSitesOfCompanyForUser",
         "parameters": [
           {
             "name": "companyId",
@@ -92,6 +57,41 @@
                   "type": "array",
                   "items": {
                     "$ref": "#/components/schemas/UserSiteDto"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/mobile/Sites/{worksiteId}/queues": {
+      "get": {
+        "tags": [
+          "Sites"
+        ],
+        "operationId": "Sites_GetQueuesOfSiteForUser",
+        "parameters": [
+          {
+            "name": "worksiteId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "x-position": 1
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/UserQueueDto"
                   }
                 }
               }
@@ -125,29 +125,6 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/UserTicketDto"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/api/mobile/Tickets/user": {
-      "get": {
-        "tags": [
-          "Tickets"
-        ],
-        "operationId": "Tickets_GetOwnTicketsForUser",
-        "responses": {
-          "default": {
-            "description": "",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/UserTicketDto"
-                  }
                 }
               }
             }
@@ -360,11 +337,92 @@
           }
         }
       }
+    },
+    "/api/Identity/tickets": {
+      "get": {
+        "tags": [
+          "Identity"
+        ],
+        "operationId": "Identity_GetOwnTicketsForUser",
+        "responses": {
+          "400": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorDetails"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorDetails"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorDetails"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorDetails"
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/UserTicketDto"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
     }
   },
   "components": {
     "schemas": {
       "UserCompanyDto": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "name": {
+            "type": "string",
+            "nullable": true
+          },
+          "address": {
+            "type": "string",
+            "nullable": true
+          }
+        }
+      },
+      "UserSiteDto": {
         "type": "object",
         "additionalProperties": false,
         "properties": {
@@ -397,24 +455,6 @@
           "numOfActiveTickets": {
             "type": "integer",
             "format": "int32"
-          }
-        }
-      },
-      "UserSiteDto": {
-        "type": "object",
-        "additionalProperties": false,
-        "properties": {
-          "id": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "name": {
-            "type": "string",
-            "nullable": true
-          },
-          "address": {
-            "type": "string",
-            "nullable": true
           }
         }
       },
