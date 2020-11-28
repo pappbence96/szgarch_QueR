@@ -23,10 +23,6 @@ export const routes: Routes = [
   {
     path: 'statistics',
     component: StatisticsPageComponent
-  },
-  {
-    path: '**',
-    redirectTo: ''
   }
 ];
 

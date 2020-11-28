@@ -15,6 +15,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Tokens;
 using Newtonsoft.Json.Converters;
 using NSwag;
+using QueR.Application.Hubs;
 using QueR.Application.Middlewares.ExceptionHandling;
 using QueR.Application.Services;
 using QueR.BLL;
@@ -49,7 +50,7 @@ namespace QueR.Application
             {
                 options.AddPolicy("EnableCORS", builder =>
                 {
-                    builder.WithOrigins("http://localhost:4200")
+                    builder.WithOrigins("http://localhost:4200", "http://localhost:4300")
                        .AllowAnyHeader()
                        .AllowAnyMethod()
                        .AllowCredentials();
@@ -193,6 +194,7 @@ namespace QueR.Application
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
+                endpoints.MapHub<QueueHub>("hubs/queue");
             });
         }
     }

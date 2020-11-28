@@ -4,7 +4,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatTableDataSource } from '@angular/material/table';
 import { filter, switchMap } from 'rxjs/operators';
-import { ApplicationUserDto, CompaniesClient, CompanyDto, CreateUserModel, ErrorDetails, Gender, UpdateUserModel, UsersClient } from 'src/app/shared/clients';
+import { ApplicationUserDto, CompaniesClient, CompanyDto, CreateWorkerModel, ErrorDetails, Gender, UpdateUserModel, UpdateWorkerModel, UsersClient } from 'src/app/shared/clients';
 import { ConfirmDialogComponent } from 'src/app/shared/components/confirm-dialog/confirm-dialog.component';
 import { SnackbarService } from 'src/app/shared/utilities/Snackbar.service';
 
@@ -73,7 +73,7 @@ export class AdministratorsPageComponent implements OnInit {
 
     console.log(this.adminForm.value.gender);
     if (this.isNew){
-      const model = new CreateUserModel ({
+      const model = new CreateWorkerModel ({
         userName: this.adminForm.value.userName,
         firstName: this.adminForm.value.firstName,
         lastName: this.adminForm.value.lastName,
@@ -96,7 +96,7 @@ export class AdministratorsPageComponent implements OnInit {
           this.snackbar.showSnackbar(error.message);
         });
     } else {
-      const model = new UpdateUserModel ({
+      const model = new UpdateWorkerModel ({
         firstName: this.adminForm.value.firstName,
         lastName: this.adminForm.value.lastName,
         email: this.adminForm.value.email,

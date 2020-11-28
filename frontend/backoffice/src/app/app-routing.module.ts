@@ -12,6 +12,12 @@ const routes: Routes = [
     data: {role: 'operator', title: 'Operator'}
   },
   {
+    path: 'employee',
+    loadChildren: () => import('./features/employee/employee.module').then(m => m.EmployeeModule),
+    canActivate: [AuthGuard],
+    data: {role: 'employee', title: 'Employee'}
+  },
+  {
     path: 'administrator',
     loadChildren: () => import('./features/administrator/administrator.module').then(m => m.AdministratorModule),
     canActivate: [AuthGuard],

@@ -1,5 +1,5 @@
 <div>
-  <button mat-button (click)="goBack()">
+  <button mat-button (click)="goBack()" *ngIf="title !== null">
     <mat-icon color="primary">home</mat-icon> Back to menu
   </button>
   <h1 class="mat-display-1 page-header">
