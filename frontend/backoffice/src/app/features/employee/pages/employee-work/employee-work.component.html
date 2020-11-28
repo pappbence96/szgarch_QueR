@@ -1,0 +1,26 @@
+<app-site-title [title]="title()"></app-site-title>
+
+<div class="page-content d-flex flex-row justify-content-center">
+    <div class="work-column">
+        <mat-card class="mat-elevation-z8 work-card">
+        <mat-card-header>
+            <mat-card-title>Tickets in queue: {{tickets === undefined ? 0 : tickets.length}} total</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+            <div class="next-ticket-container d-flex justify-content-center align-items-center" *ngIf="tickets !== undefined && tickets.length > 0">
+                <span class="next-ticket">Next ticket: <span class="next-ticket-number">{{nextTicketNumber()}}</span></span>
+                <button mat-mini-fab color="primary" aria-label="Call next ticket"  (click)="callNext()">
+                    <mat-icon>add</mat-icon>
+                  </button>
+            </div>
+            
+            <div *ngFor="let t of ticketsButFirst()" class="ticket-container d-flex justify-content-center align-items-center">
+                <span class="additional-ticket">{{t.formattedNumber}}</span>    
+                <button mat-mini-fab color="primary" aria-label="Call ticket" (click)="call(t)">
+                    <mat-icon>add</mat-icon>
+                  </button>
+            </div>
+        </mat-card-content>
+        </mat-card>
+    </div>
+</div>

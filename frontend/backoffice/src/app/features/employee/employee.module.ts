@@ -1,11 +1,9 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ManagerMenuPageComponent } from './pages/manager-menu-page/manager-menu-page.component';
-import { ManagerRoutingModule } from './manager-routing.module';
-import {MatGridListModule} from '@angular/material/grid-list';
-import {MatCardModule} from '@angular/material/card';
+import { EmployeeWorkComponent } from './pages/employee-work/employee-work.component';
+import { MatGridListModule } from '@angular/material/grid-list';
+import { MatCardModule } from '@angular/material/card';
 import { SharedModule } from 'src/app/shared/shared.module';
-import { QueuesPageComponent } from './pages/queues-page/queues-page.component';
 import { MatButtonModule } from '@angular/material/button';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
@@ -15,11 +13,12 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatIconModule } from '@angular/material/icon';
 import { MatDialogModule } from '@angular/material/dialog';
+import { EmployeeRoutingModule } from './employee-routing.module';
 
 @NgModule({
   imports: [
     CommonModule,
-    ManagerRoutingModule,
+    EmployeeRoutingModule,
     MatGridListModule,
     MatCardModule,
     SharedModule,
@@ -35,8 +34,7 @@ import { MatDialogModule } from '@angular/material/dialog';
     MatDialogModule,
   ],
   declarations: [
-    ManagerMenuPageComponent,
-    QueuesPageComponent
+    EmployeeWorkComponent
   ]
 })
-export class ManagerModule { }
+export class EmployeeModule { }

@@ -22,10 +22,6 @@ export const routes: Routes = [
   {
     path: 'queuetypes',
     component: QueueTypesPageComponent
-  },
-  {
-    path: '**',
-    redirectTo: ''
   }
 ];
 

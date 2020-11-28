@@ -3,7 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { MatTableDataSource } from '@angular/material/table';
 import { filter, switchMap } from 'rxjs/operators';
-import { ApplicationUserDto, CreateUserModel, ErrorDetails, SiteDto, SitesClient, UpdateUserModel, UsersClient } from 'src/app/shared/clients';
+import { ApplicationUserDto, CreateWorkerModel, ErrorDetails, SiteDto, SitesClient, UpdateUserModel, UpdateWorkerModel, UsersClient } from 'src/app/shared/clients';
 import { ConfirmDialogComponent } from 'src/app/shared/components/confirm-dialog/confirm-dialog.component';
 import { SnackbarService } from 'src/app/shared/utilities/Snackbar.service';
 
@@ -71,7 +71,7 @@ export class EmployeesPageComponent implements OnInit {
     }
 
     if (this.isNew){
-      const model = new CreateUserModel ({
+      const model = new CreateWorkerModel ({
         userName: this.employeeForm.value.userName,
         firstName: this.employeeForm.value.firstName,
         lastName: this.employeeForm.value.lastName,
@@ -94,7 +94,7 @@ export class EmployeesPageComponent implements OnInit {
           this.snackbar.showSnackbar(error.message);
         });
     } else {
-      const model = new UpdateUserModel ({
+      const model = new UpdateWorkerModel ({
         firstName: this.employeeForm.value.firstName,
         lastName: this.employeeForm.value.lastName,
         email: this.employeeForm.value.email,

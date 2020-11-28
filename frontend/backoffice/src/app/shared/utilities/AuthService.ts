@@ -33,6 +33,13 @@ export class AuthService {
         this.currentLoginSubject.next(null);
     }
 
+    public get token(): string {
+        if (!this.isLoggedIn) {
+            return null;
+        }
+        return this.currentLoginValue.token;
+    }
+
     public get isLoggedIn(): boolean {
         return this.currentLoginSubject.value != null;
     }
@@ -91,7 +98,17 @@ export class AuthService {
         return decodedJwtData.worksite;
     }
 
-    public get administradeCompanyId(): number {
+    public get assignedQueueId(): number {
+        if (!this.isLoggedIn) {
+            return null;
+        }
+        const jwtData = this.currentLoginValue.token.split('.')[1];
+        const decodedJwtJsonData = window.atob(jwtData);
+        const decodedJwtData = JSON.parse(decodedJwtJsonData);
+        return decodedJwtData.assigned_queue;
+    }
+
+    public get administratedCompanyId(): number {
         if (!this.isLoggedIn) {
             return null;
         }
