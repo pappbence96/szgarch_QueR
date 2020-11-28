@@ -26,10 +26,6 @@
     <ProjectReference Include="..\QueR.DAL\QueR.DAL.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Controllers\Mobile\" />
-  </ItemGroup>
-
   <Target Name="NSwag" AfterTargets="Build">
     <Exec Command="$(NSwagExe_Core31) run nswag-backoffice.json" />
     <Exec Command="$(NSwagExe_Core31) run nswag-mobile.json" />

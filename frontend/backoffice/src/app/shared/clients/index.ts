@@ -264,7 +264,7 @@ export class CompaniesClient {
     }
 
     createCompany(model: CompanyModel): Observable<CompanyDto> {
-        let url_ = this.baseUrl + "/api/Companies";
+        let url_ = this.baseUrl + "/api/backoffice/Companies";
         url_ = url_.replace(/[?&]$/, "");
 
         const content_ = JSON.stringify(model);
@@ -339,7 +339,7 @@ export class CompaniesClient {
     }
 
     getCompanies(): Observable<CompanyDto[]> {
-        let url_ = this.baseUrl + "/api/Companies";
+        let url_ = this.baseUrl + "/api/backoffice/Companies";
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ : any = {
@@ -414,7 +414,7 @@ export class CompaniesClient {
     }
 
     assignAdminToCompany(companyId: number, adminId: number): Observable<void> {
-        let url_ = this.baseUrl + "/api/Companies/{companyId}/admin/{adminId}";
+        let url_ = this.baseUrl + "/api/backoffice/Companies/{companyId}/admin/{adminId}";
         if (companyId === undefined || companyId === null)
             throw new Error("The parameter 'companyId' must be defined.");
         url_ = url_.replace("{companyId}", encodeURIComponent("" + companyId));
@@ -488,7 +488,7 @@ export class CompaniesClient {
     }
 
     removeAdminOfCompany(companyId: number): Observable<void> {
-        let url_ = this.baseUrl + "/api/Companies/{companyId}/admin";
+        let url_ = this.baseUrl + "/api/backoffice/Companies/{companyId}/admin";
         if (companyId === undefined || companyId === null)
             throw new Error("The parameter 'companyId' must be defined.");
         url_ = url_.replace("{companyId}", encodeURIComponent("" + companyId));
@@ -559,7 +559,7 @@ export class CompaniesClient {
     }
 
     updateCompany(companyId: number, model: CompanyModel): Observable<void> {
-        let url_ = this.baseUrl + "/api/Companies/{companyId}";
+        let url_ = this.baseUrl + "/api/backoffice/Companies/{companyId}";
         if (companyId === undefined || companyId === null)
             throw new Error("The parameter 'companyId' must be defined.");
         url_ = url_.replace("{companyId}", encodeURIComponent("" + companyId));
@@ -648,7 +648,7 @@ export class QueuesClient {
     }
 
     createQueue(model: QueueModel): Observable<QueueDto> {
-        let url_ = this.baseUrl + "/api/Queues";
+        let url_ = this.baseUrl + "/api/backoffice/Queues";
         url_ = url_.replace(/[?&]$/, "");
 
         const content_ = JSON.stringify(model);
@@ -723,7 +723,7 @@ export class QueuesClient {
     }
 
     getQueues(): Observable<QueueDto[]> {
-        let url_ = this.baseUrl + "/api/Queues";
+        let url_ = this.baseUrl + "/api/backoffice/Queues";
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ : any = {
@@ -798,7 +798,7 @@ export class QueuesClient {
     }
 
     updateQueue(queueId: number, model: QueueModel): Observable<void> {
-        let url_ = this.baseUrl + "/api/Queues/{queueId}";
+        let url_ = this.baseUrl + "/api/backoffice/Queues/{queueId}";
         if (queueId === undefined || queueId === null)
             throw new Error("The parameter 'queueId' must be defined.");
         url_ = url_.replace("{queueId}", encodeURIComponent("" + queueId));
@@ -873,7 +873,7 @@ export class QueuesClient {
     }
 
     getDetailsOfQueue(queueId: number): Observable<QueueDto> {
-        let url_ = this.baseUrl + "/api/Queues/{queueId}";
+        let url_ = this.baseUrl + "/api/backoffice/Queues/{queueId}";
         if (queueId === undefined || queueId === null)
             throw new Error("The parameter 'queueId' must be defined.");
         url_ = url_.replace("{queueId}", encodeURIComponent("" + queueId));
@@ -946,14 +946,14 @@ export class QueuesClient {
         }
     }
 
-    assignEmployeeToQueue(queueId: number, workerId: number): Observable<void> {
-        let url_ = this.baseUrl + "/api/Queues/{queueId}/workers/{workerId}";
+    assignEmployeeToQueue(queueId: number, employeeId: number): Observable<void> {
+        let url_ = this.baseUrl + "/api/backoffice/Queues/{queueId}/employees/{employeeId}";
         if (queueId === undefined || queueId === null)
             throw new Error("The parameter 'queueId' must be defined.");
         url_ = url_.replace("{queueId}", encodeURIComponent("" + queueId));
-        if (workerId === undefined || workerId === null)
-            throw new Error("The parameter 'workerId' must be defined.");
-        url_ = url_.replace("{workerId}", encodeURIComponent("" + workerId));
+        if (employeeId === undefined || employeeId === null)
+            throw new Error("The parameter 'employeeId' must be defined.");
+        url_ = url_.replace("{employeeId}", encodeURIComponent("" + employeeId));
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ : any = {
@@ -1020,14 +1020,14 @@ export class QueuesClient {
         return _observableOf<void>(<any>null);
     }
 
-    removeEmployeeFromQueue(queueId: number, workerId: number): Observable<void> {
-        let url_ = this.baseUrl + "/api/Queues/{queueId}/workers/{workerId}";
+    removeEmployeeFromQueue(queueId: number, employeesId: number): Observable<void> {
+        let url_ = this.baseUrl + "/api/backoffice/Queues/{queueId}/employees/{employeesId}";
         if (queueId === undefined || queueId === null)
             throw new Error("The parameter 'queueId' must be defined.");
         url_ = url_.replace("{queueId}", encodeURIComponent("" + queueId));
-        if (workerId === undefined || workerId === null)
-            throw new Error("The parameter 'workerId' must be defined.");
-        url_ = url_.replace("{workerId}", encodeURIComponent("" + workerId));
+        if (employeesId === undefined || employeesId === null)
+            throw new Error("The parameter 'employeesId' must be defined.");
+        url_ = url_.replace("{employeesId}", encodeURIComponent("" + employeesId));
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ : any = {
@@ -1095,7 +1095,7 @@ export class QueuesClient {
     }
 
     getEmployeesOfQueue(queueId: number): Observable<ApplicationUserDto[]> {
-        let url_ = this.baseUrl + "/api/Queues/{queueId}/employees";
+        let url_ = this.baseUrl + "/api/backoffice/Queues/{queueId}/employees";
         if (queueId === undefined || queueId === null)
             throw new Error("The parameter 'queueId' must be defined.");
         url_ = url_.replace("{queueId}", encodeURIComponent("" + queueId));
@@ -1173,7 +1173,7 @@ export class QueuesClient {
     }
 
     getDetailsOfAssignedQueue(): Observable<QueueDto> {
-        let url_ = this.baseUrl + "/api/Queues/own";
+        let url_ = this.baseUrl + "/api/backoffice/Queues/own";
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ : any = {
@@ -1258,7 +1258,7 @@ export class QueueTypesClient {
     }
 
     createQueueType(model: QueueTypeModel): Observable<QueueTypeDto> {
-        let url_ = this.baseUrl + "/api/QueueTypes";
+        let url_ = this.baseUrl + "/api/backoffice/QueueTypes";
         url_ = url_.replace(/[?&]$/, "");
 
         const content_ = JSON.stringify(model);
@@ -1333,7 +1333,7 @@ export class QueueTypesClient {
     }
 
     getQueueTypes(): Observable<QueueTypeDto[]> {
-        let url_ = this.baseUrl + "/api/QueueTypes";
+        let url_ = this.baseUrl + "/api/backoffice/QueueTypes";
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ : any = {
@@ -1408,7 +1408,7 @@ export class QueueTypesClient {
     }
 
     updateQueueType(queueTypeId: number, model: QueueTypeModel): Observable<void> {
-        let url_ = this.baseUrl + "/api/QueueTypes/{queueTypeId}";
+        let url_ = this.baseUrl + "/api/backoffice/QueueTypes/{queueTypeId}";
         if (queueTypeId === undefined || queueTypeId === null)
             throw new Error("The parameter 'queueTypeId' must be defined.");
         url_ = url_.replace("{queueTypeId}", encodeURIComponent("" + queueTypeId));
@@ -1497,7 +1497,7 @@ export class SitesClient {
     }
 
     assignManagerToSite(siteId: number, managerId: number): Observable<void> {
-        let url_ = this.baseUrl + "/api/Sites/{siteId}/manager/{managerId}";
+        let url_ = this.baseUrl + "/api/backoffice/Sites/{siteId}/manager/{managerId}";
         if (siteId === undefined || siteId === null)
             throw new Error("The parameter 'siteId' must be defined.");
         url_ = url_.replace("{siteId}", encodeURIComponent("" + siteId));
@@ -1571,7 +1571,7 @@ export class SitesClient {
     }
 
     createSite(model: SiteModel): Observable<SiteDto> {
-        let url_ = this.baseUrl + "/api/Sites";
+        let url_ = this.baseUrl + "/api/backoffice/Sites";
         url_ = url_.replace(/[?&]$/, "");
 
         const content_ = JSON.stringify(model);
@@ -1646,7 +1646,7 @@ export class SitesClient {
     }
 
     getSites(): Observable<SiteDto[]> {
-        let url_ = this.baseUrl + "/api/Sites";
+        let url_ = this.baseUrl + "/api/backoffice/Sites";
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ : any = {
@@ -1721,7 +1721,7 @@ export class SitesClient {
     }
 
     assignWorkerToSite(siteId: number, employeeId: number): Observable<void> {
-        let url_ = this.baseUrl + "/api/Sites/{siteId}/workers/{employeeId}";
+        let url_ = this.baseUrl + "/api/backoffice/Sites/{siteId}/employees/{employeeId}";
         if (siteId === undefined || siteId === null)
             throw new Error("The parameter 'siteId' must be defined.");
         url_ = url_.replace("{siteId}", encodeURIComponent("" + siteId));
@@ -1795,7 +1795,7 @@ export class SitesClient {
     }
 
     removeEmployeeOfSite(siteId: number, employeeId: number): Observable<void> {
-        let url_ = this.baseUrl + "/api/Sites/{siteId}/workers/{employeeId}";
+        let url_ = this.baseUrl + "/api/backoffice/Sites/{siteId}/employees/{employeeId}";
         if (siteId === undefined || siteId === null)
             throw new Error("The parameter 'siteId' must be defined.");
         url_ = url_.replace("{siteId}", encodeURIComponent("" + siteId));
@@ -1869,7 +1869,7 @@ export class SitesClient {
     }
 
     getEmployeesOfSite(siteId: number): Observable<ApplicationUserDto[]> {
-        let url_ = this.baseUrl + "/api/Sites/{siteId}";
+        let url_ = this.baseUrl + "/api/backoffice/Sites/{siteId}/employees";
         if (siteId === undefined || siteId === null)
             throw new Error("The parameter 'siteId' must be defined.");
         url_ = url_.replace("{siteId}", encodeURIComponent("" + siteId));
@@ -1946,8 +1946,79 @@ export class SitesClient {
         }
     }
 
+    removeManagerFromSite(siteId: number): Observable<void> {
+        let url_ = this.baseUrl + "/api/backoffice/Sites/{siteId}/manager";
+        if (siteId === undefined || siteId === null)
+            throw new Error("The parameter 'siteId' must be defined.");
+        url_ = url_.replace("{siteId}", encodeURIComponent("" + siteId));
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+            })
+        };
+
+        return this.http.request("delete", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processRemoveManagerFromSite(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processRemoveManagerFromSite(<any>response_);
+                } catch (e) {
+                    return <Observable<void>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<void>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processRemoveManagerFromSite(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 400) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result400: any = null;
+            let resultData400 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result400 = ErrorDetails.fromJS(resultData400);
+            return throwException("A server side error occurred.", status, _responseText, _headers, result400);
+            }));
+        } else if (status === 401) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result401: any = null;
+            let resultData401 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result401 = ErrorDetails.fromJS(resultData401);
+            return throwException("A server side error occurred.", status, _responseText, _headers, result401);
+            }));
+        } else if (status === 403) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result403: any = null;
+            let resultData403 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result403 = ErrorDetails.fromJS(resultData403);
+            return throwException("A server side error occurred.", status, _responseText, _headers, result403);
+            }));
+        } else if (status === 404) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result404: any = null;
+            let resultData404 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result404 = ErrorDetails.fromJS(resultData404);
+            return throwException("A server side error occurred.", status, _responseText, _headers, result404);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<void>(<any>null);
+    }
+
     updateSite(siteId: number, model: SiteModel): Observable<void> {
-        let url_ = this.baseUrl + "/api/Sites/{siteId}";
+        let url_ = this.baseUrl + "/api/backoffice/Sites/{siteId}";
         if (siteId === undefined || siteId === null)
             throw new Error("The parameter 'siteId' must be defined.");
         url_ = url_.replace("{siteId}", encodeURIComponent("" + siteId));
@@ -2021,79 +2092,8 @@ export class SitesClient {
         return _observableOf<void>(<any>null);
     }
 
-    removeManagerFromSite(siteId: number): Observable<void> {
-        let url_ = this.baseUrl + "/api/Sites/{siteId}/manager";
-        if (siteId === undefined || siteId === null)
-            throw new Error("The parameter 'siteId' must be defined.");
-        url_ = url_.replace("{siteId}", encodeURIComponent("" + siteId));
-        url_ = url_.replace(/[?&]$/, "");
-
-        let options_ : any = {
-            observe: "response",
-            responseType: "blob",
-            headers: new HttpHeaders({
-            })
-        };
-
-        return this.http.request("delete", url_, options_).pipe(_observableMergeMap((response_ : any) => {
-            return this.processRemoveManagerFromSite(response_);
-        })).pipe(_observableCatch((response_: any) => {
-            if (response_ instanceof HttpResponseBase) {
-                try {
-                    return this.processRemoveManagerFromSite(<any>response_);
-                } catch (e) {
-                    return <Observable<void>><any>_observableThrow(e);
-                }
-            } else
-                return <Observable<void>><any>_observableThrow(response_);
-        }));
-    }
-
-    protected processRemoveManagerFromSite(response: HttpResponseBase): Observable<void> {
-        const status = response.status;
-        const responseBlob =
-            response instanceof HttpResponse ? response.body :
-            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
-
-        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
-        if (status === 400) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            let result400: any = null;
-            let resultData400 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result400 = ErrorDetails.fromJS(resultData400);
-            return throwException("A server side error occurred.", status, _responseText, _headers, result400);
-            }));
-        } else if (status === 401) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            let result401: any = null;
-            let resultData401 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result401 = ErrorDetails.fromJS(resultData401);
-            return throwException("A server side error occurred.", status, _responseText, _headers, result401);
-            }));
-        } else if (status === 403) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            let result403: any = null;
-            let resultData403 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result403 = ErrorDetails.fromJS(resultData403);
-            return throwException("A server side error occurred.", status, _responseText, _headers, result403);
-            }));
-        } else if (status === 404) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            let result404: any = null;
-            let resultData404 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result404 = ErrorDetails.fromJS(resultData404);
-            return throwException("A server side error occurred.", status, _responseText, _headers, result404);
-            }));
-        } else if (status !== 200 && status !== 204) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
-            }));
-        }
-        return _observableOf<void>(<any>null);
-    }
-
     getOwnEmployees(): Observable<ApplicationUserDto[]> {
-        let url_ = this.baseUrl + "/api/Sites/current/workers";
+        let url_ = this.baseUrl + "/api/backoffice/Sites/current/employees";
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ : any = {
@@ -2182,7 +2182,7 @@ export class TicketsClient {
     }
 
     callNextTicket(): Observable<void> {
-        let url_ = this.baseUrl + "/api/Tickets/next";
+        let url_ = this.baseUrl + "/api/backoffice/Tickets/next";
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ : any = {
@@ -2250,7 +2250,7 @@ export class TicketsClient {
     }
 
     callTicketByNumber(ticketNumber: number): Observable<void> {
-        let url_ = this.baseUrl + "/api/Tickets/{ticketNumber}";
+        let url_ = this.baseUrl + "/api/backoffice/Tickets/{ticketNumber}";
         if (ticketNumber === undefined || ticketNumber === null)
             throw new Error("The parameter 'ticketNumber' must be defined.");
         url_ = url_.replace("{ticketNumber}", encodeURIComponent("" + ticketNumber));
@@ -2320,158 +2320,8 @@ export class TicketsClient {
         return _observableOf<void>(<any>null);
     }
 
-    createTicket(model: TicketModel): Observable<UserTicketDto> {
-        let url_ = this.baseUrl + "/api/Tickets";
-        url_ = url_.replace(/[?&]$/, "");
-
-        const content_ = JSON.stringify(model);
-
-        let options_ : any = {
-            body: content_,
-            observe: "response",
-            responseType: "blob",
-            headers: new HttpHeaders({
-                "Content-Type": "application/json",
-                "Accept": "application/json"
-            })
-        };
-
-        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
-            return this.processCreateTicket(response_);
-        })).pipe(_observableCatch((response_: any) => {
-            if (response_ instanceof HttpResponseBase) {
-                try {
-                    return this.processCreateTicket(<any>response_);
-                } catch (e) {
-                    return <Observable<UserTicketDto>><any>_observableThrow(e);
-                }
-            } else
-                return <Observable<UserTicketDto>><any>_observableThrow(response_);
-        }));
-    }
-
-    protected processCreateTicket(response: HttpResponseBase): Observable<UserTicketDto> {
-        const status = response.status;
-        const responseBlob =
-            response instanceof HttpResponse ? response.body :
-            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
-
-        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
-        if (status === 400) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            let result400: any = null;
-            let resultData400 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result400 = ErrorDetails.fromJS(resultData400);
-            return throwException("A server side error occurred.", status, _responseText, _headers, result400);
-            }));
-        } else if (status === 401) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            let result401: any = null;
-            let resultData401 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result401 = ErrorDetails.fromJS(resultData401);
-            return throwException("A server side error occurred.", status, _responseText, _headers, result401);
-            }));
-        } else if (status === 403) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            let result403: any = null;
-            let resultData403 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result403 = ErrorDetails.fromJS(resultData403);
-            return throwException("A server side error occurred.", status, _responseText, _headers, result403);
-            }));
-        } else if (status === 404) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            let result404: any = null;
-            let resultData404 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result404 = ErrorDetails.fromJS(resultData404);
-            return throwException("A server side error occurred.", status, _responseText, _headers, result404);
-            }));
-        } else {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            let resultdefault: any = null;
-            let resultDatadefault = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            resultdefault = UserTicketDto.fromJS(resultDatadefault);
-            return _observableOf(resultdefault);
-            }));
-        }
-    }
-
-    getOwnTicketsForUser(): Observable<UserTicketDto[]> {
-        let url_ = this.baseUrl + "/api/Tickets/user";
-        url_ = url_.replace(/[?&]$/, "");
-
-        let options_ : any = {
-            observe: "response",
-            responseType: "blob",
-            headers: new HttpHeaders({
-                "Accept": "application/json"
-            })
-        };
-
-        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
-            return this.processGetOwnTicketsForUser(response_);
-        })).pipe(_observableCatch((response_: any) => {
-            if (response_ instanceof HttpResponseBase) {
-                try {
-                    return this.processGetOwnTicketsForUser(<any>response_);
-                } catch (e) {
-                    return <Observable<UserTicketDto[]>><any>_observableThrow(e);
-                }
-            } else
-                return <Observable<UserTicketDto[]>><any>_observableThrow(response_);
-        }));
-    }
-
-    protected processGetOwnTicketsForUser(response: HttpResponseBase): Observable<UserTicketDto[]> {
-        const status = response.status;
-        const responseBlob =
-            response instanceof HttpResponse ? response.body :
-            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
-
-        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
-        if (status === 400) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            let result400: any = null;
-            let resultData400 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result400 = ErrorDetails.fromJS(resultData400);
-            return throwException("A server side error occurred.", status, _responseText, _headers, result400);
-            }));
-        } else if (status === 401) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            let result401: any = null;
-            let resultData401 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result401 = ErrorDetails.fromJS(resultData401);
-            return throwException("A server side error occurred.", status, _responseText, _headers, result401);
-            }));
-        } else if (status === 403) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            let result403: any = null;
-            let resultData403 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result403 = ErrorDetails.fromJS(resultData403);
-            return throwException("A server side error occurred.", status, _responseText, _headers, result403);
-            }));
-        } else if (status === 404) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            let result404: any = null;
-            let resultData404 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result404 = ErrorDetails.fromJS(resultData404);
-            return throwException("A server side error occurred.", status, _responseText, _headers, result404);
-            }));
-        } else {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            let resultdefault: any = null;
-            let resultDatadefault = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            if (Array.isArray(resultDatadefault)) {
-                resultdefault = [] as any;
-                for (let item of resultDatadefault)
-                    resultdefault!.push(UserTicketDto.fromJS(item));
-            }
-            return _observableOf(resultdefault);
-            }));
-        }
-    }
-
     getActiveTicketsForOwnQueue(): Observable<CompanyTicketDto[]> {
-        let url_ = this.baseUrl + "/api/Tickets/employee";
+        let url_ = this.baseUrl + "/api/backoffice/Tickets/employee";
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ : any = {
@@ -2560,7 +2410,7 @@ export class UsersClient {
     }
 
     createAdmin(model: CreateWorkerModel): Observable<ApplicationUserDto> {
-        let url_ = this.baseUrl + "/api/Users/admins";
+        let url_ = this.baseUrl + "/api/backoffice/Users/admins";
         url_ = url_.replace(/[?&]$/, "");
 
         const content_ = JSON.stringify(model);
@@ -2635,7 +2485,7 @@ export class UsersClient {
     }
 
     getAdmins(): Observable<ApplicationUserDto[]> {
-        let url_ = this.baseUrl + "/api/Users/admins";
+        let url_ = this.baseUrl + "/api/backoffice/Users/admins";
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ : any = {
@@ -2710,7 +2560,7 @@ export class UsersClient {
     }
 
     createEmployee(model: CreateWorkerModel): Observable<ApplicationUserDto> {
-        let url_ = this.baseUrl + "/api/Users/employees";
+        let url_ = this.baseUrl + "/api/backoffice/Users/employees";
         url_ = url_.replace(/[?&]$/, "");
 
         const content_ = JSON.stringify(model);
@@ -2785,7 +2635,7 @@ export class UsersClient {
     }
 
     getEmployees(): Observable<ApplicationUserDto[]> {
-        let url_ = this.baseUrl + "/api/Users/employees";
+        let url_ = this.baseUrl + "/api/backoffice/Users/employees";
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ : any = {
@@ -2859,83 +2709,8 @@ export class UsersClient {
         }
     }
 
-    createManager(model: CreateWorkerModel): Observable<ApplicationUserDto> {
-        let url_ = this.baseUrl + "/api/Users/managers";
-        url_ = url_.replace(/[?&]$/, "");
-
-        const content_ = JSON.stringify(model);
-
-        let options_ : any = {
-            body: content_,
-            observe: "response",
-            responseType: "blob",
-            headers: new HttpHeaders({
-                "Content-Type": "application/json",
-                "Accept": "application/json"
-            })
-        };
-
-        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
-            return this.processCreateManager(response_);
-        })).pipe(_observableCatch((response_: any) => {
-            if (response_ instanceof HttpResponseBase) {
-                try {
-                    return this.processCreateManager(<any>response_);
-                } catch (e) {
-                    return <Observable<ApplicationUserDto>><any>_observableThrow(e);
-                }
-            } else
-                return <Observable<ApplicationUserDto>><any>_observableThrow(response_);
-        }));
-    }
-
-    protected processCreateManager(response: HttpResponseBase): Observable<ApplicationUserDto> {
-        const status = response.status;
-        const responseBlob =
-            response instanceof HttpResponse ? response.body :
-            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
-
-        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
-        if (status === 400) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            let result400: any = null;
-            let resultData400 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result400 = ErrorDetails.fromJS(resultData400);
-            return throwException("A server side error occurred.", status, _responseText, _headers, result400);
-            }));
-        } else if (status === 401) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            let result401: any = null;
-            let resultData401 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result401 = ErrorDetails.fromJS(resultData401);
-            return throwException("A server side error occurred.", status, _responseText, _headers, result401);
-            }));
-        } else if (status === 403) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            let result403: any = null;
-            let resultData403 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result403 = ErrorDetails.fromJS(resultData403);
-            return throwException("A server side error occurred.", status, _responseText, _headers, result403);
-            }));
-        } else if (status === 404) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            let result404: any = null;
-            let resultData404 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result404 = ErrorDetails.fromJS(resultData404);
-            return throwException("A server side error occurred.", status, _responseText, _headers, result404);
-            }));
-        } else {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            let resultdefault: any = null;
-            let resultDatadefault = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            resultdefault = ApplicationUserDto.fromJS(resultDatadefault);
-            return _observableOf(resultdefault);
-            }));
-        }
-    }
-
     getManagers(): Observable<ApplicationUserDto[]> {
-        let url_ = this.baseUrl + "/api/Users/managers";
+        let url_ = this.baseUrl + "/api/backoffice/Users/managers";
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ : any = {
@@ -3010,7 +2785,7 @@ export class UsersClient {
     }
 
     getSimpleUsers(): Observable<ApplicationUserDto[]> {
-        let url_ = this.baseUrl + "/api/Users/users";
+        let url_ = this.baseUrl + "/api/backoffice/Users/users";
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ : any = {
@@ -3085,7 +2860,7 @@ export class UsersClient {
     }
 
     updateAdmin(adminId: number, model: UpdateWorkerModel): Observable<void> {
-        let url_ = this.baseUrl + "/api/Users/admins/{adminId}";
+        let url_ = this.baseUrl + "/api/backoffice/Users/admins/{adminId}";
         if (adminId === undefined || adminId === null)
             throw new Error("The parameter 'adminId' must be defined.");
         url_ = url_.replace("{adminId}", encodeURIComponent("" + adminId));
@@ -3159,83 +2934,8 @@ export class UsersClient {
         return _observableOf<void>(<any>null);
     }
 
-    updateManager(managerId: number, model: UpdateWorkerModel): Observable<void> {
-        let url_ = this.baseUrl + "/api/Users/managers/{managerId}";
-        if (managerId === undefined || managerId === null)
-            throw new Error("The parameter 'managerId' must be defined.");
-        url_ = url_.replace("{managerId}", encodeURIComponent("" + managerId));
-        url_ = url_.replace(/[?&]$/, "");
-
-        const content_ = JSON.stringify(model);
-
-        let options_ : any = {
-            body: content_,
-            observe: "response",
-            responseType: "blob",
-            headers: new HttpHeaders({
-                "Content-Type": "application/json",
-            })
-        };
-
-        return this.http.request("put", url_, options_).pipe(_observableMergeMap((response_ : any) => {
-            return this.processUpdateManager(response_);
-        })).pipe(_observableCatch((response_: any) => {
-            if (response_ instanceof HttpResponseBase) {
-                try {
-                    return this.processUpdateManager(<any>response_);
-                } catch (e) {
-                    return <Observable<void>><any>_observableThrow(e);
-                }
-            } else
-                return <Observable<void>><any>_observableThrow(response_);
-        }));
-    }
-
-    protected processUpdateManager(response: HttpResponseBase): Observable<void> {
-        const status = response.status;
-        const responseBlob =
-            response instanceof HttpResponse ? response.body :
-            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
-
-        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
-        if (status === 400) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            let result400: any = null;
-            let resultData400 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result400 = ErrorDetails.fromJS(resultData400);
-            return throwException("A server side error occurred.", status, _responseText, _headers, result400);
-            }));
-        } else if (status === 401) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            let result401: any = null;
-            let resultData401 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result401 = ErrorDetails.fromJS(resultData401);
-            return throwException("A server side error occurred.", status, _responseText, _headers, result401);
-            }));
-        } else if (status === 403) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            let result403: any = null;
-            let resultData403 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result403 = ErrorDetails.fromJS(resultData403);
-            return throwException("A server side error occurred.", status, _responseText, _headers, result403);
-            }));
-        } else if (status === 404) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            let result404: any = null;
-            let resultData404 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result404 = ErrorDetails.fromJS(resultData404);
-            return throwException("A server side error occurred.", status, _responseText, _headers, result404);
-            }));
-        } else if (status !== 200 && status !== 204) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
-            }));
-        }
-        return _observableOf<void>(<any>null);
-    }
-
     updateEmployee(employeeId: number, model: UpdateWorkerModel): Observable<void> {
-        let url_ = this.baseUrl + "/api/Users/employees/{employeeId}";
+        let url_ = this.baseUrl + "/api/backoffice/Users/employees/{employeeId}";
         if (employeeId === undefined || employeeId === null)
             throw new Error("The parameter 'employeeId' must be defined.");
         url_ = url_.replace("{employeeId}", encodeURIComponent("" + employeeId));
@@ -3660,7 +3360,8 @@ export class QueueDto implements IQueueDto {
     step?: number;
     worksiteId?: number;
     numOfAssignedEmployees?: number;
-    numOfTickets?: number;
+    numOfActiveTickets?: number;
+    maxActiveTicketsPerUser?: number;
 
     constructor(data?: IQueueDto) {
         if (data) {
@@ -3682,7 +3383,8 @@ export class QueueDto implements IQueueDto {
             this.step = _data["step"];
             this.worksiteId = _data["worksiteId"];
             this.numOfAssignedEmployees = _data["numOfAssignedEmployees"];
-            this.numOfTickets = _data["numOfTickets"];
+            this.numOfActiveTickets = _data["numOfActiveTickets"];
+            this.maxActiveTicketsPerUser = _data["maxActiveTicketsPerUser"];
         }
     }
 
@@ -3704,7 +3406,8 @@ export class QueueDto implements IQueueDto {
         data["step"] = this.step;
         data["worksiteId"] = this.worksiteId;
         data["numOfAssignedEmployees"] = this.numOfAssignedEmployees;
-        data["numOfTickets"] = this.numOfTickets;
+        data["numOfActiveTickets"] = this.numOfActiveTickets;
+        data["maxActiveTicketsPerUser"] = this.maxActiveTicketsPerUser;
         return data; 
     }
 }
@@ -3719,7 +3422,8 @@ export interface IQueueDto {
     step?: number;
     worksiteId?: number;
     numOfAssignedEmployees?: number;
-    numOfTickets?: number;
+    numOfActiveTickets?: number;
+    maxActiveTicketsPerUser?: number;
 }
 
 export class QueueModel implements IQueueModel {
@@ -3727,6 +3431,7 @@ export class QueueModel implements IQueueModel {
     nextNumber?: number;
     prefix?: string | undefined;
     step?: number;
+    maxActiveTicketsPerUser?: number;
 
     constructor(data?: IQueueModel) {
         if (data) {
@@ -3743,6 +3448,7 @@ export class QueueModel implements IQueueModel {
             this.nextNumber = _data["nextNumber"];
             this.prefix = _data["prefix"];
             this.step = _data["step"];
+            this.maxActiveTicketsPerUser = _data["maxActiveTicketsPerUser"];
         }
     }
 
@@ -3759,6 +3465,7 @@ export class QueueModel implements IQueueModel {
         data["nextNumber"] = this.nextNumber;
         data["prefix"] = this.prefix;
         data["step"] = this.step;
+        data["maxActiveTicketsPerUser"] = this.maxActiveTicketsPerUser;
         return data; 
     }
 }
@@ -3768,6 +3475,7 @@ export interface IQueueModel {
     nextNumber?: number;
     prefix?: string | undefined;
     step?: number;
+    maxActiveTicketsPerUser?: number;
 }
 
 export class ApplicationUserDto implements IApplicationUserDto {
@@ -4052,106 +3760,10 @@ export interface ISiteModel {
     address?: string | undefined;
 }
 
-export class UserTicketDto implements IUserTicketDto {
-    id?: number;
-    number?: number;
-    visibleNumber?: string | undefined;
-    queue?: string | undefined;
-    worksite?: string | undefined;
-    company?: string | undefined;
-    numOfTicketsBeforeThis?: number;
-
-    constructor(data?: IUserTicketDto) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-        }
-    }
-
-    init(_data?: any) {
-        if (_data) {
-            this.id = _data["id"];
-            this.number = _data["number"];
-            this.visibleNumber = _data["visibleNumber"];
-            this.queue = _data["queue"];
-            this.worksite = _data["worksite"];
-            this.company = _data["company"];
-            this.numOfTicketsBeforeThis = _data["numOfTicketsBeforeThis"];
-        }
-    }
-
-    static fromJS(data: any): UserTicketDto {
-        data = typeof data === 'object' ? data : {};
-        let result = new UserTicketDto();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["id"] = this.id;
-        data["number"] = this.number;
-        data["visibleNumber"] = this.visibleNumber;
-        data["queue"] = this.queue;
-        data["worksite"] = this.worksite;
-        data["company"] = this.company;
-        data["numOfTicketsBeforeThis"] = this.numOfTicketsBeforeThis;
-        return data; 
-    }
-}
-
-export interface IUserTicketDto {
-    id?: number;
-    number?: number;
-    visibleNumber?: string | undefined;
-    queue?: string | undefined;
-    worksite?: string | undefined;
-    company?: string | undefined;
-    numOfTicketsBeforeThis?: number;
-}
-
-export class TicketModel implements ITicketModel {
-    queueId?: number;
-
-    constructor(data?: ITicketModel) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-        }
-    }
-
-    init(_data?: any) {
-        if (_data) {
-            this.queueId = _data["queueId"];
-        }
-    }
-
-    static fromJS(data: any): TicketModel {
-        data = typeof data === 'object' ? data : {};
-        let result = new TicketModel();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["queueId"] = this.queueId;
-        return data; 
-    }
-}
-
-export interface ITicketModel {
-    queueId?: number;
-}
-
 export class CompanyTicketDto implements ICompanyTicketDto {
     id?: number;
     number?: number;
-    formattedNumber?: string | undefined;
+    visibleNumber?: string | undefined;
     ownerId?: number;
     ownerUserName?: string | undefined;
     created?: Date;
@@ -4169,7 +3781,7 @@ export class CompanyTicketDto implements ICompanyTicketDto {
         if (_data) {
             this.id = _data["id"];
             this.number = _data["number"];
-            this.formattedNumber = _data["formattedNumber"];
+            this.visibleNumber = _data["visibleNumber"];
             this.ownerId = _data["ownerId"];
             this.ownerUserName = _data["ownerUserName"];
             this.created = _data["created"] ? new Date(_data["created"].toString()) : <any>undefined;
@@ -4187,7 +3799,7 @@ export class CompanyTicketDto implements ICompanyTicketDto {
         data = typeof data === 'object' ? data : {};
         data["id"] = this.id;
         data["number"] = this.number;
-        data["formattedNumber"] = this.formattedNumber;
+        data["visibleNumber"] = this.visibleNumber;
         data["ownerId"] = this.ownerId;
         data["ownerUserName"] = this.ownerUserName;
         data["created"] = this.created ? this.created.toISOString() : <any>undefined;
@@ -4198,7 +3810,7 @@ export class CompanyTicketDto implements ICompanyTicketDto {
 export interface ICompanyTicketDto {
     id?: number;
     number?: number;
-    formattedNumber?: string | undefined;
+    visibleNumber?: string | undefined;
     ownerId?: number;
     ownerUserName?: string | undefined;
     created?: Date;

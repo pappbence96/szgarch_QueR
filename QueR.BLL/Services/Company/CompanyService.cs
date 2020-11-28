@@ -110,5 +110,11 @@ namespace QueR.BLL.Services.Company
 
             await context.SaveChangesAsync();
         }
+
+        public async Task<IEnumerable<UserCompanyDto>> GetCompaniesForUser()
+        {
+            var companies = await context.Companies.ToListAsync();
+            return mapper.Map<IEnumerable<UserCompanyDto>>(companies);
+        }
     }
 }

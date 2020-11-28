@@ -213,7 +213,7 @@
         }
       }
     },
-    "/api/Companies": {
+    "/api/backoffice/Companies": {
       "post": {
         "tags": [
           "Companies"
@@ -346,7 +346,7 @@
         }
       }
     },
-    "/api/Companies/{companyId}/admin/{adminId}": {
+    "/api/backoffice/Companies/{companyId}/admin/{adminId}": {
       "get": {
         "tags": [
           "Companies"
@@ -418,7 +418,7 @@
         }
       }
     },
-    "/api/Companies/{companyId}/admin": {
+    "/api/backoffice/Companies/{companyId}/admin": {
       "delete": {
         "tags": [
           "Companies"
@@ -480,7 +480,7 @@
         }
       }
     },
-    "/api/Companies/{companyId}": {
+    "/api/backoffice/Companies/{companyId}": {
       "put": {
         "tags": [
           "Companies"
@@ -554,7 +554,7 @@
         }
       }
     },
-    "/api/Queues": {
+    "/api/backoffice/Queues": {
       "post": {
         "tags": [
           "Queues"
@@ -687,7 +687,7 @@
         }
       }
     },
-    "/api/Queues/{queueId}": {
+    "/api/backoffice/Queues/{queueId}": {
       "put": {
         "tags": [
           "Queues"
@@ -831,7 +831,7 @@
         }
       }
     },
-    "/api/Queues/{queueId}/workers/{workerId}": {
+    "/api/backoffice/Queues/{queueId}/employees/{employeeId}": {
       "get": {
         "tags": [
           "Queues"
@@ -849,77 +849,7 @@
             "x-position": 1
           },
           {
-            "name": "workerId",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "integer",
-              "format": "int32"
-            },
-            "x-position": 2
-          }
-        ],
-        "responses": {
-          "400": {
-            "description": "",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorDetails"
-                }
-              }
-            }
-          },
-          "401": {
-            "description": "",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorDetails"
-                }
-              }
-            }
-          },
-          "403": {
-            "description": "",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorDetails"
-                }
-              }
-            }
-          },
-          "404": {
-            "description": "",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorDetails"
-                }
-              }
-            }
-          }
-        }
-      },
-      "delete": {
-        "tags": [
-          "Queues"
-        ],
-        "operationId": "Queues_RemoveEmployeeFromQueue",
-        "parameters": [
-          {
-            "name": "queueId",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "integer",
-              "format": "int32"
-            },
-            "x-position": 1
-          },
-          {
-            "name": "workerId",
+            "name": "employeeId",
             "in": "path",
             "required": true,
             "schema": {
@@ -973,7 +903,79 @@
         }
       }
     },
-    "/api/Queues/{queueId}/employees": {
+    "/api/backoffice/Queues/{queueId}/employees/{employeesId}": {
+      "delete": {
+        "tags": [
+          "Queues"
+        ],
+        "operationId": "Queues_RemoveEmployeeFromQueue",
+        "parameters": [
+          {
+            "name": "queueId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "x-position": 1
+          },
+          {
+            "name": "employeesId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "x-position": 2
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorDetails"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorDetails"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorDetails"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorDetails"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/backoffice/Queues/{queueId}/employees": {
       "get": {
         "tags": [
           "Queues"
@@ -1048,7 +1050,7 @@
         }
       }
     },
-    "/api/Queues/own": {
+    "/api/backoffice/Queues/own": {
       "get": {
         "tags": [
           "Queues"
@@ -1108,7 +1110,7 @@
         }
       }
     },
-    "/api/QueueTypes": {
+    "/api/backoffice/QueueTypes": {
       "post": {
         "tags": [
           "QueueTypes"
@@ -1241,7 +1243,7 @@
         }
       }
     },
-    "/api/QueueTypes/{queueTypeId}": {
+    "/api/backoffice/QueueTypes/{queueTypeId}": {
       "put": {
         "tags": [
           "QueueTypes"
@@ -1315,7 +1317,7 @@
         }
       }
     },
-    "/api/Sites/{siteId}/manager/{managerId}": {
+    "/api/backoffice/Sites/{siteId}/manager/{managerId}": {
       "get": {
         "tags": [
           "Sites"
@@ -1387,7 +1389,7 @@
         }
       }
     },
-    "/api/Sites": {
+    "/api/backoffice/Sites": {
       "post": {
         "tags": [
           "Sites"
@@ -1520,7 +1522,7 @@
         }
       }
     },
-    "/api/Sites/{siteId}/workers/{employeeId}": {
+    "/api/backoffice/Sites/{siteId}/employees/{employeeId}": {
       "get": {
         "tags": [
           "Sites"
@@ -1662,7 +1664,7 @@
         }
       }
     },
-    "/api/Sites/{siteId}": {
+    "/api/backoffice/Sites/{siteId}/employees": {
       "get": {
         "tags": [
           "Sites"
@@ -1735,7 +1737,71 @@
             }
           }
         }
-      },
+      }
+    },
+    "/api/backoffice/Sites/{siteId}/manager": {
+      "delete": {
+        "tags": [
+          "Sites"
+        ],
+        "operationId": "Sites_RemoveManagerFromSite",
+        "parameters": [
+          {
+            "name": "siteId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "x-position": 1
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorDetails"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorDetails"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorDetails"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorDetails"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/backoffice/Sites/{siteId}": {
       "put": {
         "tags": [
           "Sites"
@@ -1809,69 +1875,7 @@
         }
       }
     },
-    "/api/Sites/{siteId}/manager": {
-      "delete": {
-        "tags": [
-          "Sites"
-        ],
-        "operationId": "Sites_RemoveManagerFromSite",
-        "parameters": [
-          {
-            "name": "siteId",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "integer",
-              "format": "int32"
-            },
-            "x-position": 1
-          }
-        ],
-        "responses": {
-          "400": {
-            "description": "",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorDetails"
-                }
-              }
-            }
-          },
-          "401": {
-            "description": "",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorDetails"
-                }
-              }
-            }
-          },
-          "403": {
-            "description": "",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorDetails"
-                }
-              }
-            }
-          },
-          "404": {
-            "description": "",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorDetails"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/api/Sites/current/workers": {
+    "/api/backoffice/Sites/current/employees": {
       "get": {
         "tags": [
           "Sites"
@@ -1934,7 +1938,7 @@
         }
       }
     },
-    "/api/Tickets/next": {
+    "/api/backoffice/Tickets/next": {
       "get": {
         "tags": [
           "Tickets"
@@ -1984,7 +1988,7 @@
         }
       }
     },
-    "/api/Tickets/{ticketNumber}": {
+    "/api/backoffice/Tickets/{ticketNumber}": {
       "get": {
         "tags": [
           "Tickets"
@@ -2046,142 +2050,7 @@
         }
       }
     },
-    "/api/Tickets": {
-      "post": {
-        "tags": [
-          "Tickets"
-        ],
-        "operationId": "Tickets_CreateTicket",
-        "requestBody": {
-          "x-name": "model",
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/TicketModel"
-              }
-            }
-          },
-          "required": true,
-          "x-position": 1
-        },
-        "responses": {
-          "400": {
-            "description": "",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorDetails"
-                }
-              }
-            }
-          },
-          "401": {
-            "description": "",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorDetails"
-                }
-              }
-            }
-          },
-          "403": {
-            "description": "",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorDetails"
-                }
-              }
-            }
-          },
-          "404": {
-            "description": "",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorDetails"
-                }
-              }
-            }
-          },
-          "default": {
-            "description": "",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/UserTicketDto"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/api/Tickets/user": {
-      "get": {
-        "tags": [
-          "Tickets"
-        ],
-        "operationId": "Tickets_GetOwnTicketsForUser",
-        "responses": {
-          "400": {
-            "description": "",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorDetails"
-                }
-              }
-            }
-          },
-          "401": {
-            "description": "",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorDetails"
-                }
-              }
-            }
-          },
-          "403": {
-            "description": "",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorDetails"
-                }
-              }
-            }
-          },
-          "404": {
-            "description": "",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorDetails"
-                }
-              }
-            }
-          },
-          "default": {
-            "description": "",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/UserTicketDto"
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/api/Tickets/employee": {
+    "/api/backoffice/Tickets/employee": {
       "get": {
         "tags": [
           "Tickets"
@@ -2244,7 +2113,7 @@
         }
       }
     },
-    "/api/Users/admins": {
+    "/api/backoffice/Users/admins": {
       "post": {
         "tags": [
           "Users"
@@ -2377,7 +2246,7 @@
         }
       }
     },
-    "/api/Users/employees": {
+    "/api/backoffice/Users/employees": {
       "post": {
         "tags": [
           "Users"
@@ -2510,77 +2379,7 @@
         }
       }
     },
-    "/api/Users/managers": {
-      "post": {
-        "tags": [
-          "Users"
-        ],
-        "operationId": "Users_CreateManager",
-        "requestBody": {
-          "x-name": "model",
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/CreateWorkerModel"
-              }
-            }
-          },
-          "required": true,
-          "x-position": 1
-        },
-        "responses": {
-          "400": {
-            "description": "",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorDetails"
-                }
-              }
-            }
-          },
-          "401": {
-            "description": "",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorDetails"
-                }
-              }
-            }
-          },
-          "403": {
-            "description": "",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorDetails"
-                }
-              }
-            }
-          },
-          "404": {
-            "description": "",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorDetails"
-                }
-              }
-            }
-          },
-          "default": {
-            "description": "",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ApplicationUserDto"
-                }
-              }
-            }
-          }
-        }
-      },
+    "/api/backoffice/Users/managers": {
       "get": {
         "tags": [
           "Users"
@@ -2643,7 +2442,7 @@
         }
       }
     },
-    "/api/Users/users": {
+    "/api/backoffice/Users/users": {
       "get": {
         "tags": [
           "Users"
@@ -2706,7 +2505,7 @@
         }
       }
     },
-    "/api/Users/admins/{adminId}": {
+    "/api/backoffice/Users/admins/{adminId}": {
       "put": {
         "tags": [
           "Users"
@@ -2780,81 +2579,7 @@
         }
       }
     },
-    "/api/Users/managers/{managerId}": {
-      "put": {
-        "tags": [
-          "Users"
-        ],
-        "operationId": "Users_UpdateManager",
-        "parameters": [
-          {
-            "name": "managerId",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "integer",
-              "format": "int32"
-            },
-            "x-position": 1
-          }
-        ],
-        "requestBody": {
-          "x-name": "model",
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/UpdateWorkerModel"
-              }
-            }
-          },
-          "required": true,
-          "x-position": 2
-        },
-        "responses": {
-          "400": {
-            "description": "",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorDetails"
-                }
-              }
-            }
-          },
-          "401": {
-            "description": "",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorDetails"
-                }
-              }
-            }
-          },
-          "403": {
-            "description": "",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorDetails"
-                }
-              }
-            }
-          },
-          "404": {
-            "description": "",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorDetails"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/api/Users/employees/{employeeId}": {
+    "/api/backoffice/Users/employees/{employeeId}": {
       "put": {
         "tags": [
           "Users"
@@ -3104,7 +2829,11 @@
             "type": "integer",
             "format": "int32"
           },
-          "numOfTickets": {
+          "numOfActiveTickets": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "maxActiveTicketsPerUser": {
             "type": "integer",
             "format": "int32"
           }
@@ -3127,6 +2856,10 @@
             "nullable": true
           },
           "step": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "maxActiveTicketsPerUser": {
             "type": "integer",
             "format": "int32"
           }
@@ -3297,50 +3030,6 @@
           }
         }
       },
-      "UserTicketDto": {
-        "type": "object",
-        "additionalProperties": false,
-        "properties": {
-          "id": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "number": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "visibleNumber": {
-            "type": "string",
-            "nullable": true
-          },
-          "queue": {
-            "type": "string",
-            "nullable": true
-          },
-          "worksite": {
-            "type": "string",
-            "nullable": true
-          },
-          "company": {
-            "type": "string",
-            "nullable": true
-          },
-          "numOfTicketsBeforeThis": {
-            "type": "integer",
-            "format": "int32"
-          }
-        }
-      },
-      "TicketModel": {
-        "type": "object",
-        "additionalProperties": false,
-        "properties": {
-          "queueId": {
-            "type": "integer",
-            "format": "int32"
-          }
-        }
-      },
       "CompanyTicketDto": {
         "type": "object",
         "additionalProperties": false,
@@ -3353,7 +3042,7 @@
             "type": "integer",
             "format": "int32"
           },
-          "formattedNumber": {
+          "visibleNumber": {
             "type": "string",
             "nullable": true
           },

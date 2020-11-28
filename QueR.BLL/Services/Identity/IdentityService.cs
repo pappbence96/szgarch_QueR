@@ -81,7 +81,7 @@ namespace QueR.BLL.Services.Identity
                         .TryAddClaim("worksite", user.Worksite?.Id)
                         .TryAddClaim("managed_site", user.ManagedSite?.Id)
                         .TryAddClaim("administrated_company", user.AdministratedCompany?.Id)
-                        .TryAddClaim("assigned_queue", user.AssignedQueue   ?.Id);
+                        .TryAddClaim("assigned_queue", user.AssignedQueue?.Id);
                 }
 
                 var tokenOptions = new JwtSecurityToken(

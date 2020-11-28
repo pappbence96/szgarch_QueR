@@ -10,7 +10,7 @@ using QueR.BLL.Services.User.DTOs;
 
 namespace QueR.Application.Controllers.Backoffice
 {
-    [Route("api/[controller]")]
+    [Route("api/backoffice/[controller]")]
     [ApiController]
     [ApiExplorerSettings(GroupName = "backoffice")]
     [ProducesResponseType(typeof(ErrorDetails), StatusCodes.Status400BadRequest)]

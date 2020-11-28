@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace QueR.Application.Controllers.Backoffice
 {
-    [Route("api/[controller]")]
+    [Route("api/backoffice/[controller]")]
     [ApiController]
     [ApiExplorerSettings(GroupName = "backoffice")]
     [ProducesResponseType(typeof(ErrorDetails), StatusCodes.Status400BadRequest)]
@@ -41,22 +41,6 @@ namespace QueR.Application.Controllers.Backoffice
         {
             await ticketService.CallTicketByNumber(ticketNumber);
             return Ok();
-        }
-
-        [HttpPost]
-        [Authorize(Roles = "user")]
-        [ProducesDefaultResponseType(typeof(UserTicketDto))]
-        public async Task<ActionResult<UserTicketDto>> CreateTicket([FromBody] TicketModel model)
-        {
-            return Ok(await ticketService.CreateTicket(model));
-        }
-
-        [HttpGet("user")]
-        [Authorize(Roles = "user")]
-        [ProducesDefaultResponseType(typeof(IEnumerable<UserTicketDto>))]
-        public async Task<ActionResult<IEnumerable<UserTicketDto>>> GetOwnTicketsForUser()
-        {
-            return Ok(await ticketService.GetOwnTicketsForUser());
         }
 
         [HttpGet("employee")]

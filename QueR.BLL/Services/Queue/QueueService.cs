@@ -39,14 +39,14 @@ namespace QueR.BLL.Services.Queue
             var callerCompanyId = userAccessor.CompanyId;
             var callerWorksiteId = userAccessor.WorksiteId;
 
-            if (employee.CompanyId != callerCompanyId || employee.WorksiteId != callerWorksiteId)
-            {
-                throw new InvalidOperationException("Employee is not part of the company or the worksite.");
-            }
-
             if (!await userManager.IsInRoleAsync(employee, "employee"))
             {
                 throw new InvalidOperationException("User is not an employee");
+            }
+
+            if (employee.CompanyId != callerCompanyId || employee.WorksiteId != callerWorksiteId)
+            {
+                throw new InvalidOperationException("Employee is not part of the company or the worksite.");
             }
 
             if (queue.AssignedEmployees.Contains(employee))
@@ -90,7 +90,8 @@ namespace QueR.BLL.Services.Queue
                 SiteId = callerWorksiteId,
                 NextNumber = model.NextNumber,
                 Prefix = model.Prefix,
-                Step = model.Step
+                Step = model.Step,
+                MaxActiveTicketsPerUser = model.MaxActiveTicketsPerUser
             };
 
             context.Queues.Add(queue);
@@ -145,6 +146,7 @@ namespace QueR.BLL.Services.Queue
 
             queue.Step = model.Step;
             queue.Prefix = model.Prefix;
+            queue.MaxActiveTicketsPerUser = model.MaxActiveTicketsPerUser;
 
             await context.SaveChangesAsync();
         }
@@ -154,6 +156,8 @@ namespace QueR.BLL.Services.Queue
             var queue = (await context.Queues
                 .Include(c => c.AssignedEmployees)
                     .ThenInclude(e => e.Company)
+                .Include(c => c.AssignedEmployees)
+                    .ThenInclude(e => e.Worksite)
                 .Include(q => q.Type)
                 .FirstOrDefaultAsync(u => u.Id == queueId))
                 ?? throw new KeyNotFoundException($"Queue not found with an id of {queueId}");
@@ -177,12 +181,13 @@ namespace QueR.BLL.Services.Queue
 
         public async Task<QueueDto> GetDetailsOfQueue(int queueId)
         {
+            var callerWorksiteId = userAccessor.WorksiteId;
             var queue = (await context.Queues
                 .Include(q => q.Site)
                 .Include(q => q.Type)
                 .Include(q => q.AssignedEmployees)
                 .Include(q => q.Tickets)
-                .FirstOrDefaultAsync(u => u.SiteId == userAccessor.WorksiteId && u.Id == queueId))
+                .FirstOrDefaultAsync(u => u.SiteId == callerWorksiteId && u.Id == queueId))
                 ?? throw new KeyNotFoundException($"Queue not found with the id of {queueId}");
 
             return mapper.Map<QueueDto>(queue);
@@ -190,12 +195,13 @@ namespace QueR.BLL.Services.Queue
 
         public async Task<QueueDto> GetDetailsOfAssignedQueue()
         {
+            var callerAssignedQueueId = userAccessor.AssignedQueueId;
             var queue = (await context.Queues
                 .Include(q => q.Site)
                 .Include(q => q.Type)
                 .Include(q => q.AssignedEmployees)
                 .Include(q => q.Tickets)
-                .FirstOrDefaultAsync(u => u.Id == userAccessor.AssignedQueueId))
+                .FirstOrDefaultAsync(q => q.Id == callerAssignedQueueId))
                 ?? throw new InvalidOperationException($"You are not assigned to any queues currently.");
 
             return mapper.Map<QueueDto>(queue);
@@ -209,6 +215,20 @@ namespace QueR.BLL.Services.Queue
         public Task UnsubscribeFromCurrentQueue()
         {
             throw new NotImplementedException();
+        }
+
+        public async Task<IEnumerable<UserQueueDto>> GetQueuesOfSiteForUser(int worksiteId)
+        {
+            var site = (await context.Sites
+                .Include(s => s.Queues)
+                    .ThenInclude(q => q.Tickets)
+                .Include(s => s.Queues)
+                    .ThenInclude(q => q.Type)
+                .Where(s => s.Id == worksiteId)
+                .FirstOrDefaultAsync())
+                ?? throw new KeyNotFoundException($"Site not found with the id of {worksiteId}");
+
+            return mapper.Map<IEnumerable<UserQueueDto>>(site.Queues);
         }
     }
 }

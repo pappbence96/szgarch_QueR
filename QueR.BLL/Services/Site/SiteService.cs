@@ -160,7 +160,10 @@ namespace QueR.BLL.Services.Site
 
         public async Task<IEnumerable<ApplicationUserDto>> GetEmployeesOfSite(int siteId)
         {
-            var site = (await context.Sites.Include(c => c.Employees).FirstOrDefaultAsync(u => u.Id == siteId))
+            var site = (await context.Sites
+                .Include(c => c.Employees)
+                    .ThenInclude(e => e.Company)
+                .FirstOrDefaultAsync(u => u.Id == siteId))
                 ?? throw new KeyNotFoundException($"Site not found with an id of {siteId}");
 
             var callerCompanyId = userAccessor.CompanyId;
@@ -282,6 +285,17 @@ namespace QueR.BLL.Services.Site
                 ?? throw new KeyNotFoundException($"Site not found with an id of {callerWorksiteId}");
 
             return mapper.Map<IEnumerable<ApplicationUserDto>>(site.Employees);
+        }
+
+        public async Task<IEnumerable<UserSiteDto>> GetSitesOfCompanyForUser(int companyId)
+        {
+            var company = (await context.Companies
+                .Include(c => c.Sites)
+                .Where(c => c.Id == companyId)
+                .FirstOrDefaultAsync())
+                ?? throw new KeyNotFoundException($"Company not found with an id of {companyId}");
+
+            return mapper.Map<IEnumerable<UserSiteDto>>(company.Sites);
         }
     }
 }

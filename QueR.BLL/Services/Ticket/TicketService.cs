@@ -36,7 +36,7 @@ namespace QueR.BLL.Services.Ticket
 
             context.Tickets.Update(ticket);
             await context.SaveChangesAsync();
-            await notificationService.NotifyQueueTicketCalled(ticket.Queue.Id, ticket.Id);
+            await notificationService.NotifyQueueTicketCalled((int)ticket.QueueId, ticket.Id);
         }
 
         public async Task CallNextTicket()
@@ -91,6 +91,15 @@ namespace QueR.BLL.Services.Ticket
                 .Include(q => q.Tickets)
                 .FirstOrDefaultAsync(u => u.Id == model.queueId))
                 ?? throw new KeyNotFoundException($"Queue not found with an id of {model.queueId}");
+
+            var activeUserTickets = await context.Tickets
+                .Where(t => t.OwnerId == callerUserId && t.QueueId == queue.Id && !t.Called)
+                .ToListAsync();
+
+            if (activeUserTickets.Count >= queue.MaxActiveTicketsPerUser)
+            {
+                throw new InvalidOperationException("User cannot have more tickets in this queue");
+            }
 
             var ticket = new Domain.Entities.Ticket
             {

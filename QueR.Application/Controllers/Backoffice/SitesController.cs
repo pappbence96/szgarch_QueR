@@ -10,7 +10,7 @@ using QueR.BLL.Services.User.DTOs;
 
 namespace QueR.Application.Controllers.Backoffice
 {
-    [Route("api/[controller]")]
+    [Route("api/backoffice/[controller]")]
     [ApiController]
     [ApiExplorerSettings(GroupName = "backoffice")]
     [ProducesResponseType(typeof(ErrorDetails), StatusCodes.Status400BadRequest)]
@@ -58,7 +58,7 @@ namespace QueR.Application.Controllers.Backoffice
             return Ok(await siteService.GetSites());
         }
 
-        [HttpGet("{siteId}")]
+        [HttpGet("{siteId}/employees")]
         [ProducesDefaultResponseType(typeof(IEnumerable<ApplicationUserDto>))]
         [Authorize(Roles = "administrator")]
         public async Task<ActionResult<IEnumerable<ApplicationUserDto>>> GetEmployeesOfSite(int siteId)
