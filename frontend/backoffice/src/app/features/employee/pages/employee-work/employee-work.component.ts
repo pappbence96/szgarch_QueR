@@ -82,7 +82,6 @@ export class EmployeeWorkComponent implements OnInit, OnDestroy {
     this.ticketsClient.callNextTicket()
       .subscribe(data => {
         this.snackbar.showSnackbar('Ticket ' + this.nextTicketNumber() + ' called.');
-        //this.tickets = this.tickets.slice(1, this.tickets.length);
       },
       (error: ErrorDetails) => {
         this.snackbar.showSnackbar(error.message);
@@ -92,9 +91,7 @@ export class EmployeeWorkComponent implements OnInit, OnDestroy {
   call(ticket: CompanyTicketDto): void {
     this.ticketsClient.callTicketByNumber(ticket.number)
       .subscribe(data => {
-        this.snackbar.showSnackbar('Ticket ' + ticket.formattedNumber + ' called.');
-        //const indexOfTicket = this.tickets.indexOf(ticket);
-        //this.tickets.splice(indexOfTicket, 1);
+        this.snackbar.showSnackbar('Ticket ' + ticket.visibleNumber + ' called.');
       },
       (error: ErrorDetails) => {
         this.snackbar.showSnackbar(error.message);
@@ -112,7 +109,7 @@ export class EmployeeWorkComponent implements OnInit, OnDestroy {
     if (this.tickets === undefined || this.tickets.length === 0) {
       return '-';
     }
-    return this.tickets[0].formattedNumber;
+    return this.tickets[0].visibleNumber;
   }
 
   ticketsButFirst(): CompanyTicketDto[] {

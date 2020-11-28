@@ -11,7 +11,7 @@ import { SnackbarService } from 'src/app/shared/utilities/Snackbar.service';
 })
 export class QueuesPageComponent implements OnInit {
   dataSource: MatTableDataSource<QueueDto>;
-  columnsToDisplay = [ 'type', 'number', 'step', 'employees', 'tickets' ];
+  columnsToDisplay = [ 'type', 'number', 'step', 'numberOfTicketsPerUser', 'employees', 'tickets' ];
   queueForm: FormGroup;
 
   employees: ApplicationUserDto[];
@@ -61,7 +61,8 @@ export class QueuesPageComponent implements OnInit {
       type: [{ value: type, disabled: true}],
       start: [{ value: this.selected.nextNumber, disabled: true}],
       prefix: [this.selected.prefix],
-      step: [this.selected.step, Validators.required]
+      step: [this.selected.step, Validators.required],
+      maxActiveTicketsPerUser: [this.selected.maxActiveTicketsPerUser, Validators.required]
     });
   }
 
@@ -75,7 +76,9 @@ export class QueuesPageComponent implements OnInit {
         typeId: this.queueForm.value.type.id,
         nextNumber: this.queueForm.value.start,
         prefix: this.queueForm.value.prefix,
-        step: this.queueForm.value.step});
+        step: this.queueForm.value.step,
+        maxActiveTicketsPerUser: this.queueForm.value.maxActiveTicketsPerUser
+        });
       this.queuesClient.createQueue(model)
         .subscribe(created => {
           this.snackbar.showSnackbar('Queue created');
@@ -90,7 +93,8 @@ export class QueuesPageComponent implements OnInit {
     } else {
       const model = new QueueModel({
         prefix: this.queueForm.value.prefix,
-        step: this.queueForm.value.step});
+        step: this.queueForm.value.step,
+        maxActiveTicketsPerUser: this.queueForm.value.maxActiveTicketsPerUser});
       this.queuesClient.updateQueue(this.selected.id, model)
         .subscribe(() => {
           this.snackbar.showSnackbar('Queue updated');
@@ -111,7 +115,8 @@ export class QueuesPageComponent implements OnInit {
       type: [this.selected.queueType, Validators.required],
       start: [this.selected.nextNumber, Validators.required],
       prefix: [this.selected.prefix],
-      step: [this.selected.step, Validators.required]
+      step: [this.selected.step, Validators.required],
+      maxActiveTicketsPerUser: [this.selected.maxActiveTicketsPerUser, Validators.required]
     });
   }
 

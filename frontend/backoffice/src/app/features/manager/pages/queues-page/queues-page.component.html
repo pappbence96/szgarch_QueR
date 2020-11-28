@@ -17,6 +17,10 @@
           <th mat-header-cell *matHeaderCellDef> Step </th>
           <td mat-cell *matCellDef="let element"> {{element.step}} </td>
         </ng-container>
+        <ng-container matColumnDef="numberOfTicketsPerUser">
+          <th mat-header-cell *matHeaderCellDef> # tickets per user </th>
+          <td mat-cell *matCellDef="let element"> {{element.maxActiveTicketsPerUser}} </td>
+        </ng-container>
         <ng-container matColumnDef="employees">
           <th mat-header-cell *matHeaderCellDef> # of employees </th>
           <td mat-cell *matCellDef="let element"> {{element.numOfAssignedEmployees}} </td>
@@ -64,6 +68,13 @@
                 <input matInput formControlName="step" required>
                 <mat-error>
                     Step must be between 1 and 10.
+                </mat-error>
+              </mat-form-field>
+              <mat-form-field class="full-width-input">
+                <mat-label>Max active tickets per user</mat-label>
+                <input matInput formControlName="maxActiveTicketsPerUser" required>
+                <mat-error>
+                    Value must be between 1 and 10.
                 </mat-error>
               </mat-form-field>
             <button *ngIf="selected" mat-raised-button color="primary" [disabled]="queueForm.invalid" class="form-btn">Save</button>

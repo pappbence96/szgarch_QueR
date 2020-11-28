@@ -65,7 +65,7 @@ export class LoginComponent implements OnInit {
           } else if (this.authService.isInRole('employee') && !this.authService.worksiteId) {
             this.error = 'You are currently not assigned to any worksites. Please contact the administrator of your company.';
             this.authService.logout();
-          } else if (this.authService.isInRole('employee') && !this.authService.assignedQueueId) {
+          } else if (this.authService.isInRole('employee') && !this.authService.isInRole('manager') && !this.authService.assignedQueueId) {
             this.error = 'You are currently not assigned to any queues. Please contact the manager of your worksite.';
           } else {
             this.navigatePostLogin();
