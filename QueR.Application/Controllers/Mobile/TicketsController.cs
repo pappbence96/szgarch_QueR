@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using QueR.Application.Middlewares.ExceptionHandling;
 using QueR.BLL.Services.Ticket;
 using QueR.BLL.Services.Ticket.DTOs;
 using System;
@@ -14,6 +15,10 @@ namespace QueR.Application.Controllers.Mobile
     [Authorize(Roles = "user")]
     [ApiExplorerSettings(GroupName = "mobile")]
     [ApiController]
+    [ProducesResponseType(typeof(ErrorDetails), StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(typeof(ErrorDetails), StatusCodes.Status401Unauthorized)]
+    [ProducesResponseType(typeof(ErrorDetails), StatusCodes.Status403Forbidden)]
+    [ProducesResponseType(typeof(ErrorDetails), StatusCodes.Status404NotFound)]
     public class TicketsController : ControllerBase
     {
         private readonly ITicketService ticketService;

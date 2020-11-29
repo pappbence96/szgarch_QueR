@@ -11,21 +11,24 @@ namespace QueR.Application.Services
 {
     public class NotificationService : INotificationService
     {
-        private readonly IHubContext<QueueHub> context;
+        private readonly IHubContext<QueueHub> queueHubContext;
+        private readonly IHubContext<TicketHub> ticketHubContext;
 
-        public NotificationService(IHubContext<QueueHub> context)
+        public NotificationService(IHubContext<QueueHub> context, IHubContext<TicketHub> ticketHubContext)
         {
-            this.context = context;
+            this.queueHubContext = context;
+            this.ticketHubContext = ticketHubContext;
         }
 
         public async Task NotifyQueueTicketAdded(int queueId, CompanyTicketDto ticket)
         {
-            await context.Clients.Group(queueId.ToString()).SendAsync("newTicket", queueId, ticket);
+            await queueHubContext.Clients.Group(queueId.ToString()).SendAsync("newTicket", queueId, ticket);
         }
 
-        public async Task NotifyQueueTicketCalled(int queueId, int ticketId)
+        public async Task NotifyQueueTicketCalled(int queueId, int ticketId, int ticketNumber)
         {
-            await context.Clients.Group(queueId.ToString()).SendAsync("calledTicket", queueId, ticketId);
+            await queueHubContext.Clients.Group(queueId.ToString()).SendAsync("calledTicket", queueId, ticketId);
+            await ticketHubContext.Clients.Group(queueId.ToString()).SendAsync("calledTicket", queueId, ticketId, ticketNumber);
         }
     }
 }

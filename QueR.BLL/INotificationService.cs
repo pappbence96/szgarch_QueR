@@ -8,7 +8,7 @@ namespace QueR.BLL
 {
     public interface INotificationService
     {
-        Task NotifyQueueTicketCalled(int queueId, int ticketId);
+        Task NotifyQueueTicketCalled(int queueId, int ticketId, int ticketNumber);
         Task NotifyQueueTicketAdded(int queueId, CompanyTicketDto ticket);
     }
 }

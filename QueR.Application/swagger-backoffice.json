@@ -2831,12 +2831,27 @@
             "type": "string",
             "nullable": true
           },
+          "queueId": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
           "worksite": {
             "type": "string",
             "nullable": true
           },
+          "worksiteId": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
           "company": {
             "type": "string",
+            "nullable": true
+          },
+          "companyId": {
+            "type": "integer",
+            "format": "int32",
             "nullable": true
           },
           "numOfTicketsBeforeThis": {

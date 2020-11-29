@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using QueR.Application.Middlewares.ExceptionHandling;
 using QueR.BLL.Services.Company;
 using QueR.BLL.Services.Company.DTOs;
 using QueR.BLL.Services.Site;
@@ -16,6 +17,10 @@ namespace QueR.Application.Controllers.Mobile
     [Authorize(Roles = "user")]
     [ApiExplorerSettings(GroupName = "mobile")]
     [ApiController]
+    [ProducesResponseType(typeof(ErrorDetails), StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(typeof(ErrorDetails), StatusCodes.Status401Unauthorized)]
+    [ProducesResponseType(typeof(ErrorDetails), StatusCodes.Status403Forbidden)]
+    [ProducesResponseType(typeof(ErrorDetails), StatusCodes.Status404NotFound)]
     public class CompaniesController : ControllerBase
     {
         private readonly ICompanyService companyService;

@@ -195,6 +195,7 @@ namespace QueR.Application
             {
                 endpoints.MapControllers();
                 endpoints.MapHub<QueueHub>("hubs/queue");
+                endpoints.MapHub<TicketHub>("hubs/ticket");
             });
         }
     }

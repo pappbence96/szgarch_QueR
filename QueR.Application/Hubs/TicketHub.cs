@@ -7,17 +7,18 @@ using QueR.Domain.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Threading.Tasks;
 
 namespace QueR.Application.Hubs
 {
     [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
-    public class QueueHub : Hub
+    public class TicketHub : Hub
     {
         private readonly AppDbContext context;
         private readonly IUserAccessor userAccessor;
 
-        public QueueHub(AppDbContext context, IUserAccessor userAccessor)
+        public TicketHub(AppDbContext context, IUserAccessor userAccessor)
         {
             this.context = context;
             this.userAccessor = userAccessor;
@@ -27,16 +28,20 @@ namespace QueR.Application.Hubs
         {
             await base.OnConnectedAsync();
             var userId = userAccessor.UserId;
-            var queueId = (await context.Users.Include(u => u.AssignedQueue).SingleAsync(u => u.Id == userId)).AssignedQueue.Id;
-            await Groups.AddToGroupAsync(Context.ConnectionId, queueId.ToString());
+            var queues = (await context.Users
+                .Include(u => u.Tickets)
+                .SingleAsync(u => u.Id == userId))
+                .Tickets
+                .Select(t => t.QueueId);
+            foreach(var queue in queues)
+            {
+                await Groups.AddToGroupAsync(Context.ConnectionId, queue.ToString());
+            }
         }
 
         public override async Task OnDisconnectedAsync(Exception exception)
         {
             await base.OnDisconnectedAsync(exception);
-            var userId = userAccessor.UserId;
-            var queueId = (await context.Users.Include(u => u.AssignedQueue).SingleAsync(u => u.Id == userId)).AssignedQueue.Id;
-            await Groups.RemoveFromGroupAsync(Context.ConnectionId, queueId.ToString());
         }
     }
 }
