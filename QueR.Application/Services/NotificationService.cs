@@ -20,12 +20,12 @@ namespace QueR.Application.Services
 
         public async Task NotifyQueueTicketAdded(int queueId, CompanyTicketDto ticket)
         {
-            await context.Clients.All.SendAsync("newTicket", queueId, ticket);
+            await context.Clients.Group(queueId.ToString()).SendAsync("newTicket", queueId, ticket);
         }
 
         public async Task NotifyQueueTicketCalled(int queueId, int ticketId)
         {
-            await context.Clients.All.SendAsync("calledTicket", queueId, ticketId);
+            await context.Clients.Group(queueId.ToString()).SendAsync("calledTicket", queueId, ticketId);
         }
     }
 }
