@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatTableDataSource } from '@angular/material/table';
-import { ApplicationUserDto, ErrorDetails, QueueDto, QueueModel, QueuesClient, QueueTypeDto, QueueTypesClient, SitesClient } from 'src/app/shared/clients';
+import { CompaniesClient, EmployeeDto, ErrorDetails, QueueDto, QueueModel, QueuesClient, QueueTypeDto, SitesClient } from 'src/app/shared/clients';
 import { SnackbarService } from 'src/app/shared/utilities/Snackbar.service';
 
-@Component({
+@Component({  
   selector: 'app-queues-page',
   templateUrl: './queues-page.component.html',
   styleUrls: ['./queues-page.component.scss']
@@ -14,8 +14,8 @@ export class QueuesPageComponent implements OnInit {
   columnsToDisplay = [ 'type', 'number', 'step', 'numberOfTicketsPerUser', 'employees', 'tickets' ];
   queueForm: FormGroup;
 
-  employees: ApplicationUserDto[];
-  types: QueueTypeDto[];
+  employees: EmployeeDto[];
+  types: EmployeeDto[];
   selectedType: QueueTypeDto;
 
   queues: QueueDto[];
@@ -25,11 +25,11 @@ export class QueuesPageComponent implements OnInit {
   constructor(
     private queuesClient: QueuesClient,
     sitesClient: SitesClient,
-    queueTypeClient: QueueTypesClient,
+    companiesClient: CompaniesClient,
     private formBuilder: FormBuilder,
     private snackbar: SnackbarService
   ) {
-    queueTypeClient.getQueueTypes().subscribe(data => {
+    companiesClient.getQueueTypes().subscribe(data => {
       this.types = data;
     },
     (error: ErrorDetails) => {
@@ -41,7 +41,7 @@ export class QueuesPageComponent implements OnInit {
     (error: ErrorDetails) => {
       snackbar.showSnackbar(error.message);
     });
-    queuesClient.getQueues().subscribe(data => {
+    sitesClient.getQueuesForOwnWorksite().subscribe(data => {
       this.queues = data;
       this.dataSource = new MatTableDataSource<QueueDto>(this.queues);
     },
@@ -120,11 +120,11 @@ export class QueuesPageComponent implements OnInit {
     });
   }
 
-  availableEmployees(): ApplicationUserDto[] {
+  availableEmployees(): EmployeeDto[] {
     return this.employees.filter(e => e.assignedQueueId === null || e.assignedQueueId === this.selected.id);
   }
 
-  assignEmployee(e: ApplicationUserDto): void {
+  assignEmployee(e: EmployeeDto): void {
     this.queuesClient.assignEmployeeToQueue(this.selected.id, e.id)
     .subscribe(() => {
       this.snackbar.showSnackbar('Employee successfully assigned to queue');
@@ -137,7 +137,7 @@ export class QueuesPageComponent implements OnInit {
     });
   }
 
-  removeEmployee(e: ApplicationUserDto): void {
+  removeEmployee(e: EmployeeDto): void {
     this.queuesClient.removeEmployeeFromQueue(this.selected.id, e.id)
     .subscribe(() => {
       this.snackbar.showSnackbar('Employee successfully removed from queue');

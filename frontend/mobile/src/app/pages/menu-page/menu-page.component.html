@@ -1,2 +1,4 @@
-<app-header></app-header>
-<app-own-tickets></app-own-tickets>
+<app-own-tickets [tickets]="tickets"></app-own-tickets>
+<button mat-fab color="warn" (click)="onAdd()" class="add-fab">
+    <mat-icon>add</mat-icon>
+</button>

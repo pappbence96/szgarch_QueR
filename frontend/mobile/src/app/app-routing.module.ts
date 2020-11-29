@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
+import { NewTicketComponent } from './components/new-ticket/new-ticket.component';
 import { LoginPageComponent } from './pages/login-page/login-page.component';
 import { MenuPageComponent } from './pages/menu-page/menu-page.component';
 import { RegisterPageComponent } from './pages/register-page/register-page.component';
@@ -14,6 +15,12 @@ const routes: Routes = [
   {
     path: 'register',
     component: RegisterPageComponent,
+  },
+  {
+    path: 'new',
+    pathMatch: 'full',
+    component: NewTicketComponent,
+    canActivate: [AuthGuard]
   },
   {
     path: '',

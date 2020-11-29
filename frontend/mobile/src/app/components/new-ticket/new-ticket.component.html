@@ -1,0 +1,88 @@
+<mat-accordion multi="false" >
+  <mat-expansion-panel [expanded]="stage === 0" (opened)="setStage(0)">
+    <mat-expansion-panel-header class="right-aligned-header">
+      <mat-panel-title>
+        Company
+      </mat-panel-title>
+      <mat-panel-description>
+        <span *ngIf="selectedCompany === null">Select company</span>
+        <span *ngIf="selectedCompany !== null">{{selectedCompany.name}}</span>
+      </mat-panel-description>
+    </mat-expansion-panel-header>
+
+    <mat-selection-list #companyList [multiple]="false">
+      <div class="d-flex flex-row justify-content-around">
+        <mat-spinner *ngIf="loading[0]"></mat-spinner>
+      </div>
+      <mat-list-option *ngFor="let c of companies" [value]="c">
+        <div class="d-flex flex-row justify-content-between align-items-center">
+          {{c.name}} 
+          <button mat-raised-button color="primary" *ngIf="companyList.selectedOptions.selected[0]?.value === c" (click)="selectCompany(c)">
+            Pick
+          </button>
+        </div>
+      </mat-list-option>
+    </mat-selection-list>
+  </mat-expansion-panel>
+
+
+
+  <mat-expansion-panel [expanded]="stage === 1" [disabled]="stage < 1" (opened)="setStage(1)">
+    <mat-expansion-panel-header class="right-aligned-header">
+      <mat-panel-title>
+        Site
+      </mat-panel-title>
+      <mat-panel-description>
+        <mat-panel-description>
+          <span *ngIf="selectedSite === null">Select site</span>
+          <span *ngIf="selectedSite !== null">{{selectedSite.name}}</span>
+        </mat-panel-description>
+      </mat-panel-description>
+    </mat-expansion-panel-header>
+
+    <mat-selection-list #siteList [multiple]="false">
+      <div class="d-flex flex-row justify-content-around">
+        <mat-spinner *ngIf="loading[1]"></mat-spinner>
+      </div>
+      <mat-list-option *ngFor="let s of sites" [value]="s">
+        <div class="d-flex flex-row justify-content-between align-items-center">
+          {{s.name}} 
+          <button mat-raised-button color="primary" *ngIf="siteList.selectedOptions.selected[0]?.value === s" (click)="selectSite(s)">
+            Pick
+          </button>
+        </div>
+      </mat-list-option>
+    </mat-selection-list>
+  </mat-expansion-panel>
+
+
+
+  <mat-expansion-panel [expanded]="stage === 2" [disabled]="stage < 2" (opened)="setStage(2)">
+    <mat-expansion-panel-header class="right-aligned-header">
+      <mat-panel-title>
+        Queue
+      </mat-panel-title>
+      <mat-panel-description>
+        <span *ngIf="selectedQueue === null">Select queue</span>
+        <span *ngIf="selectedQueue !== null">{{selectedQueue.queueType}}</span>
+      </mat-panel-description>
+    </mat-expansion-panel-header>
+
+    <mat-selection-list #queueList [multiple]="false">
+      <div class="d-flex flex-row justify-content-around">
+        <mat-spinner *ngIf="loading[2]"></mat-spinner>
+      </div>
+      <mat-list-option *ngFor="let q of queues" [value]="q">
+        <div class="d-flex flex-row justify-content-between align-items-center">
+          {{q.queueType}} 
+          <button mat-raised-button color="primary" *ngIf="queueList.selectedOptions.selected[0]?.value === q" (click)="selectQueue(q)">
+            Pick
+          </button>
+        </div>
+      </mat-list-option>
+    </mat-selection-list>
+  </mat-expansion-panel>
+  
+</mat-accordion>
+
+<app-request-ticket  *ngIf="stage === 3" [selectedCompany]="selectedCompany" [selectedSite]="selectedSite" [selectedQueue]="selectedQueue"></app-request-ticket>

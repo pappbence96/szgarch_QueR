@@ -3316,8 +3316,11 @@ export class UserTicketDto implements IUserTicketDto {
     number?: number;
     visibleNumber?: string | undefined;
     queue?: string | undefined;
+    queueId?: number | undefined;
     worksite?: string | undefined;
+    worksiteId?: number | undefined;
     company?: string | undefined;
+    companyId?: number | undefined;
     numOfTicketsBeforeThis?: number;
 
     constructor(data?: IUserTicketDto) {
@@ -3335,8 +3338,11 @@ export class UserTicketDto implements IUserTicketDto {
             this.number = _data["number"];
             this.visibleNumber = _data["visibleNumber"];
             this.queue = _data["queue"];
+            this.queueId = _data["queueId"];
             this.worksite = _data["worksite"];
+            this.worksiteId = _data["worksiteId"];
             this.company = _data["company"];
+            this.companyId = _data["companyId"];
             this.numOfTicketsBeforeThis = _data["numOfTicketsBeforeThis"];
         }
     }
@@ -3354,8 +3360,11 @@ export class UserTicketDto implements IUserTicketDto {
         data["number"] = this.number;
         data["visibleNumber"] = this.visibleNumber;
         data["queue"] = this.queue;
+        data["queueId"] = this.queueId;
         data["worksite"] = this.worksite;
+        data["worksiteId"] = this.worksiteId;
         data["company"] = this.company;
+        data["companyId"] = this.companyId;
         data["numOfTicketsBeforeThis"] = this.numOfTicketsBeforeThis;
         return data; 
     }
@@ -3366,8 +3375,11 @@ export interface IUserTicketDto {
     number?: number;
     visibleNumber?: string | undefined;
     queue?: string | undefined;
+    queueId?: number | undefined;
     worksite?: string | undefined;
+    worksiteId?: number | undefined;
     company?: string | undefined;
+    companyId?: number | undefined;
     numOfTicketsBeforeThis?: number;
 }
 

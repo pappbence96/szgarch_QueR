@@ -1,7 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { HubConnection, HubConnectionBuilder, IHttpConnectionOptions } from '@aspnet/signalr';
 import { queue } from 'rxjs/internal/scheduler/queue';
-import { CompanyTicketDto, ErrorDetails, QueueDto, QueuesClient, TicketsClient } from 'src/app/shared/clients';
+import { CompanyTicketDto, ErrorDetails, QueueDto, QueuesClient } from 'src/app/shared/clients';
 import { AuthService } from 'src/app/shared/utilities/AuthService';
 import { SnackbarService } from 'src/app/shared/utilities/Snackbar.service';
 
@@ -17,14 +17,14 @@ export class EmployeeWorkComponent implements OnInit, OnDestroy {
   private hubConnection: HubConnection;
 
   constructor(
-    private ticketsClient: TicketsClient,
-    queuesClient: QueuesClient,
+    private queuesClient: QueuesClient,
     private snackbar: SnackbarService,
     private authService: AuthService
     ) {
-    ticketsClient.getActiveTicketsForOwnQueue()
+    queuesClient.getActiveTicketsForOwnQueue()
       .subscribe(data => {
         this.tickets = data;
+        console.log(data);
       },
       (error: ErrorDetails) => {
         snackbar.showSnackbar(error.message);
@@ -79,7 +79,7 @@ export class EmployeeWorkComponent implements OnInit, OnDestroy {
   }
 
   callNext(): void {
-    this.ticketsClient.callNextTicket()
+    this.queuesClient.callNextTicket()
       .subscribe(data => {
         this.snackbar.showSnackbar('Ticket ' + this.nextTicketNumber() + ' called.');
       },
@@ -89,7 +89,7 @@ export class EmployeeWorkComponent implements OnInit, OnDestroy {
   }
 
   call(ticket: CompanyTicketDto): void {
-    this.ticketsClient.callTicketByNumber(ticket.number)
+    this.queuesClient.callTicketByNumber(ticket.number)
       .subscribe(data => {
         this.snackbar.showSnackbar('Ticket ' + ticket.visibleNumber + ' called.');
       },

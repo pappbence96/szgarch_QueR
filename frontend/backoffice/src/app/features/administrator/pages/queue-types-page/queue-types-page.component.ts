@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatTableDataSource } from '@angular/material/table';
-import { ErrorDetails, QueueTypeDto, QueueTypeModel, QueueTypesClient, SiteDto } from 'src/app/shared/clients';
+import { CompaniesClient, ErrorDetails, QueueTypeDto, QueueTypeModel, QueueTypesClient, SiteDto } from 'src/app/shared/clients';
 import { SnackbarService } from 'src/app/shared/utilities/Snackbar.service';
 
 @Component({
@@ -20,10 +20,11 @@ export class QueueTypesPageComponent implements OnInit {
 
   constructor(
     private typesClient: QueueTypesClient,
+    private companiesClient: CompaniesClient,
     private formBuilder: FormBuilder,
     private snackbar: SnackbarService
   ) {
-    typesClient.getQueueTypes().subscribe(data => {
+    companiesClient.getQueueTypes().subscribe(data => {
       this.types = data;
       this.dataSource = new MatTableDataSource<QueueTypeDto>(this.types);
       this.setFilter();

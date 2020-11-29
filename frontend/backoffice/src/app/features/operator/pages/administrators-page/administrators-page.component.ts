@@ -4,7 +4,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatTableDataSource } from '@angular/material/table';
 import { filter, switchMap } from 'rxjs/operators';
-import { ApplicationUserDto, CompaniesClient, CompanyDto, CreateWorkerModel, ErrorDetails, Gender, UpdateUserModel, UpdateWorkerModel, UsersClient } from 'src/app/shared/clients';
+import {  AdministratorDto, CompaniesClient, CompanyDto, CreateWorkerModel, ErrorDetails, Gender, UpdateUserModel, UpdateWorkerModel, UsersClient } from 'src/app/shared/clients';
 import { ConfirmDialogComponent } from 'src/app/shared/components/confirm-dialog/confirm-dialog.component';
 import { SnackbarService } from 'src/app/shared/utilities/Snackbar.service';
 
@@ -14,15 +14,15 @@ import { SnackbarService } from 'src/app/shared/utilities/Snackbar.service';
   styleUrls: ['./administrators-page.component.scss']
 })
 export class AdministratorsPageComponent implements OnInit {
-  dataSource: MatTableDataSource<ApplicationUserDto>;
+  dataSource: MatTableDataSource<AdministratorDto>;
   columnsToDisplay = [ 'userName', 'firstName', 'lastName', 'email', 'gender', 'address', 'administratedCompany' ];
   adminForm: FormGroup;
 
   companies: CompanyDto[];
   selectedCompany: CompanyDto;
 
-  admins: ApplicationUserDto[];
-  selected: ApplicationUserDto;
+  admins: AdministratorDto[];
+  selected: AdministratorDto;
   isNew = false;
 
   constructor(
@@ -34,7 +34,7 @@ export class AdministratorsPageComponent implements OnInit {
   ) {
     userClient.getAdmins().subscribe(data => {
       this.admins = data;
-      this.dataSource = new MatTableDataSource<ApplicationUserDto>(this.admins);
+      this.dataSource = new MatTableDataSource<AdministratorDto>(this.admins);
       this.setFilter();
     },
     (error: ErrorDetails) => {
@@ -51,8 +51,8 @@ export class AdministratorsPageComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  selectRow(row: ApplicationUserDto): void {
-    this.selected = new ApplicationUserDto(row);
+  selectRow(row: AdministratorDto): void {
+    this.selected = new AdministratorDto(row);
     this.isNew = false;
     this.selectedCompany = this.companies.find((company: CompanyDto) => company.id === this.selected.administratedCompanyId);
 
@@ -87,7 +87,7 @@ export class AdministratorsPageComponent implements OnInit {
         .subscribe(created => {
           this.snackbar.showSnackbar('Administrator created');
           this.admins.push(created);
-          this.dataSource = new MatTableDataSource<ApplicationUserDto>(this.admins);
+          this.dataSource = new MatTableDataSource<AdministratorDto>(this.admins);
           this.isNew = false;
           this.selected = null;
           this.setFilter();
@@ -107,7 +107,7 @@ export class AdministratorsPageComponent implements OnInit {
       this.userClient.updateAdmin(this.selected.id, model)
         .subscribe(() => {
           this.snackbar.showSnackbar('Administrator updated');
-          const updated = this.admins.find((item: ApplicationUserDto) => item.id === this.selected.id);
+          const updated = this.admins.find((item: AdministratorDto) => item.id === this.selected.id);
           updated.firstName = this.adminForm.value.firstName;
           updated.lastName = this.adminForm.value.lastName;
           updated.email = this.adminForm.value.email;
@@ -122,7 +122,7 @@ export class AdministratorsPageComponent implements OnInit {
 
   onNew(): void {
     this.isNew = true;
-    this.selected = new ApplicationUserDto();
+    this.selected = new AdministratorDto();
     this.adminForm = this.formBuilder.group({
       userName: [this.selected.userName, Validators.required],
       firstName: [this.selected.firstName, Validators.required],
@@ -148,7 +148,7 @@ export class AdministratorsPageComponent implements OnInit {
       ).subscribe(() => {
         console.log('Assign successful');
         this.snackbar.showSnackbar('Administrator successfully assigned to company');
-        const updated = this.admins.find((item: ApplicationUserDto) => item.id === this.selected.id);
+        const updated = this.admins.find((item: AdministratorDto) => item.id === this.selected.id);
         updated.administratedCompanyId = this.selectedCompany.id;
         updated.administratedCompany = this.selectedCompany.name;
         this.selected = updated;
@@ -168,7 +168,7 @@ export class AdministratorsPageComponent implements OnInit {
       ).subscribe(() => {
         console.log('Remove successful');
         this.snackbar.showSnackbar('Administrator successfully removed from company');
-        const updated = this.admins.find((item: ApplicationUserDto) => item.id === this.selected.id);
+        const updated = this.admins.find((item: AdministratorDto) => item.id === this.selected.id);
         updated.administratedCompanyId = null;
         updated.administratedCompany = '-';
         this.selected = updated;
@@ -181,7 +181,7 @@ export class AdministratorsPageComponent implements OnInit {
   }
 
   private setFilter(): void {
-    this.dataSource.filterPredicate = (admin: ApplicationUserDto, filterText: string) => {
+    this.dataSource.filterPredicate = (admin: AdministratorDto, filterText: string) => {
       return admin.userName.toLowerCase().indexOf(filterText.toLocaleLowerCase()) === 0;
     };
   }

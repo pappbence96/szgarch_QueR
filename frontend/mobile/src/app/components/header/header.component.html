@@ -1,8 +1,8 @@
 <mat-toolbar color="primary">
     <span>QueR Mobile</span>
     <span class="example-spacer"></span>
-    <span *ngIf="isLoggedIn">{{username}}</span>
-    <button color="warn" mat-icon-button *ngIf="isLoggedIn" (click)="logOut()" class="logoutButton">
+    <span *ngIf="isLoggedIn">Hi, {{username}}</span>
+    <button mat-icon-button *ngIf="isLoggedIn" (click)="logOut()" class="logoutButton">
         <mat-icon>exit_to_app</mat-icon>
     </button>
 </mat-toolbar>

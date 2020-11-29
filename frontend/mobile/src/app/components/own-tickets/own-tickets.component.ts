@@ -1,6 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { ErrorDetails, TicketsClient, UserTicketDto } from 'src/app/clients';
-import { SnackbarService } from 'src/app/utilities/Snackbar.service';
+import { Component, Input, OnInit } from '@angular/core';
+import { UserTicketDto } from 'src/app/clients';
 
 @Component({
   selector: 'app-own-tickets',
@@ -8,20 +7,9 @@ import { SnackbarService } from 'src/app/utilities/Snackbar.service';
   styleUrls: ['./own-tickets.component.scss']
 })
 export class OwnTicketsComponent implements OnInit {
-  tickets: UserTicketDto[];
+  @Input() tickets: UserTicketDto[];
 
-  constructor(
-    private ticketsClient: TicketsClient,
-    private snackbar: SnackbarService
-    ) {
-    ticketsClient.getOwnTicketsForUser()
-      .subscribe(data => {
-        console.log(data);
-        this.tickets = data;
-      }, (e: ErrorDetails) => {
-        console.log(e);
-        snackbar.showSnackbar(e.message);
-      });
+  constructor() {
   }
 
   ngOnInit(): void {

@@ -3,7 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { MatTableDataSource } from '@angular/material/table';
 import { filter, switchMap } from 'rxjs/operators';
-import { ApplicationUserDto, ErrorDetails, SiteDto, SiteModel, SitesClient, UsersClient } from 'src/app/shared/clients';
+import { CompaniesClient, EmployeeDto, ErrorDetails, SiteDto, SiteModel, SitesClient, UsersClient } from 'src/app/shared/clients';
 import { ConfirmDialogComponent } from 'src/app/shared/components/confirm-dialog/confirm-dialog.component';
 import { SnackbarService } from 'src/app/shared/utilities/Snackbar.service';
 
@@ -17,27 +17,27 @@ export class SitesPageComponent implements OnInit {
   columnsToDisplay = [ 'name', 'address', 'managerName', 'numberOfEmployees' ];
   siteForm: FormGroup;
 
-  employees: ApplicationUserDto[];
-  selectedEmployee: ApplicationUserDto;
-  
+  employees: EmployeeDto[];
+  selectedEmployee: EmployeeDto;
+
   sites: SiteDto[];
   selected: SiteDto;
   isNew = false;
 
   constructor(
     private sitesClient: SitesClient,
-    userClient: UsersClient,
+    companiesClient: CompaniesClient,
     private formBuilder: FormBuilder,
     private dialog: MatDialog,
     private snackbar: SnackbarService
   ) {
-    userClient.getEmployees().subscribe(data => {
+    companiesClient.getEmployeesOfOwnCompany().subscribe(data => {
       this.employees = data;
     },
     (error: ErrorDetails) => {
       snackbar.showSnackbar(error.message);
     });
-    sitesClient.getSites().subscribe(data => {
+    companiesClient.getSitesForOwnCompany().subscribe(data => {
       this.sites = data;
       this.dataSource = new MatTableDataSource<SiteDto>(this.sites);
       this.setFilter();
@@ -53,7 +53,7 @@ export class SitesPageComponent implements OnInit {
   selectRow(row: SiteDto): void {
     this.selected = new SiteDto(row);
     this.isNew = false;
-    this.selectedEmployee = this.employees.find((employee: ApplicationUserDto) => employee.id === this.selected.managerId);
+    this.selectedEmployee = this.employees.find((employee: EmployeeDto) => employee.id === this.selected.managerId);
 
     this.siteForm = this.formBuilder.group({
       name: [this.selected.name, Validators.required],
@@ -154,7 +154,7 @@ export class SitesPageComponent implements OnInit {
     };
   }
 
-  employeesOfSelectedSite(): ApplicationUserDto[] {
+  employeesOfSelectedSite(): EmployeeDto[] {
     return this.employees.filter(e => !e.worksiteId || e.worksiteId === this.selected.id);
   }
 }

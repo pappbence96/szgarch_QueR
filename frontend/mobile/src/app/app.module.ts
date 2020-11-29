@@ -20,7 +20,11 @@ import { LoginPageComponent } from './pages/login-page/login-page.component';
 import { MenuPageComponent } from './pages/menu-page/menu-page.component';
 import { HeaderComponent } from './components/header/header.component';
 import { OwnTicketsComponent } from './components/own-tickets/own-tickets.component';
-import {MatListModule} from '@angular/material/list';
+import { MatListModule } from '@angular/material/list';
+import { NewTicketComponent } from './components/new-ticket/new-ticket.component';
+import {MatExpansionModule} from '@angular/material/expansion';
+import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
+import { RequestTicketComponent } from './components/request-ticket/request-ticket.component';
 
 @NgModule({
   declarations: [
@@ -29,7 +33,9 @@ import {MatListModule} from '@angular/material/list';
     RegisterPageComponent,
     LoginPageComponent,
     MenuPageComponent,
-    OwnTicketsComponent
+    OwnTicketsComponent,
+    NewTicketComponent,
+    RequestTicketComponent
   ],
   imports: [
     HttpClientModule,
@@ -45,7 +51,9 @@ import {MatListModule} from '@angular/material/list';
     MatFormFieldModule,
     FormsModule,
     ReactiveFormsModule,
-    MatListModule
+    MatListModule,
+    MatExpansionModule,
+    MatProgressSpinnerModule
   ],
   providers: [
     {

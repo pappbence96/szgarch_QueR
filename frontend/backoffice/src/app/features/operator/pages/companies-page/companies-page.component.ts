@@ -4,7 +4,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatTableDataSource } from '@angular/material/table';
 import { filter, switchMap } from 'rxjs/operators';
-import { ApplicationUserDto, CompaniesClient, CompanyDto, CompanyModel, ErrorDetails, UsersClient } from 'src/app/shared/clients';
+import { AdministratorDto, CompaniesClient, CompanyDto, CompanyModel, ErrorDetails, UsersClient } from 'src/app/shared/clients';
 import { ConfirmDialogComponent } from 'src/app/shared/components/confirm-dialog/confirm-dialog.component';
 import { SnackbarService } from 'src/app/shared/utilities/Snackbar.service';
 
@@ -18,8 +18,8 @@ export class CompaniesPageComponent implements OnInit {
   columnsToDisplay = [ 'name', 'address', 'adminName', 'numberOfSites', 'numberOfEmployees' ];
   companyForm: FormGroup;
 
-  admins: ApplicationUserDto[];
-  selectedAdmin: ApplicationUserDto;
+  admins: AdministratorDto[];
+  selectedAdmin: AdministratorDto;
 
   companies: CompanyDto[];
   selected: CompanyDto;
@@ -55,7 +55,7 @@ export class CompaniesPageComponent implements OnInit {
   selectRow(row: CompanyDto): void {
     this.selected = new CompanyDto(row);
     this.isNew = false;
-    this.selectedAdmin = this.admins.find((admin: ApplicationUserDto) => admin.id === this.selected.adminId);
+    this.selectedAdmin = this.admins.find((admin: AdministratorDto) => admin.id === this.selected.adminId);
 
     this.companyForm = this.formBuilder.group({
       name: [this.selected.name, Validators.required],
@@ -157,7 +157,7 @@ export class CompaniesPageComponent implements OnInit {
     };
   }
 
-  availableAdmins(): ApplicationUserDto[] {
+  availableAdmins(): AdministratorDto[] {
     return this.admins.filter(a => a.administratedCompanyId === null);
   }
 }

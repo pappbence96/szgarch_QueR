@@ -3,7 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { MatTableDataSource } from '@angular/material/table';
 import { filter, switchMap } from 'rxjs/operators';
-import { ApplicationUserDto, CreateWorkerModel, ErrorDetails, SiteDto, SitesClient, UpdateUserModel, UpdateWorkerModel, UsersClient } from 'src/app/shared/clients';
+import { CompaniesClient, CreateWorkerModel, EmployeeDto, ErrorDetails, SiteDto, SitesClient, UpdateUserModel, UpdateWorkerModel, UsersClient } from 'src/app/shared/clients';
 import { ConfirmDialogComponent } from 'src/app/shared/components/confirm-dialog/confirm-dialog.component';
 import { SnackbarService } from 'src/app/shared/utilities/Snackbar.service';
 
@@ -13,45 +13,47 @@ import { SnackbarService } from 'src/app/shared/utilities/Snackbar.service';
   styleUrls: ['./employees-page.component.scss']
 })
 export class EmployeesPageComponent implements OnInit {
-  dataSource: MatTableDataSource<ApplicationUserDto>;
+  dataSource: MatTableDataSource<EmployeeDto>;
   columnsToDisplay = [ 'userName', 'firstName', 'lastName', 'email', 'gender', 'address', 'worksite' ];
   employeeForm: FormGroup;
 
   sites: SiteDto[];
   selectedWorksite: SiteDto;
 
-  employees: ApplicationUserDto[];
-  selected: ApplicationUserDto;
+  employees: EmployeeDto[];
+  selected: EmployeeDto;
   isNew = false;
 
   constructor(
     private sitesClient: SitesClient,
+    private companiesClient: CompaniesClient,
     private userClient: UsersClient,
     private formBuilder: FormBuilder,
     private dialog: MatDialog,
     private snackbar: SnackbarService
   ) {
-    userClient.getEmployees().subscribe(data => {
+    companiesClient.getEmployeesOfOwnCompany().subscribe(data => {
       this.employees = data;
-      this.dataSource = new MatTableDataSource<ApplicationUserDto>(this.employees);
+      this.dataSource = new MatTableDataSource<EmployeeDto>(this.employees);
       this.setFilter();
     },
     (error: ErrorDetails) => {
       snackbar.showSnackbar(error.message);
     });
-    sitesClient.getSites().subscribe(data => {
-      this.sites = data;
-    },
-    (error: ErrorDetails) => {
-      snackbar.showSnackbar(error.message);
+    companiesClient.getSitesForOwnCompany()
+      .subscribe(data => {
+        this.sites = data;
+      },
+      (error: ErrorDetails) => {
+        snackbar.showSnackbar(error.message);
     });
   }
 
   ngOnInit(): void {
   }
 
-  selectRow(row: ApplicationUserDto): void {
-    this.selected = new ApplicationUserDto(row);
+  selectRow(row: EmployeeDto): void {
+    this.selected = new EmployeeDto(row);
     this.isNew = false;
     this.selectedWorksite = this.sites.find((site: SiteDto) => site.id === this.selected.worksiteId);
 
@@ -85,7 +87,7 @@ export class EmployeesPageComponent implements OnInit {
         .subscribe(created => {
           this.snackbar.showSnackbar('Employee created');
           this.employees.push(created);
-          this.dataSource = new MatTableDataSource<ApplicationUserDto>(this.employees);
+          this.dataSource = new MatTableDataSource<EmployeeDto>(this.employees);
           this.isNew = false;
           this.selected = null;
           this.setFilter();
@@ -105,7 +107,7 @@ export class EmployeesPageComponent implements OnInit {
       this.userClient.updateEmployee(this.selected.id, model)
         .subscribe(() => {
           this.snackbar.showSnackbar('Employee updated');
-          const updated = this.employees.find((item: ApplicationUserDto) => item.id === this.selected.id);
+          const updated = this.employees.find((item: EmployeeDto) => item.id === this.selected.id);
           updated.firstName = this.employeeForm.value.firstName;
           updated.lastName = this.employeeForm.value.lastName;
           updated.email = this.employeeForm.value.email;
@@ -120,7 +122,7 @@ export class EmployeesPageComponent implements OnInit {
 
   onNew(): void {
     this.isNew = true;
-    this.selected = new ApplicationUserDto();
+    this.selected = new EmployeeDto();
     this.employeeForm = this.formBuilder.group({
       userName: [this.selected.userName, Validators.required],
       firstName: [this.selected.firstName, Validators.required],
@@ -145,7 +147,7 @@ export class EmployeesPageComponent implements OnInit {
       switchMap(() => this.sitesClient.assignWorkerToSite(this.selectedWorksite.id, this.selected.id))
       ).subscribe(() => {
         this.snackbar.showSnackbar('Employee successfully assigned to worksite');
-        const updated = this.employees.find((item: ApplicationUserDto) => item.id === this.selected.id);
+        const updated = this.employees.find((item: EmployeeDto) => item.id === this.selected.id);
         updated.worksiteId = this.selectedWorksite.id;
         updated.worksite = this.selectedWorksite.name;
         this.selected = updated;
@@ -163,7 +165,7 @@ export class EmployeesPageComponent implements OnInit {
       switchMap(() => this.sitesClient.removeEmployeeOfSite(this.selectedWorksite.id, this.selected.id))
       ).subscribe(() => {
         this.snackbar.showSnackbar('Employee successfully removed from worksite');
-        const updated = this.employees.find((item: ApplicationUserDto) => item.id === this.selected.id);
+        const updated = this.employees.find((item: EmployeeDto) => item.id === this.selected.id);
         updated.worksiteId = null;
         updated.worksite = '-';
         this.selectedWorksite = null;
@@ -175,9 +177,8 @@ export class EmployeesPageComponent implements OnInit {
   }
 
   private setFilter(): void {
-    this.dataSource.filterPredicate = (employee: ApplicationUserDto, filterText: string) => {
+    this.dataSource.filterPredicate = (employee: EmployeeDto, filterText: string) => {
       return employee.userName.toLowerCase().indexOf(filterText.toLocaleLowerCase()) === 0;
     };
   }
-
 }

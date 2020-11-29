@@ -1,0 +1,23 @@
+<mat-card>
+  <mat-card-title>
+    Your selection:
+  </mat-card-title>
+  <mat-card-content>
+    <div class="d-flex flex-column align-items-center">
+      <p>
+        {{selectedCompany.name}}
+      </p>
+      <p>
+        {{selectedSite.name}}
+      </p>
+      <p>
+        {{selectedQueue.queueType}}
+      </p>
+      <p>
+        Currently {{selectedQueue.numOfActiveTickets}} waiting
+      </p>
+
+      <button mat-raised-button color="primary" (click)="onRequestTicket()">Get ticket</button>
+    </div>
+  </mat-card-content>
+</mat-card>
