@@ -103,6 +103,7 @@ export class AdministratorsPageComponent implements OnInit {
         address: this.adminForm.value.address,
         gender: this.adminForm.value.gender
       });
+      console.log(model);
 
       this.userClient.updateAdmin(this.selected.id, model)
         .subscribe(() => {

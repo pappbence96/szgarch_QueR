@@ -1,7 +1,9 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { HubConnection, HubConnectionBuilder, IHttpConnectionOptions } from '@aspnet/signalr';
 import { ErrorDetails, IdentityClient, TicketsClient, UserTicketDto } from 'src/app/clients';
+import { PopupDialogComponent } from 'src/app/components/popup-dialog/popup-dialog.component';
 import { AuthService } from 'src/app/utilities/AuthService';
 import { SnackbarService } from 'src/app/utilities/Snackbar.service';
 
@@ -18,7 +20,8 @@ export class MenuPageComponent implements OnInit, OnDestroy {
     identityClient: IdentityClient,
     private snackbar: SnackbarService,
     private router: Router,
-    private authService: AuthService
+    private authService: AuthService,
+    private dialog: MatDialog
   ) {
     identityClient.getOwnTicketsForUser()
       .subscribe(data => {
@@ -45,22 +48,23 @@ export class MenuPageComponent implements OnInit, OnDestroy {
       .then(() => console.log('Connection started'))
       .catch(err => console.log('Error while starting connection: ' + err));
 
-    this.hubConnection.on('calledTicket', (queueId: number, ticketId: number, ticketNumber: number) => {
+    this.hubConnection.on('calledTicket', (queueId: number, ticketId: number, ticketNumber: number, handler: string) => {
       console.log('Ticket called from: ' + queueId + ', ticket id: ' + ticketId + ', ticket number: ' + ticketNumber);
 
-      let ticketIndex = -1;
+      let calledTicket = null;
       for (const ticket of this.tickets) {
         if (ticket.queueId === queueId) {
           if (ticket.id === ticketId) {
-            this.snackbar.showSnackbar('Your ticket ' + ticket.visibleNumber + ' was called!');
-            ticketIndex = this.tickets.indexOf(ticket);
+            calledTicket = ticket;
           } else if (ticket.number > ticketNumber) {
             ticket.numOfTicketsBeforeThis--;
           }
         }
       }
-      if (ticketIndex !== -1) {
-        this.tickets.splice(ticketIndex, 1);
+      if (calledTicket !== null) {
+        this.tickets.splice(this.tickets.indexOf(calledTicket), 1);
+        const dialogRef = this.dialog.open(PopupDialogComponent);
+        dialogRef.componentInstance.message = 'Your ticket ' + calledTicket.visibleNumber + ' was called at ' + calledTicket.worksite + ' by ' + handler + '.';
       }
     });
   }

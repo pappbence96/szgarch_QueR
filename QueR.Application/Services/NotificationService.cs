@@ -25,10 +25,10 @@ namespace QueR.Application.Services
             await queueHubContext.Clients.Group(queueId.ToString()).SendAsync("newTicket", queueId, ticket);
         }
 
-        public async Task NotifyQueueTicketCalled(int queueId, int ticketId, int ticketNumber)
+        public async Task NotifyQueueTicketCalled(int queueId, int ticketId, int ticketNumber, string handler)
         {
             await queueHubContext.Clients.Group(queueId.ToString()).SendAsync("calledTicket", queueId, ticketId);
-            await ticketHubContext.Clients.Group(queueId.ToString()).SendAsync("calledTicket", queueId, ticketId, ticketNumber);
+            await ticketHubContext.Clients.Group(queueId.ToString()).SendAsync("calledTicket", queueId, ticketId, ticketNumber, handler);
         }
     }
 }

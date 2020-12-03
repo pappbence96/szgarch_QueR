@@ -1,13 +1,11 @@
-<mat-card class="mat-elevation-z2 tickets-card">
+<h1 class="headline m-4">You have {{tickets.length}} active tickets</h1>
+
+<mat-card class="mat-elevation-z2 m-4" *ngFor="let t of tickets">
   <mat-card-header>
-    <mat-card-title>You have {{tickets.length}} active tickets</mat-card-title>
+    <mat-card-title class="ticket-number">{{t.visibleNumber}}</mat-card-title>
   </mat-card-header>
   <mat-card-content>
-    <div *ngFor="let t of tickets" class="d-flex flex-row mt-3">
-      <span class="ticket-number">
-        {{t.visibleNumber}}
-      </span>
-      <div> {{t.worksite}} - {{t.queue}} - {{t.numOfTicketsBeforeThis}} in front </div>
-    </div>
+      <div> {{t.company}} - {{t.worksite}} - {{t.queue}}</div>
+      <div> {{t.numOfTicketsBeforeThis}} in front of you </div>
   </mat-card-content>
 </mat-card>

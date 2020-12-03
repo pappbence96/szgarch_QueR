@@ -5,6 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using QueR.BLL.Services.Identity.DTOs;
 using QueR.BLL.Services.User.DTOs;
 using QueR.DAL;
+using QueR.Domain;
 using QueR.Domain.Entities;
 using QueR.Domain.Services;
 using System;
@@ -50,7 +51,7 @@ namespace QueR.BLL.Services.User
                 Email = model.Email,
                 Address = model.Address,
                 CompanyId = callerCompanyId,
-                Gender = model.Gender
+                Gender = model.GenderEnum.Value
             };
 
             var result = await userManager.CreateAsync(user, model.Password);
@@ -75,7 +76,7 @@ namespace QueR.BLL.Services.User
                 LastName = model.LastName,
                 Email = model.Email,
                 Address = model.Address,
-                Gender = model.Gender
+                Gender = model.GenderEnum.Value
             };
 
             var result = await userManager.CreateAsync(user, model.Password);
@@ -157,7 +158,7 @@ namespace QueR.BLL.Services.User
             admin.FirstName = model.FirstName;
             admin.LastName = model.LastName;
             admin.Address = model.Address;
-            admin.Gender = model.Gender;
+            admin.Gender = model.GenderEnum.Value;
             
             var result = await userManager.UpdateAsync(admin);
 
@@ -196,7 +197,7 @@ namespace QueR.BLL.Services.User
             employee.FirstName = model.FirstName;
             employee.LastName = model.LastName;
             employee.Address = model.Address;
-            employee.Gender = model.Gender;
+            employee.Gender = model.GenderEnum.Value;
 
             var result = await userManager.UpdateAsync(employee);
 

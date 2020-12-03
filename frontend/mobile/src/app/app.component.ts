@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { SnackbarService } from './utilities/Snackbar.service';
+import { SnackbarMessage, SnackbarService } from './utilities/Snackbar.service';
 
 @Component({
   selector: 'app-root',
@@ -12,9 +12,9 @@ export class AppComponent {
 
   constructor(private snackbarService: SnackbarService, private snackbarRef: MatSnackBar) {
     snackbarService.message$.subscribe(
-      (message: string) => {
-        this.snackbarRef.open(message, 'Dismiss', {
-          duration: 1500
+      (message: SnackbarMessage) => {
+        this.snackbarRef.open(message.message, 'Dismiss', {
+          duration: message.duration
         });
       });
   }

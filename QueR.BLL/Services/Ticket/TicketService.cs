@@ -36,7 +36,8 @@ namespace QueR.BLL.Services.Ticket
 
             context.Tickets.Update(ticket);
             await context.SaveChangesAsync();
-            await notificationService.NotifyQueueTicketCalled((int)ticket.QueueId, ticket.Id, ticket.Number);
+            string handlerName = (await context.Users.FindAsync(ticket.HandlerId)).UserName;
+            await notificationService.NotifyQueueTicketCalled((int)ticket.QueueId, ticket.Id, ticket.Number, handlerName);
         }
 
         public async Task CallNextTicket()

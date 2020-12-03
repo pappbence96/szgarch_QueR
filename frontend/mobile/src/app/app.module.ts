@@ -25,6 +25,8 @@ import { NewTicketComponent } from './components/new-ticket/new-ticket.component
 import {MatExpansionModule} from '@angular/material/expansion';
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import { RequestTicketComponent } from './components/request-ticket/request-ticket.component';
+import { MatDialogModule } from '@angular/material/dialog';
+import { PopupDialogComponent } from './components/popup-dialog/popup-dialog.component';
 
 @NgModule({
   declarations: [
@@ -35,7 +37,8 @@ import { RequestTicketComponent } from './components/request-ticket/request-tick
     MenuPageComponent,
     OwnTicketsComponent,
     NewTicketComponent,
-    RequestTicketComponent
+    RequestTicketComponent,
+    PopupDialogComponent
   ],
   imports: [
     HttpClientModule,
@@ -53,7 +56,8 @@ import { RequestTicketComponent } from './components/request-ticket/request-tick
     ReactiveFormsModule,
     MatListModule,
     MatExpansionModule,
-    MatProgressSpinnerModule
+    MatProgressSpinnerModule,
+    MatDialogModule
   ],
   providers: [
     {

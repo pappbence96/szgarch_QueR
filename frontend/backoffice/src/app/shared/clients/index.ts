@@ -4084,7 +4084,8 @@ export class CreateWorkerModel implements ICreateWorkerModel {
     lastName?: string | undefined;
     address?: string | undefined;
     password?: string | undefined;
-    gender?: Gender;
+    gender?: string | undefined;
+    genderEnum?: Gender | undefined;
 
     constructor(data?: ICreateWorkerModel) {
         if (data) {
@@ -4104,6 +4105,7 @@ export class CreateWorkerModel implements ICreateWorkerModel {
             this.address = _data["address"];
             this.password = _data["password"];
             this.gender = _data["gender"];
+            this.genderEnum = _data["genderEnum"];
         }
     }
 
@@ -4123,6 +4125,7 @@ export class CreateWorkerModel implements ICreateWorkerModel {
         data["address"] = this.address;
         data["password"] = this.password;
         data["gender"] = this.gender;
+        data["genderEnum"] = this.genderEnum;
         return data; 
     }
 }
@@ -4134,7 +4137,8 @@ export interface ICreateWorkerModel {
     lastName?: string | undefined;
     address?: string | undefined;
     password?: string | undefined;
-    gender?: Gender;
+    gender?: string | undefined;
+    genderEnum?: Gender | undefined;
 }
 
 export class UpdateWorkerModel implements IUpdateWorkerModel {
@@ -4142,7 +4146,8 @@ export class UpdateWorkerModel implements IUpdateWorkerModel {
     firstName?: string | undefined;
     lastName?: string | undefined;
     address?: string | undefined;
-    gender?: Gender;
+    gender?: string | undefined;
+    genderEnum?: Gender | undefined;
 
     constructor(data?: IUpdateWorkerModel) {
         if (data) {
@@ -4160,6 +4165,7 @@ export class UpdateWorkerModel implements IUpdateWorkerModel {
             this.lastName = _data["lastName"];
             this.address = _data["address"];
             this.gender = _data["gender"];
+            this.genderEnum = _data["genderEnum"];
         }
     }
 
@@ -4177,6 +4183,7 @@ export class UpdateWorkerModel implements IUpdateWorkerModel {
         data["lastName"] = this.lastName;
         data["address"] = this.address;
         data["gender"] = this.gender;
+        data["genderEnum"] = this.genderEnum;
         return data; 
     }
 }
@@ -4186,7 +4193,8 @@ export interface IUpdateWorkerModel {
     firstName?: string | undefined;
     lastName?: string | undefined;
     address?: string | undefined;
-    gender?: Gender;
+    gender?: string | undefined;
+    genderEnum?: Gender | undefined;
 }
 
 export class ApiException extends Error {

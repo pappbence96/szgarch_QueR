@@ -6,7 +6,7 @@
           <mat-form-field class="full-width-input">
               <input matInput placeholder="Username" formControlName="username" required>
               <mat-error>
-                  Please provide a valid username address
+                  Please provide a valid username
               </mat-error>
           </mat-form-field>
           <mat-form-field class="full-width-input">
@@ -27,7 +27,7 @@
               </button>
           </div>
       </form>
-      <a routerLink="/register" class="link">I'm not yet a member</a>
+      <button mat-button routerLink="/register" class="link" color="primary">I'm not yet a member</button>
   </mat-card-content>
 </mat-card>
 </div>

@@ -3284,7 +3284,16 @@
             "nullable": true
           },
           "gender": {
-            "$ref": "#/components/schemas/Gender"
+            "type": "string",
+            "nullable": true
+          },
+          "genderEnum": {
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/Gender"
+              }
+            ]
           }
         }
       },
@@ -3309,7 +3318,16 @@
             "nullable": true
           },
           "gender": {
-            "$ref": "#/components/schemas/Gender"
+            "type": "string",
+            "nullable": true
+          },
+          "genderEnum": {
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/Gender"
+              }
+            ]
           }
         }
       }

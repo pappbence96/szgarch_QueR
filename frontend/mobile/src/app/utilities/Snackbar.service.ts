@@ -5,13 +5,19 @@ import { Subject } from 'rxjs';
   providedIn: 'root'
 })
 export class SnackbarService {
-  public messageSubject: Subject<string> = new Subject();
+  public messageSubject: Subject<SnackbarMessage> = new Subject();
   public message$ = this.messageSubject.asObservable();
 
   constructor() {
   }
 
-  showSnackbar(message: string): void {
-    this.messageSubject.next(message);
+  showSnackbar(message: string, duration = 1500): void {
+    this.messageSubject.next(new SnackbarMessage(message, duration));
+  }
+}
+
+export class SnackbarMessage {
+  constructor(public message: string, public duration = 1500){
+
   }
 }
